@@ -34,6 +34,7 @@ private:
     void createConnections();
     void openFile(const QString &filePath);
     void showFile(const QString &filePath);
+    bool listWidgetContainsFile(const QString &filePath);
     PlainTextEdit *m_textEdit;
     Ui::MainWindow *ui;
     Settings m_settings;

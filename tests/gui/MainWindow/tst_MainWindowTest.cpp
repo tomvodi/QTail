@@ -26,6 +26,7 @@ private Q_SLOTS:
     void cleanupTestCase();
     void testSetup();
     void testOpenFile_fileInList();
+    void testOpenFile_noDuplicates();
     void testOpenFile_textLoaded();
 };
 
@@ -62,6 +63,18 @@ void MainWindowTest::testOpenFile_fileInList()
     QListWidgetItem *firstItem = listWidget->item(0);
     QListWidgetItem *firstSelectedItem = listWidget->selectedItems().at(0);
     QVERIFY2(firstItem == firstSelectedItem, "The first row is not selected row.");
+}
+
+void MainWindowTest::testOpenFile_noDuplicates()
+{
+    QString filePath = TestCommon::generateExistingFilePath("testOpenFile_noDuplicates");
+    MainWindow window;
+    window.openFile(filePath);
+    window.openFile(filePath);
+
+    QListWidget *listWidget = window.ui->fileListWidget;
+
+    QVERIFY2(listWidget->count() == 1, "File was opened a second time.");
 }
 
 void MainWindowTest::testOpenFile_textLoaded()

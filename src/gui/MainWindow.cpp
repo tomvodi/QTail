@@ -74,7 +74,8 @@ void MainWindow::openFile(const QString &filePath)
 {
     QFileInfo fileInfo(filePath);
 
-    if (!fileInfo.exists()) {
+    if (!fileInfo.exists() ||
+            listWidgetContainsFile(filePath)) {
         return;
     }
 
@@ -93,5 +94,17 @@ void MainWindow::showFile(const QString &filePath)
 
     QString fileText = stream.readAll();
     m_textEdit->setPlainText(fileText);
+}
+
+bool MainWindow::listWidgetContainsFile(const QString &filePath)
+{
+    for (int i=0; i<ui->fileListWidget->count(); ++i) {
+        QString listFilePath = ui->fileListWidget->item(i)->data(Qt::UserRole + 1).toString();
+        if (listFilePath == filePath) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
