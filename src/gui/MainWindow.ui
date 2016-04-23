@@ -36,7 +36,7 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="actionAbout_QTail"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Help"/>
@@ -99,7 +99,7 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionAbout_QTail">
+  <action name="actionAbout">
    <property name="text">
     <string>About QTail</string>
    </property>

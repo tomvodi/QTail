@@ -13,6 +13,7 @@
 namespace Ui {
 class AboutDialog;
 }
+class QVersionNumber;
 
 class AboutDialog : public QDialog
 {
@@ -21,6 +22,8 @@ class AboutDialog : public QDialog
 public:
     explicit AboutDialog(QWidget *parent = 0);
     ~AboutDialog();
+
+    void setVersion(const QVersionNumber &version);
 
 private:
     Ui::AboutDialog *ui;

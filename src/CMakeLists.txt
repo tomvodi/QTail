@@ -2,6 +2,7 @@ project(QTail CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package( Qt5Widgets REQUIRED )
 
@@ -10,14 +11,20 @@ set(Project_Sources
   gui/MainWindow.cpp
   gui/FileListItemWidget.cpp
   gui/PlainTextEdit.cpp
+  gui/AboutDialog.cpp
 
   data/FileWatcher.cpp
 
   tools/Settings.cpp
 )
 
+configure_file(${CMAKE_CURRENT_LIST_DIR}/version.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/QTail_version.h)
+
+
 qt5_wrap_ui(Project_Sources
     gui/MainWindow.ui
+    gui/AboutDialog.ui
     gui/FileListItemWidget.ui
 )
 

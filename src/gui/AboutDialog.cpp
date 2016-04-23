@@ -5,6 +5,9 @@
  * See LICENSE for more informations.
  *
  */
+
+#include <QVersionNumber>
+
 #include "AboutDialog.h"
 #include "ui_AboutDialog.h"
 
@@ -18,4 +21,9 @@ AboutDialog::AboutDialog(QWidget *parent) :
 AboutDialog::~AboutDialog()
 {
     delete ui;
+}
+
+void AboutDialog::setVersion(const QVersionNumber &version)
+{
+    ui->versionLabel->setText(version.toString().prepend(QStringLiteral("v")));
 }

@@ -5,8 +5,6 @@
  * See LICENSE for more informations.
  *
  */
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
 
 #include <QDir>
 #include <QFile>
@@ -14,8 +12,15 @@
 #include <QTextStream>
 #include <QListWidget>
 #include <QFileDialog>
+#include <QVersionNumber>
 
+#include <QTail_version.h>
+
+#include "AboutDialog.h"
 #include "PlainTextEdit.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -47,6 +52,13 @@ void MainWindow::on_actionOpen_triggered()
     foreach (const QString &filePath, filePaths) {
         openFile(filePath);
     }
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    AboutDialog dialog;
+    dialog.setVersion(QVersionNumber(QTAIL_VERSION_MAJOR, QTAIL_VERSION_MINOR, QTAIL_VERSION_PATCH));
+    dialog.exec();
 }
 
 void MainWindow::createConnections()
