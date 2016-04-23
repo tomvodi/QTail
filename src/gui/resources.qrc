@@ -4,5 +4,25 @@
         <file>resources/icons/actions/document-open.png</file>
         <file>resources/icons/actions/document-properties.png</file>
         <file>resources/icons/actions/document-save.png</file>
+        <file>resources/icons/emblems/emblem-default.png</file>
+        <file>resources/icons/emblems/emblem-desktop.png</file>
+        <file>resources/icons/emblems/emblem-documents.png</file>
+        <file>resources/icons/emblems/emblem-downloads.png</file>
+        <file>resources/icons/emblems/emblem-dropbox-selsync.png</file>
+        <file>resources/icons/emblems/emblem-dropbox-unsyncable.png</file>
+        <file>resources/icons/emblems/emblem-favorite.png</file>
+        <file>resources/icons/emblems/emblem-generic.png</file>
+        <file>resources/icons/emblems/emblem-important.png</file>
+        <file>resources/icons/emblems/emblem-mail.png</file>
+        <file>resources/icons/emblems/emblem-new.png</file>
+        <file>resources/icons/emblems/emblem-photos.png</file>
+        <file>resources/icons/emblems/emblem-readonly.png</file>
+        <file>resources/icons/emblems/emblem-shared.png</file>
+        <file>resources/icons/emblems/emblem-symbolic-link.png</file>
+        <file>resources/icons/emblems/emblem-synchronizing.png</file>
+        <file>resources/icons/emblems/emblem-system.png</file>
+        <file>resources/icons/emblems/emblem-unreadable.png</file>
+        <file>resources/icons/emblems/emblem-urgent.png</file>
+        <file>resources/icons/actions/window-close.png</file>
     </qresource>
 </RCC>
