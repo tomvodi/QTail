@@ -8,6 +8,8 @@ find_package( Qt5Core REQUIRED )
 
 set(Project_Sources
   FileWatcher.cpp
+
+  include/FileViewInterface.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})

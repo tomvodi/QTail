@@ -10,22 +10,20 @@
 
 #include <QFrame>
 
+#include <include/FileViewInterface.h>
+
 namespace Ui {
 class FileListItemWidget;
 }
 
-class FileListItemWidget : public QFrame
+class FileListItemWidget : public QFrame,
+                           public FileViewInterface
+
 {
     Q_OBJECT
     friend class FileListItemWidgetTest;
 
 public:
-    enum class FileState {
-        FileError,
-        FileInSync,
-        FileHasNewLines
-    };
-
     explicit FileListItemWidget(QWidget *parent = 0);
     ~FileListItemWidget();
 
@@ -33,7 +31,7 @@ public:
     QString fileName() const;
     void setLineCount(quint64 lineCount);
 
-    void setFileState(FileState state);
+    void setFileState(FileState state) override;
     FileState fileState() const;
 
 signals:

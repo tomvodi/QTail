@@ -43,7 +43,7 @@ void FileListItemWidget::setLineCount(quint64 lineCount)
     ui->lineCountLabel->setText(QString::number(lineCount));
 }
 
-void FileListItemWidget::setFileState(FileListItemWidget::FileState state)
+void FileListItemWidget::setFileState(FileState state)
 {
     m_fileState = state;
 
@@ -60,7 +60,7 @@ void FileListItemWidget::setFileState(FileListItemWidget::FileState state)
     }
 }
 
-FileListItemWidget::FileState FileListItemWidget::fileState() const
+FileState FileListItemWidget::fileState() const
 {
     return m_fileState;
 }

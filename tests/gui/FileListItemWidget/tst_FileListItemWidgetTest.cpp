@@ -64,7 +64,7 @@ void FileListItemWidgetTest::testFileState()
 {
     FileListItemWidget listWidget;
 
-    QVERIFY2(listWidget.fileState() == FileListItemWidget::FileState::FileError, "Wrong default file state.");
+    QVERIFY2(listWidget.fileState() == FileState::FileError, "Wrong default file state.");
 }
 
 QTEST_MAIN(FileListItemWidgetTest)
