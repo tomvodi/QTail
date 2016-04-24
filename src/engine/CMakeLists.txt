@@ -8,6 +8,7 @@ find_package( Qt5Core REQUIRED )
 
 set(Project_Sources
   FileWatcher.cpp
+  TailEngine.cpp
 
   include/FileViewInterface.h
 )

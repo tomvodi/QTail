@@ -17,7 +17,7 @@ enum class FileState {
 
 /*!
  * \brief The FileViewInterface class
- *
+ *  The FileViewInterface is an base class for a general file view.
  */
 class FileViewInterface
 {
