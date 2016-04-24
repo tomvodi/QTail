@@ -12,6 +12,7 @@
 #include <TestCommon.h>
 #include <gui/MainWindow.h>
 #include <gui/PlainTextEdit.h>
+#include <gui/FileListItemWidget.h>
 #include <ui_MainWindow.h>
 
 class MainWindowTest : public QObject
@@ -28,6 +29,7 @@ private Q_SLOTS:
     void testOpenFile_fileInList();
     void testOpenFile_noDuplicates();
     void testOpenFile_textLoaded();
+    void testIfHasFileListItemWidgetForOpenFile();
 };
 
 MainWindowTest::MainWindowTest()
@@ -95,6 +97,21 @@ void MainWindowTest::testOpenFile_textLoaded()
 
     QString textEditText = window.m_textEdit->toPlainText();
     QVERIFY2(textEditText == testText, "Text wasn't loaded into text edit");
+}
+
+void MainWindowTest::testIfHasFileListItemWidgetForOpenFile()
+{
+    QString filePath = TestCommon::generateExistingFilePath("testOpenFile_textLoaded");
+
+    MainWindow window;
+    window.openFile(filePath);
+
+    Q_ASSERT(window.ui->fileListWidget->count());
+    auto item = window.ui->fileListWidget->item(0);
+    QWidget *widget = window.ui->fileListWidget->itemWidget(item);
+    FileListItemWidget *itemWidget = static_cast<FileListItemWidget*>(widget);
+    QVERIFY2(itemWidget != 0, "File list widget doesn't use FileListItemWidgets");
+    QVERIFY2(itemWidget->fileName() == "testOpenFile_textLoaded", "Filename wasn't set in list item widget.");
 }
 
 QTEST_MAIN(MainWindowTest)

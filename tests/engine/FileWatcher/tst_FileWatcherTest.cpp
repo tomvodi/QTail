@@ -13,7 +13,7 @@
 #include <QFile>
 #include <QTextStream>
 
-#include <data/FileWatcher.h>
+#include <engine/FileWatcher.h>
 #include <TestCommon.h>
 
 class FileWatcherTest : public QObject

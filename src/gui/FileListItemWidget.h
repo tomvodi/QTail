@@ -30,15 +30,18 @@ public:
     ~FileListItemWidget();
 
     void setFileName(const QString &fileName);
+    QString fileName() const;
     void setLineCount(quint64 lineCount);
 
     void setFileState(FileState state);
+    FileState fileState() const;
 
 signals:
     void closeFileRequested();
 
 private:
     Ui::FileListItemWidget *ui;
+    FileState m_fileState;
 };
 
 #endif // FILELISTITEMWIDGET_H

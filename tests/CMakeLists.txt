@@ -5,5 +5,5 @@ include_directories(
 )
 
 add_subdirectory( common )
-add_subdirectory( data )
+add_subdirectory( engine )
 add_subdirectory( gui )

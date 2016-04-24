@@ -5,12 +5,13 @@
  * See LICENSE for more informations.
  *
  */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 
-#include <tools/Settings.h>
+#include "tools/Settings.h"
 
 namespace Ui {
 class MainWindow;

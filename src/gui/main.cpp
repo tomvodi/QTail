@@ -5,7 +5,8 @@
  * See LICENSE for more informations.
  *
  */
-#include "gui/MainWindow.h"
+
+#include "MainWindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

@@ -10,12 +10,14 @@ set( Test_SOURCES
         ${source_dir}/gui/MainWindow.cpp
         ${source_dir}/gui/AboutDialog.cpp
         ${source_dir}/gui/PlainTextEdit.cpp
-        ${source_dir}/tools/Settings.cpp
+        ${source_dir}/gui/FileListItemWidget.cpp
+        ${source_dir}/gui/tools/Settings.cpp
         )
 
 set( Test_UIs
       ${source_dir}/gui/MainWindow.ui
       ${source_dir}/gui/AboutDialog.ui
+      ${source_dir}/gui/FileListItemWidget.ui
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 

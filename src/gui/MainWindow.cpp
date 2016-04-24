@@ -20,6 +20,7 @@
 #include "PlainTextEdit.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include "FileListItemWidget.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -80,9 +81,12 @@ void MainWindow::openFile(const QString &filePath)
     }
 
     QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);
-    item->setText(fileInfo.fileName());
     item->setData(Qt::UserRole + 1, fileInfo.absoluteFilePath());
     ui->fileListWidget->addItem(item);
+    FileListItemWidget *itemWidget = new FileListItemWidget;
+    itemWidget->setFileName(fileInfo.fileName());
+    item->setSizeHint(itemWidget->sizeHint());
+    ui->fileListWidget->setItemWidget(item, itemWidget);
     ui->fileListWidget->setCurrentRow(0);
 }
 

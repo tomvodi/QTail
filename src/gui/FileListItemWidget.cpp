@@ -33,6 +33,11 @@ void FileListItemWidget::setFileName(const QString &fileName)
     ui->fileNameLabel->setText(fileName);
 }
 
+QString FileListItemWidget::fileName() const
+{
+    return ui->fileNameLabel->text();
+}
+
 void FileListItemWidget::setLineCount(quint64 lineCount)
 {
     ui->lineCountLabel->setText(QString::number(lineCount));
@@ -40,6 +45,8 @@ void FileListItemWidget::setLineCount(quint64 lineCount)
 
 void FileListItemWidget::setFileState(FileListItemWidget::FileState state)
 {
+    m_fileState = state;
+
     switch (state) {
     case FileState::FileError:
         ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-important.png"));
@@ -51,4 +58,9 @@ void FileListItemWidget::setFileState(FileListItemWidget::FileState state)
         ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-default.png"));
         break;
     }
+}
+
+FileListItemWidget::FileState FileListItemWidget::fileState() const
+{
+    return m_fileState;
 }
