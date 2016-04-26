@@ -26,6 +26,7 @@ private Q_SLOTS:
     void testSetFileName();
     void testSetLineCount();
     void testFileState();
+    void testCloseRequest();
 };
 
 FileListItemWidgetTest::FileListItemWidgetTest()
@@ -65,6 +66,15 @@ void FileListItemWidgetTest::testFileState()
     FileListItemWidget listWidget;
 
     QVERIFY2(listWidget.fileState() == FileState::FileError, "Wrong default file state.");
+}
+
+void FileListItemWidgetTest::testCloseRequest()
+{
+    FileListItemWidget listWidget;
+    QSignalSpy spy(&listWidget, SIGNAL(closeFileRequested()));
+
+    QTest::mouseClick(listWidget.ui->closeButton, Qt::LeftButton);
+    QVERIFY2(spy.count() == 1, "Close file request wasn't emitted");
 }
 
 QTEST_MAIN(FileListItemWidgetTest)

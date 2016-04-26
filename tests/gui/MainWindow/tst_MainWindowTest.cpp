@@ -30,6 +30,7 @@ private Q_SLOTS:
     void testOpenFile_noDuplicates();
     void testOpenFile_textLoaded();
     void testIfHasFileListItemWidgetForOpenFile();
+    void testClosingFileWithFileItemCloseButton();
 };
 
 MainWindowTest::MainWindowTest()
@@ -112,6 +113,36 @@ void MainWindowTest::testIfHasFileListItemWidgetForOpenFile()
     FileListItemWidget *itemWidget = static_cast<FileListItemWidget*>(widget);
     QVERIFY2(itemWidget != 0, "File list widget doesn't use FileListItemWidgets");
     QVERIFY2(itemWidget->fileName() == "testOpenFile_textLoaded", "Filename wasn't set in list item widget.");
+}
+
+void MainWindowTest::testClosingFileWithFileItemCloseButton()
+{
+    QString filePath = TestCommon::generateExistingFilePath("testOpenFile_textLoaded");
+
+    QFile outFile(filePath);
+    outFile.open(QIODevice::WriteOnly);
+    QTextStream stream(&outFile);
+    QString testText("This is a test text");
+    stream << testText;
+    outFile.close();
+
+    QCoreApplication::processEvents();
+
+    MainWindow window;
+    window.openFile(filePath);
+
+    Q_ASSERT(window.ui->fileListWidget->count());
+    auto item = window.ui->fileListWidget->item(0);
+    QWidget *widget = window.ui->fileListWidget->itemWidget(item);
+    FileListItemWidget *itemWidget = static_cast<FileListItemWidget*>(widget);
+    Q_ASSERT(itemWidget);
+
+    itemWidget->closeFileRequested();
+
+    QVERIFY2(window.ui->fileListWidget->count() == 0, "File item wasn't removed from list for close request.");
+
+    // Just because this was the last file closed, the text edit should be cleared
+    QVERIFY2(window.m_textEdit->toPlainText().isEmpty(), "Text edit wasn't cleared after last file closed.");
 }
 
 QTEST_MAIN(MainWindowTest)

@@ -23,7 +23,7 @@ class FileViewInterface
 {
 public:
     FileViewInterface() {}
-    virtual ~FileViewInterface() {}
+    virtual ~FileViewInterface();
 
     virtual void setFileState(FileState state) = 0;
 };

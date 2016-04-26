@@ -66,8 +66,12 @@ void MainWindow::createConnections()
 {
     connect(ui->fileListWidget, &QListWidget::currentItemChanged,
             [this] (QListWidgetItem *item, QListWidgetItem *) {
-       QString filePath = item->data(Qt::UserRole + 1).toString();
-       showFile(filePath);
+        if (!item) {
+            return;
+        }
+
+        QString filePath = item->data(Qt::UserRole + 1).toString();
+        showFile(filePath);
     });
 }
 
@@ -84,6 +88,17 @@ void MainWindow::openFile(const QString &filePath)
     item->setData(Qt::UserRole + 1, fileInfo.absoluteFilePath());
     ui->fileListWidget->addItem(item);
     FileListItemWidget *itemWidget = new FileListItemWidget;
+    connect(itemWidget, &FileListItemWidget::closeFileRequested,
+            [this, item, itemWidget] {
+        int itemRow = ui->fileListWidget->row(item);
+        ui->fileListWidget->takeItem(itemRow);
+        delete item;
+        delete itemWidget;
+
+        if (ui->fileListWidget->count() == 0) {
+            m_textEdit->clear();
+        }
+    });
     itemWidget->setFileName(fileInfo.fileName());
     item->setSizeHint(itemWidget->sizeHint());
     ui->fileListWidget->setItemWidget(item, itemWidget);

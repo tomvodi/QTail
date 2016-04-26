@@ -10,6 +10,7 @@ set(Project_Sources
   FileWatcher.cpp
   TailEngine.cpp
 
+  FileViewInterface.cpp
   include/FileViewInterface.h
 )
 

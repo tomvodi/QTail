@@ -32,4 +32,4 @@ qt5_add_resources(Project_Sources
 
 add_executable(${PROJECT_NAME} ${Project_Sources})
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets TailEngine )
