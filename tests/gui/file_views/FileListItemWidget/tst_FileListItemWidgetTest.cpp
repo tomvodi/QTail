@@ -10,7 +10,7 @@
 #include <QtTest>
 #include <QCoreApplication>
 
-#include <gui/FileListItemWidget.h>
+#include <gui/file_views/FileListItemWidget.h>
 #include <ui_FileListItemWidget.h>
 
 class FileListItemWidgetTest : public QObject

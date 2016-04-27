@@ -29,7 +29,7 @@ public:
     enum Feature {
        NoFeature = 0x00,
        HasTextView = 0x01,
-       HasFileStateView = 0x02
+       HasStateView = 0x02
     };
     Q_DECLARE_FLAGS(Features, Feature)
 

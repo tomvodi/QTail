@@ -16,11 +16,12 @@
 
 #include <QTail_version.h>
 
+#include "file_views/PlainTextEdit.h"
+#include "file_views/FileListItemWidget.h"
+
 #include "AboutDialog.h"
-#include "PlainTextEdit.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include "FileListItemWidget.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :

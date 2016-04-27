@@ -13,7 +13,3 @@ PlainTextEdit::PlainTextEdit()
     setReadOnly(true);
 }
 
-FileViewInterface::Features PlainTextEdit::viewFeatures() const
-{
-   return FileViewInterface::HasTextView;
-}

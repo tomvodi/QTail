@@ -1,4 +1,4 @@
-set( testname MainWindowTest )
+set( testname FileListItemWidgetTest )
 set( testmodules Test Widgets )
 set( testlibraries TestCommon TailEngine )
 
@@ -7,22 +7,20 @@ find_package( Qt5Test REQUIRED )
 
 set( Test_SOURCES
         tst_${testname}.cpp
-        ${source_dir}/gui/MainWindow.cpp
-        ${source_dir}/gui/AboutDialog.cpp
-        ${source_dir}/gui/tools/Settings.cpp
-        ${source_dir}/gui/file_views/PlainTextEdit.cpp
         ${source_dir}/gui/file_views/FileListItemWidget.cpp
         )
 
 set( Test_UIs
-      ${source_dir}/gui/MainWindow.ui
-      ${source_dir}/gui/AboutDialog.ui
       ${source_dir}/gui/file_views/FileListItemWidget.ui
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 
-configure_file(${source_dir}/version.h.in
-               ${CMAKE_CURRENT_BINARY_DIR}/QTail_version.h)
+set( Test_Resources
+      ${source_dir}/gui/resources.qrc
+)
+qt5_add_resources(Test_SOURCES
+      ${Test_Resources}
+)
 
 add_executable( ${testname} ${Test_SOURCES} )
 qt5_use_modules( ${testname} ${testmodules} )

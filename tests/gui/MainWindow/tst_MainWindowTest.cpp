@@ -5,14 +5,15 @@
  * See LICENSE for more informations.
  *
  */
+
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
 
 #include <TestCommon.h>
 #include <gui/MainWindow.h>
-#include <gui/PlainTextEdit.h>
-#include <gui/FileListItemWidget.h>
+#include <gui/file_views/PlainTextEdit.h>
+#include <gui/file_views/FileListItemWidget.h>
 #include <ui_MainWindow.h>
 
 class MainWindowTest : public QObject

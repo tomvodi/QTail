@@ -16,8 +16,7 @@ namespace Ui {
 class FileListItemWidget;
 }
 
-class FileListItemWidget : public QFrame,
-                           public FileViewInterface
+class FileListItemWidget : public QFrame
 
 {
     Q_OBJECT
@@ -31,7 +30,7 @@ public:
     QString fileName() const;
     void setLineCount(quint64 lineCount);
 
-    void setFileState(FileState state) override;
+    void setFileState(FileState state);
 
     FileState fileState() const;
 

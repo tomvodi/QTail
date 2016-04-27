@@ -9,9 +9,12 @@ find_package( Qt5Widgets REQUIRED )
 set(Project_Sources
   main.cpp
   MainWindow.cpp
-  FileListItemWidget.cpp
-  PlainTextEdit.cpp
   AboutDialog.cpp
+
+  file_views/FileListItemView.cpp
+  file_views/FileListItemWidget.cpp
+  file_views/PlainTextView.cpp
+  file_views/PlainTextEdit.cpp
 
   tools/Settings.cpp
 )
@@ -23,7 +26,8 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
 qt5_wrap_ui(Project_Sources
     MainWindow.ui
     AboutDialog.ui
-    FileListItemWidget.ui
+
+    file_views/FileListItemWidget.ui
 )
 
 qt5_add_resources(Project_Sources

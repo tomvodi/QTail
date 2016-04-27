@@ -1,2 +1,3 @@
 add_subdirectory( MainWindow )
-add_subdirectory( FileListItemWidget )
+
+add_subdirectory( file_views )

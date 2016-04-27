@@ -12,15 +12,10 @@
 #include <QPlainTextEdit>
 #include <include/FileViewInterface.h>
 
-class PlainTextEdit : public QPlainTextEdit,
-                      public FileViewInterface
+class PlainTextEdit : public QPlainTextEdit
 {
 public:
     PlainTextEdit();
-
-    // FileViewInterface interface
-public:
-    FileViewInterface::Features viewFeatures() const override;
 };
 
 #endif // PLAINTEXTEDIT_H
