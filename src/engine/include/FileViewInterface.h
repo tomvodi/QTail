@@ -9,6 +9,10 @@
 #ifndef FILEVIEWINTERFACE_H
 #define FILEVIEWINTERFACE_H
 
+#include <QFlags>
+#include <QString>
+#include <QStringList>
+
 enum class FileState {
     FileError,
     FileInSync,
@@ -22,10 +26,27 @@ enum class FileState {
 class FileViewInterface
 {
 public:
-    FileViewInterface() {}
-    virtual ~FileViewInterface();
+    enum Feature {
+       NoFeature = 0x00,
+       HasTextView = 0x01,
+       HasFileStateView = 0x02
+    };
+    Q_DECLARE_FLAGS(Features, Feature)
 
-    virtual void setFileState(FileState state) = 0;
+    FileViewInterface() {}
+    virtual ~FileViewInterface() {}
+
+    virtual FileViewInterface::Features viewFeatures() const;
+
+    // FileState feature methods
+    virtual void setFileState(FileState state);
+
+    // TextView feature methods
+    virtual void appendLine(const QString &line);
+    virtual void appendLines(const QStringList &lines);
+    virtual void clearTextView();
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(FileViewInterface::Features)
 
 #endif // FILEVIEWINTERFACE_H

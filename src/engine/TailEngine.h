@@ -10,6 +10,14 @@
 #define TAILENGINE_H
 
 #include <QObject>
+#include <QList>
+#include <QFileInfo>
+#include <QSharedPointer>
+
+class FileViewInterface;
+
+typedef QSharedPointer<FileViewInterface> FileView;
+typedef QList<FileView> FileViews;
 
 /*!
  * \brief The TailEngine class
@@ -21,6 +29,9 @@ class TailEngine : public QObject
 public:
     explicit TailEngine(QObject *parent = 0);
 
+    void addFile(const QFileInfo &file, const FileViews &views);
+    void removeFile(const QFileInfo &file);
+    void reloadFile(const QFileInfo &file);
 };
 
 #endif // TAILENGINE_H

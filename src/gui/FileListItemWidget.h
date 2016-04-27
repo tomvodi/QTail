@@ -32,6 +32,7 @@ public:
     void setLineCount(quint64 lineCount);
 
     void setFileState(FileState state) override;
+
     FileState fileState() const;
 
 signals:

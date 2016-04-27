@@ -8,8 +8,26 @@
 
 #include "include/FileViewInterface.h"
 
-// Just for out-of-line virtual method
-// \see http://llvm.org/docs/CodingStandards.html#provide-a-virtual-method-anchor-for-classes-in-headers
-FileViewInterface::~FileViewInterface()
+void FileViewInterface::setFileState(FileState state)
+{
+   Q_UNUSED(state);
+}
+
+FileViewInterface::Features FileViewInterface::viewFeatures() const
+{
+   return FileViewInterface::NoFeature;
+}
+
+void FileViewInterface::appendLine(const QString &line)
+{
+   Q_UNUSED(line);
+}
+
+void FileViewInterface::appendLines(const QStringList &lines)
+{
+   Q_UNUSED(lines);
+}
+
+void FileViewInterface::clearTextView()
 {
 }
