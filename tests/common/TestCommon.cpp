@@ -8,6 +8,8 @@
 
 #include <QDir>
 #include <QFile>
+#include <QEventLoop>
+#include <QTimer>
 #include <QCoreApplication>
 
 #include "TestCommon.h"
@@ -24,4 +26,13 @@ QString TestCommon::generateExistingFilePath(const QString &fileName)
     file.close();
 
     return filePath;
+}
+
+void TestCommon::waitMsecs(quint32 mSecs)
+{
+   QCoreApplication::processEvents();
+
+   QEventLoop loop;
+   QTimer::singleShot(mSecs, &loop, SLOT(quit()));
+   loop.exec();
 }

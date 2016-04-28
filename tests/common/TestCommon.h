@@ -16,6 +16,8 @@ public:
     TestCommon();
 
     static QString generateExistingFilePath(const QString &fileName);
+
+    static void waitMsecs(quint32 mSecs);
 };
 
 #endif // TESTCOMMON_H

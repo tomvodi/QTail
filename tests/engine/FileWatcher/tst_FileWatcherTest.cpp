@@ -76,7 +76,7 @@ void FileWatcherTest::testSizeChanged()
     stream.flush();
     outFile.close();
 
-    QCoreApplication::processEvents();
+    TestCommon::waitMsecs(100);
 
     QVERIFY2(spy.count() == 1, "Signal for changed size wasn't emitted.");
 }
