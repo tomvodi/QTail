@@ -14,15 +14,15 @@
 
 class PlainTextEditTest : public QObject
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
-    PlainTextEditTest();
+   PlainTextEditTest();
 
 private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
-    void testSetup();
+   void initTestCase();
+   void cleanupTestCase();
+   void testSetup();
 };
 
 PlainTextEditTest::PlainTextEditTest()
@@ -39,8 +39,8 @@ void PlainTextEditTest::cleanupTestCase()
 
 void PlainTextEditTest::testSetup()
 {
-    PlainTextEdit textEdit;
-    QVERIFY2(textEdit.isReadOnly(), "Text edit isn't read only");
+   PlainTextEdit textEdit;
+   QVERIFY2(textEdit.isReadOnly(), "Text edit isn't read only");
 }
 
 QTEST_MAIN(PlainTextEditTest)

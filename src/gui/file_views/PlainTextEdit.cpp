@@ -10,6 +10,6 @@
 
 PlainTextEdit::PlainTextEdit()
 {
-    setReadOnly(true);
+   setReadOnly(true);
 }
 

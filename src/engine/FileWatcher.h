@@ -16,24 +16,24 @@ class QFileSystemWatcher;
 
 class FileWatcher : public QObject
 {
-    Q_OBJECT
+   Q_OBJECT
 public:
-    explicit FileWatcher(QObject *parent = 0);
+   explicit FileWatcher(QObject *parent = 0);
 
-    void setFilePath(const QString &filePath);
-    QString filePath() const;
+   void setFilePath(const QString &filePath);
+   QString filePath() const;
 
 signals:
-    void sizeChanged(qint64 oldSize, qint64 newSize);
-    void fileRemoved();
+   void sizeChanged(qint64 oldSize, qint64 newSize);
+   void fileRemoved();
 
 private slots:
-    void fileHasChanged();
+   void fileHasChanged();
 
 private:
-    void createConnections();
-    QFileSystemWatcher *m_fileSystemWatcher;
-    QFileInfo m_fileInfo;
+   void createConnections();
+   QFileSystemWatcher *m_fileSystemWatcher;
+   QFileInfo m_fileInfo;
 };
 
 #endif // FILEWATCHER_H

@@ -29,43 +29,43 @@ uint qHash(const QFileInfo &fileInfo);
  */
 class TailEngine : public QObject
 {
-    Q_OBJECT
+   Q_OBJECT
 public:
-    explicit TailEngine(QObject *parent = 0);
+   explicit TailEngine(QObject *parent = 0);
 
-    void addFiles(const QFileInfo &file, const FileViews &views);
-    void addFile(const QFileInfo &file, const FileView &view);
-    void removeFile(const QFileInfo &file);
-    void reloadFile(const QFileInfo &file);
+   void addFiles(const QFileInfo &file, const FileViews &views);
+   void addFile(const QFileInfo &file, const FileView &view);
+   void removeFile(const QFileInfo &file);
+   void reloadFile(const QFileInfo &file);
 
 private:
-    class FileContext
-    {
-    public:
-       FileContext() {}
+   class FileContext
+   {
+   public:
+      FileContext() {}
 
-       QFileInfo fileInfo() const;
-       void setFileInfo(const QFileInfo &fileInfo);
+      QFileInfo fileInfo() const;
+      void setFileInfo(const QFileInfo &fileInfo);
 
-       FileWatcher *fileWatcher() const;
-       void setFileWatcher(FileWatcher *fileWatcher);
+      FileWatcher *fileWatcher() const;
+      void setFileWatcher(FileWatcher *fileWatcher);
 
-       FileViews fileViews() const;
-       void setFileViews(const FileViews &fileViews);
-       void addFileView(const FileView &fileView);
+      FileViews fileViews() const;
+      void setFileViews(const FileViews &fileViews);
+      void addFileView(const FileView &fileView);
 
-    private:
-       QFileInfo m_fileInfo;
-       FileViews m_fileViews;
-       FileWatcher *m_fileWatcher;
-    };
+   private:
+      QFileInfo m_fileInfo;
+      FileViews m_fileViews;
+      FileWatcher *m_fileWatcher;
+   };
 
-    FileContext fileContextOfFile(const QFileInfo &file);
-    QHash<QFileInfo, FileContext> m_fileContexts;
-    void setFileContextOfFile(const QFileInfo &file, FileContext context);
-    void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
-    void handleChangedFileContent(const QFileInfo &file);
-    void handleRemovedFile(const QFileInfo &file);
+   FileContext fileContextOfFile(const QFileInfo &file);
+   QHash<QFileInfo, FileContext> m_fileContexts;
+   void setFileContextOfFile(const QFileInfo &file, FileContext context);
+   void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
+   void handleChangedFileContent(const QFileInfo &file);
+   void handleRemovedFile(const QFileInfo &file);
 };
 
 #endif // TAILENGINE_H

@@ -11,12 +11,12 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::setOrganizationName("QTail");
-    QApplication::setApplicationName("QTail");
+   QApplication::setOrganizationName("QTail");
+   QApplication::setApplicationName("QTail");
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+   QApplication a(argc, argv);
+   MainWindow w;
+   w.show();
 
-    return a.exec();
+   return a.exec();
 }

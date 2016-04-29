@@ -15,7 +15,7 @@
 class PlainTextEdit : public QPlainTextEdit
 {
 public:
-    PlainTextEdit();
+   PlainTextEdit();
 };
 
 #endif // PLAINTEXTEDIT_H

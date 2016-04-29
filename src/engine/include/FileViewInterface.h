@@ -14,9 +14,9 @@
 #include <QStringList>
 
 enum class FileState {
-    FileError,   //! File doesn't exist
-    FileInSync,  //! File is in sync with UI, nothing new to see
-    FileHasChanged  //! File has new unread lines
+   FileError,   //! File doesn't exist
+   FileInSync,  //! File is in sync with UI, nothing new to see
+   FileHasChanged  //! File has new unread lines
 };
 
 /*!
@@ -26,25 +26,25 @@ enum class FileState {
 class FileViewInterface
 {
 public:
-    enum Feature {
-       NoFeature = 0x00,
-       HasTextView = 0x01,
-       HasStateView = 0x02
-    };
-    Q_DECLARE_FLAGS(Features, Feature)
+   enum Feature {
+      NoFeature = 0x00,
+      HasTextView = 0x01,
+      HasStateView = 0x02
+   };
+   Q_DECLARE_FLAGS(Features, Feature)
 
-    FileViewInterface() {}
-    virtual ~FileViewInterface() {}
+   FileViewInterface() {}
+   virtual ~FileViewInterface() {}
 
-    virtual FileViewInterface::Features viewFeatures() const;
+   virtual FileViewInterface::Features viewFeatures() const;
 
-    // FileState feature methods
-    virtual void setFileState(FileState state);
+   // FileState feature methods
+   virtual void setFileState(FileState state);
 
-    // TextView feature methods
-    virtual void appendLine(const QString &line);
-    virtual void appendLines(const QStringList &lines);
-    virtual void clearTextView();
+   // TextView feature methods
+   virtual void appendLine(const QString &line);
+   virtual void appendLines(const QStringList &lines);
+   virtual void clearTextView();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(FileViewInterface::Features)

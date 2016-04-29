@@ -13,11 +13,11 @@
 class TestCommon
 {
 public:
-    TestCommon();
+   TestCommon();
 
-    static QString generateExistingFilePath(const QString &fileName);
+   static QString generateExistingFilePath(const QString &fileName);
 
-    static void waitMsecs(quint32 mSecs);
+   static void waitMsecs(quint32 mSecs);
 };
 
 #endif // TESTCOMMON_H

@@ -20,12 +20,12 @@ TestCommon::TestCommon()
 
 QString TestCommon::generateExistingFilePath(const QString &fileName)
 {
-    QString filePath = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(fileName);
-    QFile file(filePath);
-    file.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    file.close();
+   QString filePath = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(fileName);
+   QFile file(filePath);
+   file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+   file.close();
 
-    return filePath;
+   return filePath;
 }
 
 void TestCommon::waitMsecs(quint32 mSecs)

@@ -17,10 +17,10 @@ Settings::Settings()
 
 void Settings::setLastOpenDir(const QDir &dir)
 {
-    m_settings.setValue(LastOpenDirValueName, dir.absolutePath());
+   m_settings.setValue(LastOpenDirValueName, dir.absolutePath());
 }
 
 QDir Settings::lastOpenDir() const
 {
-    return QDir(m_settings.value(LastOpenDirValueName).toString(), QCoreApplication::applicationDirPath());
+   return QDir(m_settings.value(LastOpenDirValueName).toString(), QCoreApplication::applicationDirPath());
 }

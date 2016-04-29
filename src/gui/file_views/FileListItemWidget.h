@@ -19,27 +19,27 @@ class FileListItemWidget;
 class FileListItemWidget : public QFrame
 
 {
-    Q_OBJECT
-    friend class FileListItemWidgetTest;
+   Q_OBJECT
+   friend class FileListItemWidgetTest;
 
 public:
-    explicit FileListItemWidget(QWidget *parent = 0);
-    ~FileListItemWidget();
+   explicit FileListItemWidget(QWidget *parent = 0);
+   ~FileListItemWidget();
 
-    void setFileName(const QString &fileName);
-    QString fileName() const;
-    void setLineCount(quint64 lineCount);
+   void setFileName(const QString &fileName);
+   QString fileName() const;
+   void setLineCount(quint64 lineCount);
 
-    void setFileState(FileState state);
+   void setFileState(FileState state);
 
-    FileState fileState() const;
+   FileState fileState() const;
 
 signals:
-    void closeFileRequested();
+   void closeFileRequested();
 
 private:
-    Ui::FileListItemWidget *ui;
-    FileState m_fileState;
+   Ui::FileListItemWidget *ui;
+   FileState m_fileState;
 };
 
 #endif // FILELISTITEMWIDGET_H
