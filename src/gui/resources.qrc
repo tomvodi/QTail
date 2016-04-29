@@ -24,5 +24,6 @@
         <file>resources/icons/emblems/emblem-unreadable.png</file>
         <file>resources/icons/emblems/emblem-urgent.png</file>
         <file>resources/icons/actions/window-close.png</file>
+        <file>resources/icons/emblems/emblem-placeholder.png</file>
     </qresource>
 </RCC>

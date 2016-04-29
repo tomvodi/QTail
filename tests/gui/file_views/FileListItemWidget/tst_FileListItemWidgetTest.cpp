@@ -25,7 +25,7 @@ private Q_SLOTS:
     void cleanupTestCase();
     void testSetFileName();
     void testSetLineCount();
-    void testFileState();
+    void testInitialFileState();
     void testCloseRequest();
 };
 
@@ -61,11 +61,11 @@ void FileListItemWidgetTest::testSetLineCount()
              "Line count wasn't set in gui");
 }
 
-void FileListItemWidgetTest::testFileState()
+void FileListItemWidgetTest::testInitialFileState()
 {
     FileListItemWidget listWidget;
 
-    QVERIFY2(listWidget.fileState() == FileState::FileError, "Wrong default file state.");
+    QVERIFY2(listWidget.fileState() == FileState::FileInSync, "Wrong default file state.");
 }
 
 void FileListItemWidgetTest::testCloseRequest()

@@ -17,7 +17,7 @@ FileListItemWidget::FileListItemWidget(QWidget *parent) :
 
     setFileName("");
     setLineCount(0);
-    setFileState(FileState::FileError);
+    setFileState(FileState::FileInSync);
 
     connect(ui->closeButton, &QToolButton::clicked,
             this, &FileListItemWidget::closeFileRequested);
@@ -55,7 +55,7 @@ void FileListItemWidget::setFileState(FileState state)
         ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-generic.png"));
         break;
     case FileState::FileInSync:
-        ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-default.png"));
+        ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-placeholder.png"));
         break;
     }
 }
