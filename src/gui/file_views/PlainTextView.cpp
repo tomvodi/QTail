@@ -21,15 +21,27 @@ FileViewInterface::Features PlainTextView::viewFeatures() const
 
 void PlainTextView::appendLine(const QString &line)
 {
-
+    if (m_textEdit) {
+        m_textEdit->appendPlainText(line);
+    }
 }
 
 void PlainTextView::appendLines(const QStringList &lines)
 {
+    if (!m_textEdit) {
+        return;
+    }
+
+    foreach (const QString &line, lines) {
+        appendLine(line);
+    }
 }
 
 void PlainTextView::clearTextView()
 {
+    if (m_textEdit) {
+        m_textEdit->clear();
+    }
 }
 
 QPointer<PlainTextEdit> PlainTextView::textEdit() const

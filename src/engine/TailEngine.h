@@ -64,6 +64,7 @@ private:
     QHash<QFileInfo, FileContext> m_fileContexts;
     void setFileContextOfFile(const QFileInfo &file, FileContext context);
     void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
+    void handleChangedFileContent(const QFileInfo &file);
     void handleRemovedFile(const QFileInfo &file);
 };
 
