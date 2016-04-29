@@ -33,7 +33,7 @@ class TailEngine : public QObject
 public:
     explicit TailEngine(QObject *parent = 0);
 
-    void addFile(const QFileInfo &file, const FileViews &views);
+    void addFiles(const QFileInfo &file, const FileViews &views);
     void addFile(const QFileInfo &file, const FileView &view);
     void removeFile(const QFileInfo &file);
     void reloadFile(const QFileInfo &file);

@@ -77,7 +77,7 @@ void TailEngineTest::testFileStateViewHasNoStateFeature()
    fileView->setViewFeatures(FileViewInterface::NoFeature);  // View has no state feature
    FileView sharedFileView(fileView);
 
-   engine.addFile(QFileInfo(filePath), {sharedFileView});
+   engine.addFiles(QFileInfo(filePath), {sharedFileView});
 
    QFile outFile(filePath);
    outFile.open(QIODevice::WriteOnly);

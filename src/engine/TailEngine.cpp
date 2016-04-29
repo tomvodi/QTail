@@ -17,7 +17,7 @@ TailEngine::TailEngine(QObject *parent)
 
 }
 
-void TailEngine::addFile(const QFileInfo &file, const FileViews &views)
+void TailEngine::addFiles(const QFileInfo &file, const FileViews &views)
 {
    foreach (const FileView &view, views) {
       addFile(file, view);
