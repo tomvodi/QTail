@@ -15,22 +15,23 @@
 #include <QVersionNumber>
 
 #include <QTail_version.h>
+#include <TailEngine.h>
 
+#include "file_views/PlainTextView.h"
 #include "file_views/PlainTextEdit.h"
+#include "file_views/FileListItemView.h"
 #include "file_views/FileListItemWidget.h"
 
 #include "AboutDialog.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_textEdit = new PlainTextEdit;
-    ui->centralLayout->addWidget(m_textEdit);
+    m_tailEngine = new TailEngine(this);
 
     createConnections();
 }
@@ -71,7 +72,7 @@ void MainWindow::createConnections()
             return;
         }
 
-        QString filePath = item->data(Qt::UserRole + 1).toString();
+        QString filePath = item->data(FilePathDataRole).toString();
         showFile(filePath);
     });
 }
@@ -79,52 +80,82 @@ void MainWindow::createConnections()
 void MainWindow::openFile(const QString &filePath)
 {
     QFileInfo fileInfo(filePath);
+    QString insertPath = fileInfo.absoluteFilePath();
 
     if (!fileInfo.exists() ||
-            listWidgetContainsFile(filePath)) {
+            m_fileViewItems.contains(insertPath)) {
         return;
     }
 
+    FileListItemView *listItemView = new FileListItemView;
+    PlainTextView *plainTextView = new PlainTextView;
     QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);
-    item->setData(Qt::UserRole + 1, fileInfo.absoluteFilePath());
-    ui->fileListWidget->addItem(item);
-    FileListItemWidget *itemWidget = new FileListItemWidget;
-    connect(itemWidget, &FileListItemWidget::closeFileRequested,
-            [this, item, itemWidget] {
-        int itemRow = ui->fileListWidget->row(item);
-        ui->fileListWidget->takeItem(itemRow);
-        delete item;
-        delete itemWidget;
 
-        if (ui->fileListWidget->count() == 0) {
-            m_textEdit->clear();
-        }
+    FileViewItems viewItems;
+    viewItems.setFileListItemWidget(listItemView->listWidget());
+    viewItems.setPlainTextEdit(plainTextView->textEdit());
+
+    ui->stackedWidget->addWidget(plainTextView->textEdit());
+    m_fileViewItems.insert(insertPath, viewItems);
+
+    item->setData(FilePathDataRole, fileInfo.absoluteFilePath());
+    ui->fileListWidget->addItem(item);
+    FileListItemWidget *itemWidget = listItemView->listWidget();
+    connect(itemWidget, &FileListItemWidget::closeFileRequested,
+            [this, item] {
+        closeFileItem(item);
     });
     itemWidget->setFileName(fileInfo.fileName());
     item->setSizeHint(itemWidget->sizeHint());
     ui->fileListWidget->setItemWidget(item, itemWidget);
-    ui->fileListWidget->setCurrentRow(0);
+    ui->fileListWidget->setCurrentRow(ui->fileListWidget->row(item));
+
+    m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
 }
 
 void MainWindow::showFile(const QString &filePath)
 {
-    QFile file(filePath);
-    file.open(QIODevice::ReadOnly);
-    QTextStream stream(&file);
+    FileViewItems viewItems = m_fileViewItems.value(filePath);
 
-    QString fileText = stream.readAll();
-    m_textEdit->setPlainText(fileText);
-}
-
-bool MainWindow::listWidgetContainsFile(const QString &filePath)
-{
-    for (int i=0; i<ui->fileListWidget->count(); ++i) {
-        QString listFilePath = ui->fileListWidget->item(i)->data(Qt::UserRole + 1).toString();
-        if (listFilePath == filePath) {
-            return true;
-        }
+    if (viewItems.plainTextEdit()) {
+        ui->stackedWidget->setCurrentWidget(viewItems.plainTextEdit());
     }
-
-    return false;
 }
 
+void MainWindow::closeFileItem(QListWidgetItem *listItem)
+{
+    QString filePath = listItem->data(FilePathDataRole).toString();
+
+    int itemRow = ui->fileListWidget->row(listItem);
+    ui->fileListWidget->takeItem(itemRow);
+    delete listItem;
+
+    FileViewItems viewItems = m_fileViewItems.take(filePath);
+
+    if (viewItems.fileListItemWidget()) {
+        delete viewItems.fileListItemWidget();
+    }
+    if (viewItems.plainTextEdit()) {
+        delete viewItems.plainTextEdit();
+    }
+}
+
+QPointer<PlainTextEdit> MainWindow::FileViewItems::plainTextEdit() const
+{
+    return m_plainTextEdit;
+}
+
+void MainWindow::FileViewItems::setPlainTextEdit(const QPointer<PlainTextEdit> &plainTextEdit)
+{
+    m_plainTextEdit = plainTextEdit;
+}
+
+QPointer<FileListItemWidget> MainWindow::FileViewItems::fileListItemWidget() const
+{
+    return m_fileListItemWidget;
+}
+
+void MainWindow::FileViewItems::setFileListItemWidget(const QPointer<FileListItemWidget> &fileListItemWidget)
+{
+    m_fileListItemWidget = fileListItemWidget;
+}

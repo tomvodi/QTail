@@ -10,7 +10,9 @@ set( Test_SOURCES
         ${source_dir}/gui/MainWindow.cpp
         ${source_dir}/gui/AboutDialog.cpp
         ${source_dir}/gui/tools/Settings.cpp
+        ${source_dir}/gui/file_views/PlainTextView.cpp
         ${source_dir}/gui/file_views/PlainTextEdit.cpp
+        ${source_dir}/gui/file_views/FileListItemView.cpp
         ${source_dir}/gui/file_views/FileListItemWidget.cpp
         )
 

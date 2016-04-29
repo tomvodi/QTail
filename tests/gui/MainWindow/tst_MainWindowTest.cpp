@@ -29,7 +29,7 @@ private Q_SLOTS:
     void testSetup();
     void testOpenFile_fileInList();
     void testOpenFile_noDuplicates();
-    void testOpenFile_textLoaded();
+    void testOpenFile_textEditVisible();
     void testIfHasFileListItemWidgetForOpenFile();
     void testClosingFileWithFileItemCloseButton();
 };
@@ -51,7 +51,6 @@ void MainWindowTest::testSetup()
     MainWindow window;
     QVERIFY2(window.ui->fileListWidget->selectionMode() == QAbstractItemView::SingleSelection,
              "The file list widget is not in single select mode");
-    QVERIFY2(window.m_textEdit->isReadOnly(), "Text edit isn't read only");
 }
 
 void MainWindowTest::testOpenFile_fileInList()
@@ -81,7 +80,7 @@ void MainWindowTest::testOpenFile_noDuplicates()
     QVERIFY2(listWidget->count() == 1, "File was opened a second time.");
 }
 
-void MainWindowTest::testOpenFile_textLoaded()
+void MainWindowTest::testOpenFile_textEditVisible()
 {
     QString filePath = TestCommon::generateExistingFilePath("testOpenFile_textLoaded");
 
@@ -97,8 +96,15 @@ void MainWindowTest::testOpenFile_textLoaded()
     MainWindow window;
     window.openFile(filePath);
 
-    QString textEditText = window.m_textEdit->toPlainText();
-    QVERIFY2(textEditText == testText, "Text wasn't loaded into text edit");
+    // Check if opened file is current item
+    QListWidgetItem *currentItem = window.ui->fileListWidget->currentItem();
+    QString currentItemPath = currentItem->data(window.FilePathDataRole).toString();
+    QVERIFY2(currentItemPath == filePath, "The recently opened file isn't the current item in the file list");
+
+    // Check if correct text edit is visible
+    MainWindow::FileViewItems viewItems = window.m_fileViewItems.value(filePath);
+    QVERIFY2(viewItems.plainTextEdit() == window.ui->stackedWidget->currentWidget(),
+             "The current visible text edit isn't the one of the most recent opened file.");
 }
 
 void MainWindowTest::testIfHasFileListItemWidgetForOpenFile()
@@ -142,8 +148,8 @@ void MainWindowTest::testClosingFileWithFileItemCloseButton()
 
     QVERIFY2(window.ui->fileListWidget->count() == 0, "File item wasn't removed from list for close request.");
 
-    // Just because this was the last file closed, the text edit should be cleared
-    QVERIFY2(window.m_textEdit->toPlainText().isEmpty(), "Text edit wasn't cleared after last file closed.");
+    // Just because this was the last file closed, there shouldn't be any text edit in the stacked widget
+    QVERIFY2(window.ui->stackedWidget->count() == 0, "At least one text edit is still in stacked widget after last file closed.");
 }
 
 QTEST_MAIN(MainWindowTest)
