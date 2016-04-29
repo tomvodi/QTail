@@ -30,8 +30,13 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    fileWatcher->setFilePath(file.absoluteFilePath());
 
    connect(fileWatcher, &FileWatcher::sizeChanged,
+           [this, file] (qint64 oldSize, qint64 newSize) {
+      handleChangedFileSize(file, oldSize, newSize);
+   });
+
+   connect(fileWatcher, &FileWatcher::fileRemoved,
            [this, file] {
-      handleChangedFileSize(file);
+      handleRemovedFile(file);
    });
 
    FileContext context = fileContextOfFile(file);
@@ -61,16 +66,28 @@ void TailEngine::setFileContextOfFile(const QFileInfo &file, FileContext context
    m_fileContexts.insert(file, context);
 }
 
-void TailEngine::handleChangedFileSize(const QFileInfo &file)
+void TailEngine::handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize)
 {
    FileContext context = fileContextOfFile(file);
 
    // Handle file state
    foreach (FileView view, context.fileViews()) {
       if (view->viewFeatures().testFlag(FileViewInterface::HasStateView)) {
-         view->setFileState(FileState::FileHasNewLines);
+         view->setFileState(FileState::FileHasChanged);
       }
    }
+}
+
+void TailEngine::handleRemovedFile(const QFileInfo &file)
+{
+    FileContext context = fileContextOfFile(file);
+
+    // Handle file state
+    foreach (FileView view, context.fileViews()) {
+       if (view->viewFeatures().testFlag(FileViewInterface::HasStateView)) {
+          view->setFileState(FileState::FileError);
+       }
+    }
 }
 
 TailEngine::FileContext TailEngine::fileContextOfFile(const QFileInfo &file)

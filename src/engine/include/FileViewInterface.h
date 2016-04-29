@@ -14,9 +14,9 @@
 #include <QStringList>
 
 enum class FileState {
-    FileError,
-    FileInSync,
-    FileHasNewLines
+    FileError,   //! File doesn't exist
+    FileInSync,  //! File is in sync with UI, nothing new to see
+    FileHasChanged  //! File has new unread lines
 };
 
 /*!

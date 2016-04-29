@@ -63,7 +63,8 @@ private:
     FileContext fileContextOfFile(const QFileInfo &file);
     QHash<QFileInfo, FileContext> m_fileContexts;
     void setFileContextOfFile(const QFileInfo &file, FileContext context);
-    void handleChangedFileSize(const QFileInfo &file);
+    void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
+    void handleRemovedFile(const QFileInfo &file);
 };
 
 #endif // TAILENGINE_H

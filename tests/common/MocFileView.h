@@ -32,7 +32,7 @@ private:
    void setTextViewLines(const QStringList &textViewLines);
    QStringList m_textViewLines;
    FileViewInterface::Features m_viewFeatures = FileViewInterface::NoFeature;
-   FileState m_fileState = FileState::FileError;
+   FileState m_fileState = FileState::FileInSync;
    bool m_fileStateWasSetByInterfaceMethod = false;
 };
 

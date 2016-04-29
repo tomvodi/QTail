@@ -65,11 +65,12 @@ void FileWatcher::fileHasChanged()
     m_fileInfo.refresh();
 
     if (!m_fileInfo.exists()) {
+        emit fileRemoved();
         return;
     }
 
     qint64 newSize = m_fileInfo.size();
     if (newSize != oldSize) {
-        emit sizeChanged();
+        emit sizeChanged(oldSize, newSize);
     }
 }

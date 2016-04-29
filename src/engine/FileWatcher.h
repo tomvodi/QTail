@@ -24,7 +24,8 @@ public:
     QString filePath() const;
 
 signals:
-    void sizeChanged();
+    void sizeChanged(qint64 oldSize, qint64 newSize);
+    void fileRemoved();
 
 private slots:
     void fileHasChanged();

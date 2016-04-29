@@ -51,7 +51,7 @@ void FileListItemWidget::setFileState(FileState state)
     case FileState::FileError:
         ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-important.png"));
         break;
-    case FileState::FileHasNewLines:
+    case FileState::FileHasChanged:
         ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-generic.png"));
         break;
     case FileState::FileInSync:

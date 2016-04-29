@@ -64,7 +64,7 @@ void FileWatcherTest::testSizeChanged()
     QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLineAddedSignal.log"));
 
     QScopedPointer<FileWatcher> fileWatcher(new FileWatcher);
-    QSignalSpy spy(fileWatcher.data(), SIGNAL(sizeChanged()));
+    QSignalSpy spy(fileWatcher.data(), SIGNAL(sizeChanged(qint64, qint64)));
     fileWatcher->setFilePath(filePath);
 
     QFile outFile(filePath);
