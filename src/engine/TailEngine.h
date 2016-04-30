@@ -15,6 +15,8 @@
 #include <QFileInfo>
 #include <QSharedPointer>
 
+#include "ReloadAppendLogic.h"
+
 class FileViewInterface;
 class FileWatcher;
 
@@ -55,9 +57,12 @@ private:
       void addFileView(const FileView &fileView);
 
    private:
+      ReloadAppendLogic reloadAppendLogic() const;
+      void setReloadAppendLogic(const ReloadAppendLogic &reloadAppendLogic);
       QFileInfo m_fileInfo;
       FileViews m_fileViews;
       FileWatcher *m_fileWatcher;
+      ReloadAppendLogic m_reloadAppendLogic;
    };
 
    FileContext fileContextOfFile(const QFileInfo &file);

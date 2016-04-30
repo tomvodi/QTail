@@ -137,6 +137,7 @@ QFileInfo TailEngine::FileContext::fileInfo() const
 void TailEngine::FileContext::setFileInfo(const QFileInfo &fileInfo)
 {
    m_fileInfo = fileInfo;
+   m_reloadAppendLogic.setFile(fileInfo);
 }
 
 FileWatcher *TailEngine::FileContext::fileWatcher() const
@@ -162,4 +163,14 @@ void TailEngine::FileContext::setFileViews(const FileViews &fileViews)
 void TailEngine::FileContext::addFileView(const FileView &fileView)
 {
    m_fileViews << fileView;
+}
+
+ReloadAppendLogic TailEngine::FileContext::reloadAppendLogic() const
+{
+   return m_reloadAppendLogic;
+}
+
+void TailEngine::FileContext::setReloadAppendLogic(const ReloadAppendLogic &reloadAppendLogic)
+{
+   m_reloadAppendLogic = reloadAppendLogic;
 }
