@@ -14,7 +14,7 @@
 #include "FileWatcher.h"
 
 FileWatcher::FileWatcher(QObject *parent)
-   : QObject(parent),
+   : FileWatcherInterface(parent),
      m_fileSystemWatcher(new QFileSystemWatcher(this))
 {
    createConnections();
@@ -22,11 +22,12 @@ FileWatcher::FileWatcher(QObject *parent)
 
 void FileWatcher::createConnections()
 {
-
 }
 
 void FileWatcher::setFilePath(const QString &filePath)
 {
+   FileWatcherInterface::setFilePath(filePath);
+
    if (m_fileSystemWatcher->files().count() ||
        filePath.isEmpty() ||
        !QFile::exists(filePath)) {
@@ -42,17 +43,6 @@ void FileWatcher::setFilePath(const QString &filePath)
 
    connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged,
            this, &FileWatcher::fileHasChanged);
-}
-
-QString FileWatcher::filePath() const
-{
-   QString path;
-
-   if (m_fileSystemWatcher->files().count()) {
-      path = m_fileSystemWatcher->files().at(0);
-   }
-
-   return path;
 }
 
 void FileWatcher::fileHasChanged()

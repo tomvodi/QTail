@@ -12,7 +12,10 @@ set(Project_Sources
   ReloadAppendLogic.cpp
 
   FileViewInterface.cpp
+  FileWatcherInterface.cpp
+
   include/FileViewInterface.h
+  include/FileWatcherInterface.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})

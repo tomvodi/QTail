@@ -10,22 +10,17 @@
 #define FILEWATCHER_H
 
 #include <QFileInfo>
-#include <QObject>
+#include "include/FileWatcherInterface.h"
 
 class QFileSystemWatcher;
 
-class FileWatcher : public QObject
+class FileWatcher : public FileWatcherInterface
 {
    Q_OBJECT
 public:
    explicit FileWatcher(QObject *parent = 0);
 
    void setFilePath(const QString &filePath);
-   QString filePath() const;
-
-signals:
-   void sizeChanged(qint64 oldSize, qint64 newSize);
-   void fileRemoved();
 
 private slots:
    void fileHasChanged();

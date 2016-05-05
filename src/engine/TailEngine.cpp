@@ -10,6 +10,7 @@
 
 #include <QTextStream>
 
+#include "ReloadAppendLogic.h"
 #include "FileWatcher.h"
 #include "TailEngine.h"
 
@@ -31,6 +32,18 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    FileWatcher *fileWatcher = new FileWatcher(this);
    fileWatcher->setFilePath(file.absoluteFilePath());
 
+   ReloadAppendLogic *reloadAppendLogic = new ReloadAppendLogic(this);
+   reloadAppendLogic->setFileWatcher(fileWatcher);
+
+   if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
+      connect(reloadAppendLogic, &ReloadAppendLogic::fileCleared,
+              [view] { view->clearTextView(); });
+      connect(reloadAppendLogic, &ReloadAppendLogic::lineAppended,
+              [view] (const QString &line) { view->appendLine(line); });
+      connect(reloadAppendLogic, &ReloadAppendLogic::linesAppended,
+              [view] (const QStringList &lines) { view->appendLines(lines); });
+   }
+
    connect(fileWatcher, &FileWatcher::sizeChanged,
            [this, file] (qint64 oldSize, qint64 newSize) {
       handleChangedFileSize(file, oldSize, newSize);
@@ -45,6 +58,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    context.setFileInfo(file);
    context.addFileView(view);
    context.setFileWatcher(fileWatcher);
+   context.setReloadAppendLogic(reloadAppendLogic);
    setFileContextOfFile(file, context);
 
    handleChangedFileContent(file);
@@ -82,8 +96,6 @@ void TailEngine::handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qi
          view->setFileState(FileState::FileHasChanged);
       }
    }
-
-   handleChangedFileContent(file);
 }
 
 void TailEngine::handleChangedFileContent(const QFileInfo &file)
@@ -137,7 +149,6 @@ QFileInfo TailEngine::FileContext::fileInfo() const
 void TailEngine::FileContext::setFileInfo(const QFileInfo &fileInfo)
 {
    m_fileInfo = fileInfo;
-   m_reloadAppendLogic.setFile(fileInfo);
 }
 
 FileWatcher *TailEngine::FileContext::fileWatcher() const
@@ -165,12 +176,12 @@ void TailEngine::FileContext::addFileView(const FileView &fileView)
    m_fileViews << fileView;
 }
 
-ReloadAppendLogic TailEngine::FileContext::reloadAppendLogic() const
+ReloadAppendLogic *TailEngine::FileContext::reloadAppendLogic() const
 {
    return m_reloadAppendLogic;
 }
 
-void TailEngine::FileContext::setReloadAppendLogic(const ReloadAppendLogic &reloadAppendLogic)
+void TailEngine::FileContext::setReloadAppendLogic(ReloadAppendLogic *reloadAppendLogic)
 {
    m_reloadAppendLogic = reloadAppendLogic;
 }

@@ -26,6 +26,7 @@ public:
 private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
+   void testBaseImplementation();
    void testAddEmptyPath();
    void testSetGetFilePath();
    void testSizeChanged();
@@ -41,6 +42,13 @@ void FileWatcherTest::initTestCase()
 
 void FileWatcherTest::cleanupTestCase()
 {
+}
+
+void FileWatcherTest::testBaseImplementation()
+{
+   FileWatcher watcher;
+   watcher.setFilePath("kdkdkdkd");
+   QVERIFY2(!watcher.filePath().isEmpty(), "Base implementation of setFilePath wasn't called");
 }
 
 void FileWatcherTest::testAddEmptyPath()

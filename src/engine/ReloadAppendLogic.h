@@ -9,28 +9,37 @@
 #ifndef RELOADAPPENDLOGIC_H
 #define RELOADAPPENDLOGIC_H
 
+#include <QObject>
 #include <QFileInfo>
+#include <QPointer>
+
+class FileWatcherInterface;
 
 /*!
  * \brief The ReloadAppendLogic class
  * This class handles when to completely reload a file and when to simply append text to a file view.
  */
-class ReloadAppendLogic
+class ReloadAppendLogic : public QObject
 {
+   Q_OBJECT
 public:
-   ReloadAppendLogic();
+   ReloadAppendLogic(QObject *parent=0);
+   ~ReloadAppendLogic();
 
-   QFileInfo file() const;
-   void setFile(const QFileInfo &file);
+   void setFileWatcher(FileWatcherInterface *fileWatcher);
 
-   bool shouldReload() const;
+private slots:
+   void sizeChanged(qint64 oldSize, qint64 newSize);
+   void fileRemoved();
 
-   void setNewSize(qint64 newSize);
-
-   qint64 oldSize() const;
+signals:
+   void fileCleared();
+   void lineAppended(const QString &line);
+   void linesAppended(const QStringList &lines);
 
 private:
-   QFileInfo m_file;
+   QPointer<FileWatcherInterface> m_fileWatcher;
+   QFile *m_file;
    qint64 m_oldSize = 0;
 };
 
