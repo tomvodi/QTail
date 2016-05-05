@@ -10,7 +10,7 @@
 
 #include <QTextStream>
 
-#include "ReloadAppendLogic.h"
+#include "FileReadLogic.h"
 #include "FileWatcher.h"
 #include "TailEngine.h"
 
@@ -32,15 +32,15 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    FileWatcher *fileWatcher = new FileWatcher(this);
    fileWatcher->setFilePath(file.absoluteFilePath());
 
-   ReloadAppendLogic *reloadAppendLogic = new ReloadAppendLogic(this);
-   reloadAppendLogic->setFileWatcher(fileWatcher);
+   FileReadLogic *fileReadLogic = new FileReadLogic(this);
+   fileReadLogic->setFileWatcher(fileWatcher);
 
    if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
-      connect(reloadAppendLogic, &ReloadAppendLogic::fileCleared,
+      connect(fileReadLogic, &FileReadLogic::fileCleared,
               [view] { view->clearTextView(); });
-      connect(reloadAppendLogic, &ReloadAppendLogic::lineAppended,
+      connect(fileReadLogic, &FileReadLogic::lineAppended,
               [view] (const QString &line) { view->appendLine(line); });
-      connect(reloadAppendLogic, &ReloadAppendLogic::linesAppended,
+      connect(fileReadLogic, &FileReadLogic::linesAppended,
               [view] (const QStringList &lines) { view->appendLines(lines); });
    }
 
@@ -58,7 +58,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    context.setFileInfo(file);
    context.addFileView(view);
    context.setFileWatcher(fileWatcher);
-   context.setReloadAppendLogic(reloadAppendLogic);
+   context.setFileReadLogic(fileReadLogic);
    setFileContextOfFile(file, context);
 
    handleChangedFileContent(file);
@@ -176,12 +176,12 @@ void TailEngine::FileContext::addFileView(const FileView &fileView)
    m_fileViews << fileView;
 }
 
-ReloadAppendLogic *TailEngine::FileContext::reloadAppendLogic() const
+FileReadLogic *TailEngine::FileContext::fileReadLogic() const
 {
-   return m_reloadAppendLogic;
+   return m_fileReadLogic;
 }
 
-void TailEngine::FileContext::setReloadAppendLogic(ReloadAppendLogic *reloadAppendLogic)
+void TailEngine::FileContext::setFileReadLogic(FileReadLogic *fileReadLogic)
 {
-   m_reloadAppendLogic = reloadAppendLogic;
+   m_fileReadLogic = fileReadLogic;
 }

@@ -9,7 +9,7 @@ find_package( Qt5Core REQUIRED )
 set(Project_Sources
   FileWatcher.cpp
   TailEngine.cpp
-  ReloadAppendLogic.cpp
+  FileReadLogic.cpp
 
   FileViewInterface.cpp
   FileWatcherInterface.cpp

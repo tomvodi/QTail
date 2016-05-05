@@ -10,21 +10,21 @@
 
 #include <QTextStream>
 
-#include "ReloadAppendLogic.h"
+#include "FileReadLogic.h"
 
-ReloadAppendLogic::ReloadAppendLogic(QObject *parent)
+FileReadLogic::FileReadLogic(QObject *parent)
    : QObject(parent),
      m_file(new QFile())
 {
 
 }
 
-ReloadAppendLogic::~ReloadAppendLogic()
+FileReadLogic::~FileReadLogic()
 {
    delete m_file;
 }
 
-void ReloadAppendLogic::sizeChanged(qint64 oldSize, qint64 newSize)
+void FileReadLogic::sizeChanged(qint64 oldSize, qint64 newSize)
 {
    Q_UNUSED(oldSize);
    Q_UNUSED(newSize);
@@ -53,12 +53,12 @@ void ReloadAppendLogic::sizeChanged(qint64 oldSize, qint64 newSize)
    m_file->close();
 }
 
-void ReloadAppendLogic::fileRemoved()
+void FileReadLogic::fileRemoved()
 {
 
 }
 
-void ReloadAppendLogic::setFileWatcher(FileWatcherInterface *fileWatcher)
+void FileReadLogic::setFileWatcher(FileWatcherInterface *fileWatcher)
 {
    if (!m_fileWatcher.isNull()) {
       return;
@@ -68,7 +68,7 @@ void ReloadAppendLogic::setFileWatcher(FileWatcherInterface *fileWatcher)
    m_fileWatcher = fileWatcher;
 
    connect(fileWatcher, &FileWatcherInterface::sizeChanged,
-           this, &ReloadAppendLogic::sizeChanged);
+           this, &FileReadLogic::sizeChanged);
    connect(fileWatcher, &FileWatcherInterface::fileRemoved,
-           this, &ReloadAppendLogic::fileRemoved);
+           this, &FileReadLogic::fileRemoved);
 }

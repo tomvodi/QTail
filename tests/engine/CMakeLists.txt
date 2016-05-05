@@ -1,3 +1,3 @@
 add_subdirectory( FileWatcher )
 add_subdirectory( TailEngine )
-add_subdirectory( ReloadAppendLogic )
+add_subdirectory( FileReadLogic )

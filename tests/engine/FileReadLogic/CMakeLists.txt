@@ -1,4 +1,4 @@
-set( testname ReloadAppendLogicTest )
+set( testname FileReadLogicTest )
 set( testmodules Test Core )
 set( testlibraries TestCommon TailEngine )
 
