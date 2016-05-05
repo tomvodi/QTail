@@ -33,7 +33,8 @@ void FileReadLogic::sizeChanged(qint64 oldSize, qint64 newSize)
       return;
    }
 
-   if (!m_file->open(QIODevice::ReadOnly)) {
+   if (!m_file->isOpen() &&
+       !m_file->open(QIODevice::ReadOnly)) {
       return;
    }
 
@@ -71,4 +72,6 @@ void FileReadLogic::setFileWatcher(FileWatcherInterface *fileWatcher)
            this, &FileReadLogic::sizeChanged);
    connect(fileWatcher, &FileWatcherInterface::fileRemoved,
            this, &FileReadLogic::fileRemoved);
+
+   sizeChanged(0, 0);
 }

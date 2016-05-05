@@ -33,8 +33,6 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    fileWatcher->setFilePath(file.absoluteFilePath());
 
    FileReadLogic *fileReadLogic = new FileReadLogic(this);
-   fileReadLogic->setFileWatcher(fileWatcher);
-
    if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
       connect(fileReadLogic, &FileReadLogic::fileCleared,
               [view] { view->clearTextView(); });
@@ -43,6 +41,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
       connect(fileReadLogic, &FileReadLogic::linesAppended,
               [view] (const QStringList &lines) { view->appendLines(lines); });
    }
+   fileReadLogic->setFileWatcher(fileWatcher);
 
    connect(fileWatcher, &FileWatcher::sizeChanged,
            [this, file] (qint64 oldSize, qint64 newSize) {
@@ -60,8 +59,6 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    context.setFileWatcher(fileWatcher);
    context.setFileReadLogic(fileReadLogic);
    setFileContextOfFile(file, context);
-
-   handleChangedFileContent(file);
 }
 
 void TailEngine::removeFile(const QFileInfo &file)
@@ -94,27 +91,6 @@ void TailEngine::handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qi
    foreach (FileView view, context.fileViews()) {
       if (view->viewFeatures().testFlag(FileViewInterface::HasStateView)) {
          view->setFileState(FileState::FileHasChanged);
-      }
-   }
-}
-
-void TailEngine::handleChangedFileContent(const QFileInfo &file)
-{
-   FileContext context = fileContextOfFile(file);
-
-   // Handle file content
-   QFile textFile(file.absoluteFilePath());
-   textFile.open(QIODevice::ReadOnly);
-   QTextStream stream(&textFile);
-   QStringList lines;
-   while (!stream.atEnd()) {
-      lines << stream.readLine();
-   }
-
-   foreach (FileView view, context.fileViews()) {
-      if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
-         view->clearTextView();
-         view->appendLines(lines);
       }
    }
 }
