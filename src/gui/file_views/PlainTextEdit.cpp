@@ -7,9 +7,31 @@
  */
 
 #include "PlainTextEdit.h"
+#include "ui_PlainTextEdit.h"
 
-PlainTextEdit::PlainTextEdit()
+PlainTextEdit::PlainTextEdit(QWidget *parent) :
+   QFrame(parent),
+   ui(new Ui::PlainTextEdit)
 {
-   setReadOnly(true);
+   ui->setupUi(this);
 }
 
+PlainTextEdit::~PlainTextEdit()
+{
+   delete ui;
+}
+
+void PlainTextEdit::appendPlainText(const QString &text)
+{
+   ui->plainTextEdit->appendPlainText(text);
+}
+
+QString PlainTextEdit::toPlainText() const
+{
+   return ui->plainTextEdit->toPlainText();
+}
+
+void PlainTextEdit::clear()
+{
+   ui->plainTextEdit->clear();
+}

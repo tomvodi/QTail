@@ -9,13 +9,27 @@
 #ifndef PLAINTEXTEDIT_H
 #define PLAINTEXTEDIT_H
 
-#include <QPlainTextEdit>
-#include <include/FileViewInterface.h>
+#include <QFrame>
 
-class PlainTextEdit : public QPlainTextEdit
+namespace Ui {
+class PlainTextEdit;
+}
+
+class PlainTextEdit : public QFrame
 {
+   Q_OBJECT
+   friend class PlainTextEditTest;
+
 public:
-   PlainTextEdit();
+   explicit PlainTextEdit(QWidget *parent = 0);
+   ~PlainTextEdit();
+
+   void appendPlainText(const QString &text);
+   QString toPlainText() const;
+   void clear();
+
+private:
+   Ui::PlainTextEdit *ui;
 };
 
 #endif // PLAINTEXTEDIT_H

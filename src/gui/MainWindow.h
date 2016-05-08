@@ -21,7 +21,6 @@ class MainWindow;
 }
 class PlainTextEdit;
 class TailEngine;
-class PlainTextEdit;
 class FileListItemWidget;
 class QListWidgetItem;
 

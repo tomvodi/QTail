@@ -1,7 +1,5 @@
 project(QTail CXX)
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package( Qt5Widgets REQUIRED )
@@ -24,10 +22,11 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
 
 
 qt5_wrap_ui(Project_Sources
-    MainWindow.ui
-    AboutDialog.ui
+  MainWindow.ui
+  AboutDialog.ui
 
-    file_views/FileListItemWidget.ui
+  file_views/FileListItemWidget.ui
+  file_views/PlainTextEdit.ui
 )
 
 qt5_add_resources(Project_Sources

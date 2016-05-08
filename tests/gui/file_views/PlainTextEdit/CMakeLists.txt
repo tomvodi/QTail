@@ -7,10 +7,11 @@ find_package( Qt5Test REQUIRED )
 
 set( Test_SOURCES
         tst_${testname}.cpp
-	${source_dir}/gui/file_views/PlainTextEdit.cpp
+    ${source_dir}/gui/file_views/PlainTextEdit.cpp
         )
 
 set( Test_UIs
+    ${source_dir}/gui/file_views/PlainTextEdit.ui
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 

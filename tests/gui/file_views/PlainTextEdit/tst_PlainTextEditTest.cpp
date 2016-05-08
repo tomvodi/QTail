@@ -11,6 +11,7 @@
 #include <QCoreApplication>
 
 #include <gui/file_views/PlainTextEdit.h>
+#include "ui_PlainTextEdit.h"
 
 class PlainTextEditTest : public QObject
 {
@@ -40,7 +41,7 @@ void PlainTextEditTest::cleanupTestCase()
 void PlainTextEditTest::testSetup()
 {
    PlainTextEdit textEdit;
-   QVERIFY2(textEdit.isReadOnly(), "Text edit isn't read only");
+   QVERIFY2(textEdit.ui->plainTextEdit->isReadOnly(), "Text edit isn't read only");
 }
 
 QTEST_MAIN(PlainTextEditTest)
