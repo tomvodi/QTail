@@ -36,9 +36,11 @@ private Q_SLOTS:
    void testIfHasFileListItemWidgetForOpenFile();
    void testClosingFileWithFileItemCloseButton();
    void testOpenLastOpenedFiles();
+   void testOpenRecentFilesMenu();
 
 private:
    void clearLastOpenedFiles();
+   void clearRecentlyOpenedFiles();
 };
 
 MainWindowTest::MainWindowTest()
@@ -56,6 +58,7 @@ void MainWindowTest::cleanupTestCase()
 void MainWindowTest::init()
 {
    clearLastOpenedFiles();
+   clearRecentlyOpenedFiles();
 }
 
 void MainWindowTest::cleanup()
@@ -183,21 +186,80 @@ void MainWindowTest::testOpenLastOpenedFiles()
    QString firstItemPath = firstItem->data(window->FilePathDataRole).toString();
    Q_ASSERT(firstItemPath == filePath1);
 
+   // If file is closed, it shouldn't be opened on next startup
+   window->closeFileItem(window->ui->fileListWidget->item(1));
+
    window->close();
    delete window;
 
    window = new MainWindow;
-   QVERIFY2(window->ui->fileListWidget->count() == 2, "Last opened files weren't opened again.");
+   QVERIFY2(window->ui->fileListWidget->count() < 2, "Closed file wasn't removed from last opened files list.");
+   QVERIFY2(window->ui->fileListWidget->count() == 1, "Last opened files weren't opened again.");
 
    firstItem = window->ui->fileListWidget->item(0);
    firstItemPath = firstItem->data(window->FilePathDataRole).toString();
    QVERIFY2(firstItemPath == filePath1, "Last opened files were opened in wrong order.");
 }
 
+void MainWindowTest::testOpenRecentFilesMenu()
+{
+   QFileInfo file1(TestCommon::generateExistingFilePath("testOpenRecentFilesFile1"));
+   QFileInfo file2(TestCommon::generateExistingFilePath("testOpenRecentFilesFile2"));
+
+   MainWindow *window = new MainWindow;
+   window->openFile(file1.absoluteFilePath());
+   window->openFile(file2.absoluteFilePath());
+
+   // Test if all actions are present and in the correct order
+   auto actions = window->ui->menuRecentFiles->actions();
+   QVERIFY2(actions.count() == 2, "No actions were added to recent files menu");
+   QVERIFY2(actions.first()->text().contains(file2.fileName()), "Second opened file isn't at first position in recent file menu");
+
+   // Now, if both files are closed, and the first file is opened again,
+   // the first file should be at the first position and
+   // the list should only contain two items because the first file is already in the list.
+   window->closeFileItem(window->ui->fileListWidget->item(0));
+   window->closeFileItem(window->ui->fileListWidget->item(0));
+
+   window->openFile(file1.absoluteFilePath());
+   actions = window->ui->menuRecentFiles->actions();
+   QVERIFY2(actions.count() == 2, "An action was added to action list, despite the file is already in list.");
+   QVERIFY2(actions.first()->text().contains(file1.fileName()), "Reopened first files isn't at first position in recent file menu");
+
+   window->closeFileItem(window->ui->fileListWidget->item(0));
+   window->close();
+   delete window;
+
+   // Check if recently opened files list is loaded on startup.
+   window = new MainWindow;
+
+   actions = window->ui->menuRecentFiles->actions();
+   QVERIFY2(actions.count() == 2, "Recently opened files weren't stored into settings and loaded on startup.");
+   QVERIFY2(actions.first()->text().contains(file2.fileName()), "Recently opened files were stored in the wrong order.");
+
+   // Test if triggering an recent file action results in opening this file.
+   Q_ASSERT(window->ui->fileListWidget->count() == 0);
+   actions = window->ui->menuRecentFiles->actions();
+   Q_ASSERT(actions.count() == 2);
+   QAction *action = actions.at(1);
+   action->trigger();
+   QVERIFY2(window->ui->fileListWidget->count() == 1, "File wasn't opened after triggering a recently opened files action");
+   QListWidgetItem *item = window->ui->fileListWidget->item(0);
+   QString filePathInItem = item->data(window->FilePathDataRole).toString();
+   QString actionFilePath = action->data().toString();
+   QVERIFY2(filePathInItem == actionFilePath, "Wrong file was opened by triggering a recently opened files action.");
+}
+
 void MainWindowTest::clearLastOpenedFiles()
 {
    Settings settings;
    settings.setLastOpenedFiles(QStringList());
+}
+
+void MainWindowTest::clearRecentlyOpenedFiles()
+{
+   Settings settings;
+   settings.setRecentlyOpenedFiles(QStringList());
 }
 
 QTEST_MAIN(MainWindowTest)

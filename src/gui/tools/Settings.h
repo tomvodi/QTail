@@ -22,6 +22,9 @@ public:
     void setLastOpenedFiles(const QStringList &files);
     QStringList lastOpenedFiles() const;
 
+    void setRecentlyOpenedFiles(const QStringList &files);
+    QStringList recentlyOpenedFiles() const;
+
 private:
     QSettings m_settings;
 };

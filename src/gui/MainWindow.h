@@ -56,12 +56,15 @@ private:
    static const int FilePathDataRole = Qt::UserRole + 1;
 
    void createConnections();
-   void openFile(const QString &filePath);
+   void openFile(const QString &filePath, bool justOpenFile=false);
    void showFile(const QString &filePath);
    void closeFileItem(QListWidgetItem *listItem);
    void openLastOpenedFiles();
    void saveLastOpenedFiles();
+   void saveRecentlyOpenedFiles();
    QString filePathOfFileListIndex(int index);
+   void addRecentlyOpenedFile(const QFileInfo &fileInfo);
+   void initRecentlyOpenedFilesMenu();
    Ui::MainWindow *ui;
    Settings m_settings;
    TailEngine *m_tailEngine = nullptr;

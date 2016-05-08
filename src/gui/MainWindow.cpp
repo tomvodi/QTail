@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    createConnections();
    openLastOpenedFiles();
+   initRecentlyOpenedFilesMenu();
 }
 
 MainWindow::~MainWindow()
@@ -78,7 +79,13 @@ void MainWindow::createConnections()
    });
 }
 
-void MainWindow::openFile(const QString &filePath)
+/*!
+ * \brief MainWindow::openFile
+ * \param filePath The path to the file to open.
+ * \param justOpenFile If set to true, opening the file won't save the last opened files
+ * or the recently opened files.
+ */
+void MainWindow::openFile(const QString &filePath, bool justOpenFile)
 {
    QFileInfo fileInfo(filePath);
    QString insertPath = fileInfo.absoluteFilePath();
@@ -113,7 +120,10 @@ void MainWindow::openFile(const QString &filePath)
 
    m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
 
-   saveLastOpenedFiles();
+   if (!justOpenFile) {
+      saveLastOpenedFiles();
+      addRecentlyOpenedFile(fileInfo);
+   }
 }
 
 void MainWindow::showFile(const QString &filePath)
@@ -141,13 +151,15 @@ void MainWindow::closeFileItem(QListWidgetItem *listItem)
    if (viewItems.plainTextEdit()) {
       delete viewItems.plainTextEdit();
    }
+
+   saveLastOpenedFiles();
 }
 
 void MainWindow::openLastOpenedFiles()
 {
    QStringList lastOpenedFiles = m_settings.lastOpenedFiles();
    foreach (const QString &lastOpenedFile, lastOpenedFiles) {
-      openFile(lastOpenedFile);
+      openFile(lastOpenedFile, true);
    }
 }
 
@@ -166,6 +178,21 @@ void MainWindow::saveLastOpenedFiles()
    m_settings.setLastOpenedFiles(lastOpenFiles);
 }
 
+void MainWindow::saveRecentlyOpenedFiles()
+{
+   QStringList recentlyOpenedFiles;
+   foreach (QAction *action, ui->menuRecentFiles->actions()) {
+      QString filePath = action->data().toString();
+      if (filePath.isEmpty()) {
+         continue;
+      }
+
+      recentlyOpenedFiles << filePath;
+   }
+
+   m_settings.setRecentlyOpenedFiles(recentlyOpenedFiles);
+}
+
 QString MainWindow::filePathOfFileListIndex(int index)
 {
    if (index < 0 ||
@@ -180,6 +207,45 @@ QString MainWindow::filePathOfFileListIndex(int index)
 
    QString itemPath = listItem->data(FilePathDataRole).toString();
    return itemPath;
+}
+
+void MainWindow::addRecentlyOpenedFile(const QFileInfo &fileInfo)
+{
+   QAction *mostRecentAction = new QAction(fileInfo.fileName(), this);
+   mostRecentAction->setData(fileInfo.absoluteFilePath());
+   connect(mostRecentAction, &QAction::triggered,
+           [this, fileInfo] {
+      openFile(fileInfo.absoluteFilePath());
+   });
+
+   QList<QAction*> actions = ui->menuRecentFiles->actions();
+   QList<QAction*> newActions;
+   foreach (QAction *action, actions) {
+      ui->menuRecentFiles->removeAction(action);
+
+      // Add to new actions list only if it doesn't point to same file as the one
+      // that should be added.
+      if (action->data().toString() != fileInfo.absoluteFilePath()) {
+         newActions.append(action);
+      }
+   }
+
+   newActions.prepend(mostRecentAction);
+   ui->menuRecentFiles->addActions(newActions);
+
+   saveRecentlyOpenedFiles();
+}
+
+void MainWindow::initRecentlyOpenedFilesMenu()
+{
+   foreach (const QString &recentFile, m_settings.recentlyOpenedFiles()) {
+      if (recentFile.isEmpty()) {
+         continue;
+      }
+
+      QFileInfo fileInfo(recentFile);
+      addRecentlyOpenedFile(fileInfo);
+   }
 }
 
 QPointer<PlainTextEdit> MainWindow::FileViewItems::plainTextEdit() const

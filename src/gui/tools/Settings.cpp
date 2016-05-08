@@ -10,7 +10,8 @@
 #include <QCoreApplication>
 
 static const QString LastOpenDirValueName("last open dir");
-static const QString LastOpenFilesValueName("last open files");
+static const QString LastOpenedFilesValueName("last open files");
+static const QString RecentlyOpenedFilesValueName("recent files");
 
 Settings::Settings()
 {
@@ -28,7 +29,7 @@ QDir Settings::lastOpenDir() const
 
 void Settings::setLastOpenedFiles(const QStringList &files)
 {
-   m_settings.setValue(LastOpenFilesValueName, files);
+   m_settings.setValue(LastOpenedFilesValueName, files);
 }
 
 /*!
@@ -37,5 +38,16 @@ void Settings::setLastOpenedFiles(const QStringList &files)
  */
 QStringList Settings::lastOpenedFiles() const
 {
-   return m_settings.value(LastOpenFilesValueName).toStringList();
+   return m_settings.value(LastOpenedFilesValueName).toStringList();
 }
+
+void Settings::setRecentlyOpenedFiles(const QStringList &files)
+{
+   m_settings.setValue(RecentlyOpenedFilesValueName, files);
+}
+
+QStringList Settings::recentlyOpenedFiles() const
+{
+   return m_settings.value(RecentlyOpenedFilesValueName).toStringList();
+}
+
