@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
    m_tailEngine = new TailEngine(this);
 
    createConnections();
+   openLastOpenedFiles();
 }
 
 MainWindow::~MainWindow()
@@ -111,6 +112,8 @@ void MainWindow::openFile(const QString &filePath)
    ui->fileListWidget->setCurrentRow(ui->fileListWidget->row(item));
 
    m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
+
+   saveLastOpenedFiles();
 }
 
 void MainWindow::showFile(const QString &filePath)
@@ -138,6 +141,45 @@ void MainWindow::closeFileItem(QListWidgetItem *listItem)
    if (viewItems.plainTextEdit()) {
       delete viewItems.plainTextEdit();
    }
+}
+
+void MainWindow::openLastOpenedFiles()
+{
+   QStringList lastOpenedFiles = m_settings.lastOpenedFiles();
+   foreach (const QString &lastOpenedFile, lastOpenedFiles) {
+      openFile(lastOpenedFile);
+   }
+}
+
+void MainWindow::saveLastOpenedFiles()
+{
+   QStringList lastOpenFiles;
+   for (int i=0; i<ui->fileListWidget->count(); ++i) {
+      QString filePath = filePathOfFileListIndex(i);
+      if (filePath.isEmpty()) {
+         continue;
+      }
+
+      lastOpenFiles << filePath;
+   }
+
+   m_settings.setLastOpenedFiles(lastOpenFiles);
+}
+
+QString MainWindow::filePathOfFileListIndex(int index)
+{
+   if (index < 0 ||
+       index >= ui->fileListWidget->count()) {
+      return QStringLiteral("");
+   }
+
+   QListWidgetItem *listItem = ui->fileListWidget->item(index);
+   if (!listItem) {
+      return QStringLiteral("");
+   }
+
+   QString itemPath = listItem->data(FilePathDataRole).toString();
+   return itemPath;
 }
 
 QPointer<PlainTextEdit> MainWindow::FileViewItems::plainTextEdit() const

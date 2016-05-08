@@ -59,6 +59,9 @@ private:
    void openFile(const QString &filePath);
    void showFile(const QString &filePath);
    void closeFileItem(QListWidgetItem *listItem);
+   void openLastOpenedFiles();
+   void saveLastOpenedFiles();
+   QString filePathOfFileListIndex(int index);
    Ui::MainWindow *ui;
    Settings m_settings;
    TailEngine *m_tailEngine = nullptr;

@@ -19,6 +19,9 @@ public:
     void setLastOpenDir(const QDir &dir);
     QDir lastOpenDir() const;
 
+    void setLastOpenedFiles(const QStringList &files);
+    QStringList lastOpenedFiles() const;
+
 private:
     QSettings m_settings;
 };

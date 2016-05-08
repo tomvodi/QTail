@@ -14,6 +14,7 @@
 #include <gui/MainWindow.h>
 #include <gui/file_views/PlainTextEdit.h>
 #include <gui/file_views/FileListItemWidget.h>
+#include <gui/tools/Settings.h>
 #include <ui_MainWindow.h>
 
 class MainWindowTest : public QObject
@@ -26,12 +27,18 @@ public:
 private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
+   void init();
+   void cleanup();
    void testSetup();
    void testOpenFile_fileInList();
    void testOpenFile_noDuplicates();
    void testOpenFile_textEditVisible();
    void testIfHasFileListItemWidgetForOpenFile();
    void testClosingFileWithFileItemCloseButton();
+   void testOpenLastOpenedFiles();
+
+private:
+   void clearLastOpenedFiles();
 };
 
 MainWindowTest::MainWindowTest()
@@ -44,6 +51,16 @@ void MainWindowTest::initTestCase()
 
 void MainWindowTest::cleanupTestCase()
 {
+}
+
+void MainWindowTest::init()
+{
+   clearLastOpenedFiles();
+}
+
+void MainWindowTest::cleanup()
+{
+
 }
 
 void MainWindowTest::testSetup()
@@ -150,6 +167,37 @@ void MainWindowTest::testClosingFileWithFileItemCloseButton()
 
    // Just because this was the last file closed, there shouldn't be any text edit in the stacked widget
    QVERIFY2(window.ui->stackedWidget->count() == 0, "At least one text edit is still in stacked widget after last file closed.");
+}
+
+void MainWindowTest::testOpenLastOpenedFiles()
+{
+   QString filePath1 = TestCommon::generateExistingFilePath("testOpenLastOpenedFiles1");
+   QString filePath2 = TestCommon::generateExistingFilePath("testOpenLastOpenedFiles2");
+
+   MainWindow *window = new MainWindow;
+   window->openFile(filePath1);
+   window->openFile(filePath2);
+   Q_ASSERT(window->ui->fileListWidget->count() == 2);
+
+   QListWidgetItem *firstItem = window->ui->fileListWidget->item(0);
+   QString firstItemPath = firstItem->data(window->FilePathDataRole).toString();
+   Q_ASSERT(firstItemPath == filePath1);
+
+   window->close();
+   delete window;
+
+   window = new MainWindow;
+   QVERIFY2(window->ui->fileListWidget->count() == 2, "Last opened files weren't opened again.");
+
+   firstItem = window->ui->fileListWidget->item(0);
+   firstItemPath = firstItem->data(window->FilePathDataRole).toString();
+   QVERIFY2(firstItemPath == filePath1, "Last opened files were opened in wrong order.");
+}
+
+void MainWindowTest::clearLastOpenedFiles()
+{
+   Settings settings;
+   settings.setLastOpenedFiles(QStringList());
 }
 
 QTEST_MAIN(MainWindowTest)
