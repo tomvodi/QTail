@@ -45,6 +45,8 @@ private:
 
 MainWindowTest::MainWindowTest()
 {
+   QCoreApplication::setOrganizationName("QTail");
+   QCoreApplication::setApplicationName("MainWindowTest");
 }
 
 void MainWindowTest::initTestCase()
