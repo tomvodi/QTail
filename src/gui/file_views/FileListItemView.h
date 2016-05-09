@@ -21,6 +21,8 @@ class FileListItemWidget;
  */
 class FileListItemView : public FileViewInterface
 {
+   friend class FileListItemViewTest;
+
 public:
    FileListItemView(QObject *parent=0);
    ~FileListItemView();
