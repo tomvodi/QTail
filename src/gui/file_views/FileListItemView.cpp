@@ -12,6 +12,8 @@
 FileListItemView::FileListItemView()
    : m_listWidget(new FileListItemWidget)
 {
+   connect(m_listWidget.data(), &FileListItemWidget::closeFileRequested,
+           this, &FileListItemView::requestCloseFile);
 }
 
 FileListItemView::~FileListItemView()
@@ -29,8 +31,12 @@ void FileListItemView::setFileState(FileState state)
    m_listWidget->setFileState(state);
 }
 
-QPointer<FileListItemWidget> FileListItemView::listWidget() const
+QPointer<QWidget> FileListItemView::widget() const
 {
-   return m_listWidget;
+   return QPointer<QWidget>(m_listWidget);
 }
 
+void FileListItemView::setFileInfo(const QFileInfo &fileInfo)
+{
+   m_listWidget->setFileName(fileInfo.fileName());
+}

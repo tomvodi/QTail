@@ -19,7 +19,7 @@ class FileReadLogic;
 class FileViewInterface;
 class FileWatcher;
 
-typedef QSharedPointer<FileViewInterface> FileView;
+typedef QPointer<FileViewInterface> FileView;
 typedef QList<FileView> FileViews;
 
 uint qHash(const QFileInfo &fileInfo);

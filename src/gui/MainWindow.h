@@ -19,7 +19,6 @@
 namespace Ui {
 class MainWindow;
 }
-class PlainTextEdit;
 class TailEngine;
 class FileListItemWidget;
 class QListWidgetItem;
@@ -41,14 +40,19 @@ private:
    class FileViewItems {
    public:
       FileViewItems() {}
-      QPointer<PlainTextEdit> plainTextEdit() const;
-      void setPlainTextEdit(const QPointer<PlainTextEdit> &plainTextEdit);
 
       QPointer<FileListItemWidget> fileListItemWidget() const;
       void setFileListItemWidget(const QPointer<FileListItemWidget> &fileListItemWidget);
 
+      QPointer<QWidget> viewWidget() const;
+      void setViewWidget(const QPointer<QWidget> &viewWidget);
+
+      QPointer<QWidget> listWidget() const;
+      void setListWidget(const QPointer<QWidget> &listWidget);
+
    private:
-      QPointer<PlainTextEdit> m_plainTextEdit;
+      QPointer<QWidget> m_viewWidget;
+      QPointer<QWidget> m_listWidget;
       QPointer<FileListItemWidget> m_fileListItemWidget;
    };
 

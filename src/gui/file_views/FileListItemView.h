@@ -28,8 +28,8 @@ public:
    // FileViewInterface interface
    FileViewInterface::Features viewFeatures() const override;
    void setFileState(FileState state) override;
-
-   QPointer<FileListItemWidget> listWidget() const;
+   QPointer<QWidget> widget() const override;
+   void setFileInfo(const QFileInfo &fileInfo) override;
 
 private:
    QPointer<FileListItemWidget> m_listWidget;

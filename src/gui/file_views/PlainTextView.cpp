@@ -48,3 +48,8 @@ QPointer<PlainTextEdit> PlainTextView::textEdit() const
 {
    return m_textEdit;
 }
+
+QPointer<QWidget> PlainTextView::widget() const
+{
+   return QPointer<QWidget>(m_textEdit);
+}

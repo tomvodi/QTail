@@ -96,24 +96,24 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    }
 
    FileListItemView *listItemView = new FileListItemView;
+   listItemView->setFileInfo(fileInfo);
    PlainTextView *plainTextView = new PlainTextView;
    QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);
 
    FileViewItems viewItems;
-   viewItems.setFileListItemWidget(listItemView->listWidget());
-   viewItems.setPlainTextEdit(plainTextView->textEdit());
+   viewItems.setListWidget(listItemView->widget());
+   viewItems.setViewWidget(plainTextView->widget());
 
    ui->stackedWidget->addWidget(plainTextView->textEdit());
    m_fileViewItems.insert(insertPath, viewItems);
 
    item->setData(FilePathDataRole, fileInfo.absoluteFilePath());
    ui->fileListWidget->addItem(item);
-   FileListItemWidget *itemWidget = listItemView->listWidget();
-   connect(itemWidget, &FileListItemWidget::closeFileRequested,
+   QWidget *itemWidget = listItemView->widget();
+   connect(listItemView, &FileListItemView::requestCloseFile,
            [this, item] {
       closeFileItem(item);
    });
-   itemWidget->setFileName(fileInfo.fileName());
    item->setSizeHint(itemWidget->sizeHint());
    ui->fileListWidget->setItemWidget(item, itemWidget);
    ui->fileListWidget->setCurrentRow(ui->fileListWidget->row(item));
@@ -130,8 +130,8 @@ void MainWindow::showFile(const QString &filePath)
 {
    FileViewItems viewItems = m_fileViewItems.value(filePath);
 
-   if (viewItems.plainTextEdit()) {
-      ui->stackedWidget->setCurrentWidget(viewItems.plainTextEdit());
+   if (viewItems.viewWidget()) {
+      ui->stackedWidget->setCurrentWidget(viewItems.viewWidget());
    }
 }
 
@@ -145,11 +145,11 @@ void MainWindow::closeFileItem(QListWidgetItem *listItem)
 
    FileViewItems viewItems = m_fileViewItems.take(filePath);
 
-   if (viewItems.fileListItemWidget()) {
-      delete viewItems.fileListItemWidget();
+   if (viewItems.listWidget()) {
+      delete viewItems.listWidget();
    }
-   if (viewItems.plainTextEdit()) {
-      delete viewItems.plainTextEdit();
+   if (viewItems.viewWidget()) {
+      delete viewItems.viewWidget();
    }
 
    saveLastOpenedFiles();
@@ -248,16 +248,6 @@ void MainWindow::initRecentlyOpenedFilesMenu()
    }
 }
 
-QPointer<PlainTextEdit> MainWindow::FileViewItems::plainTextEdit() const
-{
-   return m_plainTextEdit;
-}
-
-void MainWindow::FileViewItems::setPlainTextEdit(const QPointer<PlainTextEdit> &plainTextEdit)
-{
-   m_plainTextEdit = plainTextEdit;
-}
-
 QPointer<FileListItemWidget> MainWindow::FileViewItems::fileListItemWidget() const
 {
    return m_fileListItemWidget;
@@ -266,4 +256,24 @@ QPointer<FileListItemWidget> MainWindow::FileViewItems::fileListItemWidget() con
 void MainWindow::FileViewItems::setFileListItemWidget(const QPointer<FileListItemWidget> &fileListItemWidget)
 {
    m_fileListItemWidget = fileListItemWidget;
+}
+
+QPointer<QWidget> MainWindow::FileViewItems::viewWidget() const
+{
+   return m_viewWidget;
+}
+
+void MainWindow::FileViewItems::setViewWidget(const QPointer<QWidget> &viewWidget)
+{
+   m_viewWidget = viewWidget;
+}
+
+QPointer<QWidget> MainWindow::FileViewItems::listWidget() const
+{
+   return m_listWidget;
+}
+
+void MainWindow::FileViewItems::setListWidget(const QPointer<QWidget> &listWidget)
+{
+   m_listWidget = listWidget;
 }

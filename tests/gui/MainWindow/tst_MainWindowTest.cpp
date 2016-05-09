@@ -125,7 +125,7 @@ void MainWindowTest::testOpenFile_textEditVisible()
 
    // Check if correct text edit is visible
    MainWindow::FileViewItems viewItems = window.m_fileViewItems.value(filePath);
-   QVERIFY2(viewItems.plainTextEdit() == window.ui->stackedWidget->currentWidget(),
+   QVERIFY2(viewItems.viewWidget() == window.ui->stackedWidget->currentWidget(),
             "The current visible text edit isn't the one of the most recent opened file.");
 }
 

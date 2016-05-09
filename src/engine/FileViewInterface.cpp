@@ -13,6 +13,11 @@ void FileViewInterface::setFileState(FileState state)
    Q_UNUSED(state);
 }
 
+void FileViewInterface::setFileInfo(const QFileInfo &fileInfo)
+{
+   Q_UNUSED(fileInfo);
+}
+
 FileViewInterface::Features FileViewInterface::viewFeatures() const
 {
    return FileViewInterface::NoFeature;
@@ -31,3 +36,9 @@ void FileViewInterface::appendLines(const QStringList &lines)
 void FileViewInterface::clearTextView()
 {
 }
+
+QPointer<QWidget> FileViewInterface::widget() const
+{
+   return QPointer<QWidget>();
+}
+

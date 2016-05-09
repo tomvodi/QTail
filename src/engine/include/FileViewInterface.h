@@ -12,6 +12,9 @@
 #include <QFlags>
 #include <QString>
 #include <QStringList>
+#include <QPointer>
+#include <QObject>
+#include <QFileInfo>
 
 enum class FileState {
    FileError,   //! File doesn't exist
@@ -23,8 +26,9 @@ enum class FileState {
  * \brief The FileViewInterface class
  *  The FileViewInterface is an base class for a general file view.
  */
-class FileViewInterface
+class FileViewInterface : public QObject
 {
+   Q_OBJECT
 public:
    enum Feature {
       NoFeature = 0x00,
@@ -33,18 +37,24 @@ public:
    };
    Q_DECLARE_FLAGS(Features, Feature)
 
-   FileViewInterface() {}
+   FileViewInterface(QObject *parent=0)
+      : QObject(parent) {}
    virtual ~FileViewInterface() {}
 
+   virtual void setFileInfo(const QFileInfo &fileInfo);
    virtual FileViewInterface::Features viewFeatures() const;
+   virtual QPointer<QWidget> widget() const;
 
    // FileState feature methods
    virtual void setFileState(FileState state);
 
-   // TextView feature methods
+   // View feature methods
    virtual void appendLine(const QString &line);
    virtual void appendLines(const QStringList &lines);
    virtual void clearTextView();
+
+signals:
+   void requestCloseFile();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(FileViewInterface::Features)

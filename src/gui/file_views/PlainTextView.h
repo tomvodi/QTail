@@ -25,6 +25,7 @@ public:
    void appendLine(const QString &line) override;
    void appendLines(const QStringList &lines) override;
    void clearTextView() override;
+   QPointer<QWidget> widget() const override;
 
    QPointer<PlainTextEdit> textEdit() const;
 
