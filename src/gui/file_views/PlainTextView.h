@@ -18,7 +18,7 @@ class PlainTextEdit;
 class PlainTextView : public FileViewInterface
 {
 public:
-   PlainTextView();
+   PlainTextView(QObject *parent=0);
 
    // FileViewInterface interface
    FileViewInterface::Features viewFeatures() const override;

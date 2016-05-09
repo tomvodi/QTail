@@ -9,8 +9,9 @@
 #include "FileListItemWidget.h"
 #include "FileListItemView.h"
 
-FileListItemView::FileListItemView()
-   : m_listWidget(new FileListItemWidget)
+FileListItemView::FileListItemView(QObject *parent)
+   : FileViewInterface(parent),
+     m_listWidget(new FileListItemWidget)
 {
    connect(m_listWidget.data(), &FileListItemWidget::closeFileRequested,
            this, &FileListItemView::requestCloseFile);

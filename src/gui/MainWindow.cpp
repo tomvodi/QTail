@@ -95,9 +95,10 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
       return;
    }
 
-   FileListItemView *listItemView = new FileListItemView;
+   FileListItemView *listItemView = new FileListItemView(this);
    listItemView->setFileInfo(fileInfo);
-   PlainTextView *plainTextView = new PlainTextView;
+   PlainTextView *plainTextView = new PlainTextView(this);
+   plainTextView->setFileInfo(fileInfo);
    QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);
 
    FileViewItems viewItems;

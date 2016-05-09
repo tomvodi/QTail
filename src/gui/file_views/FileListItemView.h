@@ -22,7 +22,7 @@ class FileListItemWidget;
 class FileListItemView : public FileViewInterface
 {
 public:
-   FileListItemView();
+   FileListItemView(QObject *parent=0);
    ~FileListItemView();
 
    // FileViewInterface interface

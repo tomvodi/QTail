@@ -8,7 +8,8 @@
 
 #include "MocFileView.h"
 
-MocFileView::MocFileView()
+MocFileView::MocFileView(QObject *parent)
+   : FileViewInterface(parent)
 {
 }
 
@@ -38,6 +39,11 @@ void MocFileView::clearTextView()
    m_textViewLines.clear();
 }
 
+void MocFileView::setFileInfo(const QFileInfo &fileInfo)
+{
+   m_fileInfo = fileInfo;
+}
+
 QStringList MocFileView::textViewLines() const
 {
    return m_textViewLines;
@@ -46,6 +52,11 @@ QStringList MocFileView::textViewLines() const
 void MocFileView::setTextViewLines(const QStringList &textViewLines)
 {
    m_textViewLines = textViewLines;
+}
+
+QFileInfo MocFileView::fileInfo() const
+{
+   return m_fileInfo;
 }
 
 bool MocFileView::fileStateWasSetByInterfaceMethod() const

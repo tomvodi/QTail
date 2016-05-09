@@ -9,8 +9,9 @@
 #include "PlainTextEdit.h"
 #include "PlainTextView.h"
 
-PlainTextView::PlainTextView()
-   : m_textEdit(new PlainTextEdit)
+PlainTextView::PlainTextView(QObject *parent)
+   : FileViewInterface(parent),
+     m_textEdit(new PlainTextEdit)
 {
 }
 

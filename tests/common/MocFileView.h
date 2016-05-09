@@ -14,7 +14,7 @@
 class MocFileView : public FileViewInterface
 {
 public:
-   MocFileView();
+   MocFileView(QObject *parent=0);
 
    // FileViewInterface interface
    FileViewInterface::Features viewFeatures() const override;
@@ -22,11 +22,13 @@ public:
    void appendLine(const QString &line) override;
    void appendLines(const QStringList &lines) override;
    void clearTextView() override;
+   void setFileInfo(const QFileInfo &fileInfo) override;
 
    QStringList textViewLines() const;
    void setViewFeatures(const FileViewInterface::Features &viewFeatures);
    FileState fileState() const;
    bool fileStateWasSetByInterfaceMethod() const;
+   QFileInfo fileInfo() const;
 
 private:
    void setTextViewLines(const QStringList &textViewLines);
@@ -34,6 +36,7 @@ private:
    FileViewInterface::Features m_viewFeatures = FileViewInterface::NoFeature;
    FileState m_fileState = FileState::FileInSync;
    bool m_fileStateWasSetByInterfaceMethod = false;
+   QFileInfo m_fileInfo;
 };
 
 #endif // MOCFILEVIEW_H
