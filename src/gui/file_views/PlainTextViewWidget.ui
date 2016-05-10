@@ -91,7 +91,7 @@
   <customwidget>
    <class>PlainTextEdit</class>
    <extends>QPlainTextEdit</extends>
-   <header>PlainTextEdit.h</header>
+   <header location="global">PlainTextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

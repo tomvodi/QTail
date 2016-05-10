@@ -4,6 +4,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package( Qt5Widgets REQUIRED )
 
+include_directories(${CMAKE_CURRENT_LIST_DIR}/file_views)
+
 set(Project_Sources
   main.cpp
   MainWindow.cpp
