@@ -112,6 +112,7 @@ void TailEngineTest::testFileStateRemovedFile()
    QTextStream stream(&outFile);
    stream << "Test text";
    stream.flush();
+   outFile.close();
    TestCommon::waitMsecs(100);
 
    Q_ASSERT(fileView->fileState() == FileState::FileHasChanged);
