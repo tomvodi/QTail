@@ -63,7 +63,7 @@
        <number>0</number>
       </property>
       <item row="0" column="0">
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="followTailCheckBox">
         <property name="text">
          <string>Follow</string>
         </property>

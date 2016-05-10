@@ -14,6 +14,11 @@ PlainTextEdit::PlainTextEdit(QWidget *parent) :
    ui(new Ui::PlainTextEdit)
 {
    ui->setupUi(this);
+
+   ui->plainTextEdit->setCenterOnScroll(true);
+
+   connect(ui->followTailCheckBox, &QCheckBox::toggled,
+           this, &PlainTextEdit::setFollowTailEnabled);
 }
 
 PlainTextEdit::~PlainTextEdit()
@@ -34,4 +39,8 @@ QString PlainTextEdit::toPlainText() const
 void PlainTextEdit::clear()
 {
    ui->plainTextEdit->clear();
+}
+
+void PlainTextEdit::setFollowTailEnabled(bool enabled)
+{
 }

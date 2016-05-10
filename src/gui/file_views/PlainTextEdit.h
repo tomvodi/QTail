@@ -29,6 +29,7 @@ public:
    void clear();
 
 private:
+   void setFollowTailEnabled(bool enabled);
    Ui::PlainTextEdit *ui;
 };
 
