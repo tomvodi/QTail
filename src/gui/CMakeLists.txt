@@ -13,6 +13,7 @@ set(Project_Sources
   file_views/FileListItemWidget.cpp
   file_views/PlainTextView.cpp
   file_views/PlainTextViewWidget.cpp
+  file_views/PlainTextEdit.cpp
 
   tools/Settings.cpp
 )

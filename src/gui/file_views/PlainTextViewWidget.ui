@@ -73,7 +73,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QPlainTextEdit" name="plainTextEdit">
+    <widget class="PlainTextEdit" name="plainTextEdit">
      <property name="frameShape">
       <enum>QFrame::Box</enum>
      </property>
@@ -87,6 +87,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>PlainTextEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -15,8 +15,6 @@ PlainTextViewWidget::PlainTextViewWidget(QWidget *parent) :
 {
    ui->setupUi(this);
 
-   ui->plainTextEdit->setCenterOnScroll(true);
-
    connect(ui->followTailCheckBox, &QCheckBox::toggled,
            this, &PlainTextViewWidget::setFollowTailEnabled);
 }

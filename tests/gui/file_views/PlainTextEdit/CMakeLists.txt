@@ -11,7 +11,6 @@ set( Test_SOURCES
         )
 
 set( Test_UIs
-    ${source_dir}/gui/file_views/PlainTextEdit.ui
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 

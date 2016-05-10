@@ -8,6 +8,7 @@ find_package( Qt5Test REQUIRED )
 set( Test_SOURCES
         tst_${testname}.cpp
     ${source_dir}/gui/file_views/PlainTextViewWidget.cpp
+    ${source_dir}/gui/file_views/PlainTextEdit.cpp
         )
 
 set( Test_UIs
