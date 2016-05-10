@@ -12,7 +12,6 @@
 
 #include <TestCommon.h>
 #include <gui/MainWindow.h>
-#include <gui/file_views/PlainTextEdit.h>
 #include <gui/file_views/FileListItemWidget.h>
 #include <gui/tools/Settings.h>
 #include <ui_MainWindow.h>

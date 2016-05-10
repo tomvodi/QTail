@@ -18,7 +18,6 @@
 #include <TailEngine.h>
 
 #include "file_views/PlainTextView.h"
-#include "file_views/PlainTextEdit.h"
 #include "file_views/FileListItemView.h"
 #include "file_views/FileListItemWidget.h"
 
@@ -105,7 +104,7 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    viewItems.setListWidget(listItemView->widget());
    viewItems.setViewWidget(plainTextView->widget());
 
-   ui->stackedWidget->addWidget(plainTextView->textEdit());
+   ui->stackedWidget->addWidget(plainTextView->widget());
    m_fileViewItems.insert(insertPath, viewItems);
 
    item->setData(FilePathDataRole, fileInfo.absoluteFilePath());

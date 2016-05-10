@@ -12,7 +12,7 @@ set(Project_Sources
   file_views/FileListItemView.cpp
   file_views/FileListItemWidget.cpp
   file_views/PlainTextView.cpp
-  file_views/PlainTextEdit.cpp
+  file_views/PlainTextViewWidget.cpp
 
   tools/Settings.cpp
 )
@@ -26,7 +26,7 @@ qt5_wrap_ui(Project_Sources
   AboutDialog.ui
 
   file_views/FileListItemWidget.ui
-  file_views/PlainTextEdit.ui
+  file_views/PlainTextViewWidget.ui
 )
 
 qt5_add_resources(Project_Sources

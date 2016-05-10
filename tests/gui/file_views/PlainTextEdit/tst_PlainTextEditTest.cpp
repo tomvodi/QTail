@@ -50,7 +50,7 @@ void PlainTextEditTest::cleanupTestCase()
 
 void PlainTextEditTest::testSetup()
 {
-   PlainTextEdit textEdit;
+   PlainTextViewWidget textEdit;
    QVERIFY2(textEdit.ui->plainTextEdit->isReadOnly(), "Text edit isn't read only");
    QVERIFY2(textEdit.ui->plainTextEdit->centerOnScroll(), "Text isn't centered on scroll");
    QVERIFY2(textEdit.ui->followTailCheckBox->isChecked() == false, "Text isn't centered on scroll");
@@ -59,7 +59,7 @@ void PlainTextEditTest::testSetup()
 void PlainTextEditTest::testAppendPlainText()
 {
    QString testText("testestest");
-   PlainTextEdit textEdit;
+   PlainTextViewWidget textEdit;
    textEdit.appendPlainText(testText);
    QVERIFY2(textEdit.ui->plainTextEdit->toPlainText() == testText, "Plain text wasn't added to text edit");
 }
@@ -67,7 +67,7 @@ void PlainTextEditTest::testAppendPlainText()
 void PlainTextEditTest::testToPlainText()
 {
    QString testText("testestest");
-   PlainTextEdit textEdit;
+   PlainTextViewWidget textEdit;
    textEdit.ui->plainTextEdit->setPlainText(testText);
    QVERIFY2(textEdit.toPlainText() == testText, "Plain text wasn't returned from text edit");
 }
@@ -75,7 +75,7 @@ void PlainTextEditTest::testToPlainText()
 void PlainTextEditTest::testClear()
 {
    QString testText("testestest");
-   PlainTextEdit textEdit;
+   PlainTextViewWidget textEdit;
    textEdit.ui->plainTextEdit->setPlainText(testText);
 
    textEdit.clear();
@@ -86,7 +86,7 @@ void PlainTextEditTest::testClear()
 void PlainTextEditTest::testScrollBar()
 {
    QSKIP("Only for fiddling around with text edit");
-   PlainTextEdit plainTextEdit;
+   PlainTextViewWidget plainTextEdit;
    QPlainTextEdit *textEdit = plainTextEdit.ui->plainTextEdit;
    QScrollBar *verticalScrollBar = textEdit->verticalScrollBar();
    connect(verticalScrollBar, &QScrollBar::valueChanged,
@@ -106,7 +106,7 @@ void PlainTextEditTest::testScrollBar()
  */
 void PlainTextEditTest::testScrollBarOnNotFollowTail()
 {
-   PlainTextEdit plainTextEdit;
+   PlainTextViewWidget plainTextEdit;
    plainTextEdit.show(); // Show plain text edit in order to force scrolling of text area
    QPlainTextEdit *textEdit = plainTextEdit.ui->plainTextEdit;
    QScrollBar *verticalScrollBar = textEdit->verticalScrollBar();

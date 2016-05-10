@@ -11,7 +11,7 @@
 #include <QCoreApplication>
 
 #include <gui/file_views/PlainTextView.h>
-#include <gui/file_views/PlainTextEdit.h>
+#include <gui/file_views/PlainTextViewWidget.h>
 
 class PlainTextViewTest : public QObject
 {

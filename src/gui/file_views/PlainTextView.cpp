@@ -6,12 +6,12 @@
  *
  */
 
-#include "PlainTextEdit.h"
+#include "PlainTextViewWidget.h"
 #include "PlainTextView.h"
 
 PlainTextView::PlainTextView(QObject *parent)
    : FileViewInterface(parent),
-     m_textEdit(new PlainTextEdit)
+     m_textEdit(new PlainTextViewWidget)
 {
 }
 
@@ -45,7 +45,7 @@ void PlainTextView::clearTextView()
    }
 }
 
-QPointer<PlainTextEdit> PlainTextView::textEdit() const
+QPointer<PlainTextViewWidget> PlainTextView::textEdit() const
 {
    return m_textEdit;
 }

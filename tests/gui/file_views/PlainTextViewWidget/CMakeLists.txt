@@ -1,4 +1,4 @@
-set( testname PlainTextViewTest )
+set( testname PlainTextViewWidgetTest )
 set( testmodules Test Widgets )
 set( testlibraries TestCommon TailEngine )
 
@@ -7,8 +7,7 @@ find_package( Qt5Test REQUIRED )
 
 set( Test_SOURCES
         tst_${testname}.cpp
-        ${source_dir}/gui/file_views/PlainTextView.cpp
-        ${source_dir}/gui/file_views/PlainTextViewWidget.cpp
+    ${source_dir}/gui/file_views/PlainTextViewWidget.cpp
         )
 
 set( Test_UIs

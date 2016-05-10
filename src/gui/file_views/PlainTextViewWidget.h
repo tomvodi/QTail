@@ -6,31 +6,33 @@
  *
  */
 
-#ifndef PLAINTEXTEDIT_H
-#define PLAINTEXTEDIT_H
+#ifndef PLAINTEXTVIEWWIDGET_H
+#define PLAINTEXTVIEWWIDGET_H
 
 #include <QFrame>
 
 namespace Ui {
-class PlainTextEdit;
+class PlainTextViewWidget;
 }
 
-class PlainTextEdit : public QFrame
+class PlainTextViewWidget : public QFrame
 {
    Q_OBJECT
-   friend class PlainTextEditTest;
 
 public:
-   explicit PlainTextEdit(QWidget *parent = 0);
-   ~PlainTextEdit();
+   explicit PlainTextViewWidget(QWidget *parent = 0);
+   ~PlainTextViewWidget();
 
    void appendPlainText(const QString &text);
    QString toPlainText() const;
    void clear();
 
+protected:
+   void changeEvent(QEvent *e);
+
 private:
    void setFollowTailEnabled(bool enabled);
-   Ui::PlainTextEdit *ui;
+   Ui::PlainTextViewWidget *ui;
 };
 
-#endif // PLAINTEXTEDIT_H
+#endif // PLAINTEXTVIEWWIDGET_H

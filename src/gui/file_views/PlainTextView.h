@@ -13,7 +13,7 @@
 
 #include <include/FileViewInterface.h>
 
-class PlainTextEdit;
+class PlainTextViewWidget;
 
 class PlainTextView : public FileViewInterface
 {
@@ -27,10 +27,10 @@ public:
    void clearTextView() override;
    QPointer<QWidget> widget() const override;
 
-   QPointer<PlainTextEdit> textEdit() const;
+   QPointer<PlainTextViewWidget> textEdit() const;
 
 private:
-   QPointer<PlainTextEdit> m_textEdit;
+   QPointer<PlainTextViewWidget> m_textEdit;
 };
 
 #endif // PLAINTEXTVIEW_H
