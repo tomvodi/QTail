@@ -25,6 +25,10 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testSetup();
+   void testDisabledScroll();
+
+private:
+   void appendLinesToPlainTextEdit(PlainTextEdit &textEdit, int lineCount);
 };
 
 PlainTextEditTest::PlainTextEditTest()
@@ -44,6 +48,25 @@ void PlainTextEditTest::testSetup()
    PlainTextEdit textEdit;
    QVERIFY2(textEdit.isReadOnly(), "Text edit isn't read only");
    QVERIFY2(textEdit.centerOnScroll(), "Text isn't centered on scroll");
+   QVERIFY2(textEdit.scrollEnabled() == true, "Wrong default scroll enabled value");
+}
+
+void PlainTextEditTest::testDisabledScroll()
+{
+   PlainTextEdit textEdit;
+   textEdit.show();
+
+   textEdit.setScrollEnabled(false);
+   appendLinesToPlainTextEdit(textEdit, 1000);
+
+   QVERIFY2(textEdit.verticalScrollBar()->value() == 0, "Text view was scrolled to bottom by appending text");
+}
+
+void PlainTextEditTest::appendLinesToPlainTextEdit(PlainTextEdit &textEdit, int lineCount)
+{
+   for (int i = 0; i < lineCount; ++i) {
+      textEdit.appendPlainText("This is a new line of text.");
+   }
 }
 
 QTEST_MAIN(PlainTextEditTest)

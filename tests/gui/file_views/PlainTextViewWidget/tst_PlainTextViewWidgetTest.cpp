@@ -51,6 +51,9 @@ void PlainTextViewWidgetTest::testSetup()
 {
    PlainTextViewWidget viewWidget;
    QVERIFY2(viewWidget.ui->plainTextEdit->isReadOnly(), "Text view not read only");
+   QVERIFY2(viewWidget.ui->plainTextEdit->centerOnScroll(), "Text view has not center on scroll set");
+   QVERIFY2(viewWidget.ui->followTailCheckBox->isChecked() == false, "Follow tail check box isn't set to false");
+   QVERIFY2(viewWidget.ui->plainTextEdit->scrollEnabled() == false, "Follow tail isn't disabled in text edit.");
 }
 
 void PlainTextViewWidgetTest::testAppendPlainText()
@@ -80,7 +83,6 @@ void PlainTextViewWidgetTest::testClear()
 
 void PlainTextViewWidgetTest::testScrollBar()
 {
-   QSKIP("just for testing");
    // Just for fiddling around with text scrolling
    PlainTextViewWidget viewWidget;
    viewWidget.show();  // Only with show, the text area will scroll when new text is appended.
@@ -104,7 +106,6 @@ void PlainTextViewWidgetTest::testScrollBarOnNotFollowTail()
 {
    PlainTextViewWidget viewWidget;
    viewWidget.show();
-   viewWidget.ui->followTailCheckBox->setChecked(true);
 
    QPlainTextEdit *textEdit = viewWidget.ui->plainTextEdit;
    QScrollBar *verticalScrollBar = textEdit->verticalScrollBar();

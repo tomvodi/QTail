@@ -17,6 +17,7 @@ PlainTextViewWidget::PlainTextViewWidget(QWidget *parent) :
 
    connect(ui->followTailCheckBox, &QCheckBox::toggled,
            this, &PlainTextViewWidget::setFollowTailEnabled);
+   setFollowTailEnabled(ui->followTailCheckBox->isChecked());
 }
 
 PlainTextViewWidget::~PlainTextViewWidget()
@@ -53,4 +54,5 @@ void PlainTextViewWidget::clear()
 
 void PlainTextViewWidget::setFollowTailEnabled(bool enabled)
 {
+   ui->plainTextEdit->setScrollEnabled(enabled);
 }

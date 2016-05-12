@@ -31,8 +31,10 @@ public:
 protected:
    void changeEvent(QEvent *e);
 
-private:
+private slots:
    void setFollowTailEnabled(bool enabled);
+
+private:
    Ui::PlainTextViewWidget *ui;
 };
 
