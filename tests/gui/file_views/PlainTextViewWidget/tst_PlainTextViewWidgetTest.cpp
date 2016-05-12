@@ -10,6 +10,7 @@
 #include <QtTest>
 #include <QCoreApplication>
 #include <QScrollBar>
+#include <TestCommon.h>
 
 #include <gui/file_views/PlainTextViewWidget.h>
 #include <ui_PlainTextViewWidget.h>
@@ -29,6 +30,7 @@ private Q_SLOTS:
    void testToPlainText();
    void testClear();
    void testScrollBarOnNotFollowTail();
+   void testScrollBarOnNotFollowStayInDocument();
 
 private:
    void appendLinesToTextViewWidget(PlainTextViewWidget &widget, int lineCount);
@@ -95,6 +97,29 @@ void PlainTextViewWidgetTest::testScrollBarOnNotFollowTail()
    appendLinesToTextViewWidget(viewWidget, 1000);
 
    QVERIFY2(verticalScrollBar->value() == 0, "Text view was scrolled despite no follow was set.");
+}
+
+void PlainTextViewWidgetTest::testScrollBarOnNotFollowStayInDocument()
+{
+   PlainTextViewWidget viewWidget;
+   viewWidget.show();
+   viewWidget.ui->followTailCheckBox->setChecked(true);
+
+   QPlainTextEdit *textEdit = viewWidget.ui->plainTextEdit;
+   QScrollBar *verticalScrollBar = textEdit->verticalScrollBar();
+
+   // After appending a few lines with follow tail enabled, if follow tail is disabled,
+   // the scrollbar value should stay the same when more lines will be appended
+   appendLinesToTextViewWidget(viewWidget, 500);
+
+   viewWidget.ui->followTailCheckBox->setChecked(false);
+
+   int currentScrollPosition (verticalScrollBar->value());
+   Q_ASSERT(currentScrollPosition != 0);
+
+   appendLinesToTextViewWidget(viewWidget, 500);
+
+   QVERIFY2(verticalScrollBar->value() == currentScrollPosition, "The text view was scrolled despite no follow tail is set.");
 }
 
 void PlainTextViewWidgetTest::appendLinesToTextViewWidget(PlainTextViewWidget &widget, int lineCount)
