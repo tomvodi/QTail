@@ -28,7 +28,6 @@ private Q_SLOTS:
    void testAppendPlainText();
    void testToPlainText();
    void testClear();
-   void testScrollBar();
    void testScrollBarOnNotFollowTail();
 
 private:
@@ -79,23 +78,6 @@ void PlainTextViewWidgetTest::testClear()
    viewWidget.ui->plainTextEdit->appendPlainText(testText);
    viewWidget.clear();
    QVERIFY2(viewWidget.ui->plainTextEdit->toPlainText().isEmpty(), "Text wasn't cleared.");
-}
-
-void PlainTextViewWidgetTest::testScrollBar()
-{
-   // Just for fiddling around with text scrolling
-   PlainTextViewWidget viewWidget;
-   viewWidget.show();  // Only with show, the text area will scroll when new text is appended.
-   QPlainTextEdit *textEdit = viewWidget.ui->plainTextEdit;
-   QScrollBar *verticalScrollBar = textEdit->verticalScrollBar();
-
-   qDebug() << "Scrollbar value: " << verticalScrollBar->value();
-
-   appendLinesToTextViewWidget(viewWidget, 1000);
-
-//   QCoreApplication::processEvents();
-
-   qDebug() << "Scrollbar value: " << verticalScrollBar->value();
 }
 
 /*!
