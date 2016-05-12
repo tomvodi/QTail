@@ -8,6 +8,7 @@
 
 #include <QDir>
 #include <QFile>
+#include <QDebug>
 #include <QEventLoop>
 #include <QTimer>
 #include <QCoreApplication>
@@ -26,6 +27,28 @@ QString TestCommon::generateExistingFilePath(const QString &fileName)
    file.close();
 
    return filePath;
+}
+
+void TestCommon::appendLinesToFile(const QString &fileName, const QStringList &lines, FileAction fileAction)
+{
+   QFile outFile(fileName);
+   QIODevice::OpenMode openMode = QIODevice::WriteOnly;
+   if (fileAction == FileAction::AppendOnly) {
+      openMode |= QIODevice::Append;
+   }
+
+   if (!outFile.open(openMode)) {
+      qWarning() << "Failed opening file for reading";
+   }
+   QTextStream stream(&outFile);
+
+   foreach (const QString &line, lines) {
+      stream << line;
+   }
+
+   stream.flush();
+   outFile.close();
+   waitMsecs(5);
 }
 
 void TestCommon::waitMsecs(quint32 mSecs)

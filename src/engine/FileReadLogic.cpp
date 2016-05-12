@@ -27,8 +27,6 @@ FileReadLogic::~FileReadLogic()
 
 void FileReadLogic::sizeChanged(qint64 oldSize, qint64 newSize)
 {
-   Q_UNUSED(newSize);
-
    if (m_file->fileName().isEmpty()) {
       return;
    }
@@ -38,17 +36,37 @@ void FileReadLogic::sizeChanged(qint64 oldSize, qint64 newSize)
       return;
    }
 
-   if (m_file->size() == 0) {
+   qint64 actualFileSize = m_file->size();
+   if (actualFileSize == 0) {
       return;
    }
 
    QTextStream stream(m_file);
+
+   if (newSize > actualFileSize) {
+      newSize = actualFileSize;
+   }
+
+   bool seekStream = false;
+   qint64 seekPosition = 0;
+
+   if (oldSize != 0 &&
+       oldSize < newSize) {
+      seekStream = true;
+      seekPosition = oldSize;
+   }
+
+   if (seekStream) {
+      stream.seek(seekPosition);
+   }
+
    QStringList lines;
    while (!stream.atEnd()) {
       lines << stream.readLine();
    }
 
-   if (oldSize == 0) {
+   if (oldSize == 0 ||
+       oldSize > newSize) {
       emit fileCleared();
    }
 
