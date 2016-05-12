@@ -36,8 +36,6 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
       connect(fileReadLogic, &FileReadLogic::fileCleared,
               [view] { view->clearTextView(); });
-      connect(fileReadLogic, &FileReadLogic::lineAppended,
-              [view] (const QString &line) { view->appendLine(line); });
       connect(fileReadLogic, &FileReadLogic::linesAppended,
               [view] (const QStringList &lines) { view->appendLines(lines); });
    }

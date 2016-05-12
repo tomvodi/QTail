@@ -8,6 +8,7 @@
 
 #include <include/FileWatcherInterface.h>
 
+#include <QDebug>
 #include <QTextStream>
 
 #include "FileReadLogic.h"
@@ -26,7 +27,6 @@ FileReadLogic::~FileReadLogic()
 
 void FileReadLogic::sizeChanged(qint64 oldSize, qint64 newSize)
 {
-   Q_UNUSED(oldSize);
    Q_UNUSED(newSize);
 
    if (m_file->fileName().isEmpty()) {
@@ -48,7 +48,10 @@ void FileReadLogic::sizeChanged(qint64 oldSize, qint64 newSize)
       lines << stream.readLine();
    }
 
-   emit fileCleared();
+   if (oldSize == 0) {
+      emit fileCleared();
+   }
+
    emit linesAppended(lines);
 
    m_file->close();
@@ -63,6 +66,10 @@ void FileReadLogic::setFileWatcher(FileWatcherInterface *fileWatcher)
 {
    if (!m_fileWatcher.isNull()) {
       return;
+   }
+
+   if (fileWatcher->filePath().isEmpty()) {
+      qWarning() << "File watcher's file path is empty.";
    }
 
    m_file->setFileName(fileWatcher->filePath());

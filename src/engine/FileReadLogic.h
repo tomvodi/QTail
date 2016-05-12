@@ -34,7 +34,6 @@ private slots:
 
 signals:
     void fileCleared();
-    void lineAppended(const QString &line);
     void linesAppended(const QStringList &lines);
 
 private:
