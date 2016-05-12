@@ -47,7 +47,6 @@ void PlainTextEditTest::testSetup()
 {
    PlainTextEdit textEdit;
    QVERIFY2(textEdit.isReadOnly(), "Text edit isn't read only");
-   QVERIFY2(textEdit.centerOnScroll(), "Text isn't centered on scroll");
    QVERIFY2(textEdit.scrollEnabled() == true, "Wrong default scroll enabled value");
 }
 

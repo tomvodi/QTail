@@ -33,6 +33,7 @@ protected:
 
 private slots:
    void setFollowTailEnabled(bool enabled);
+   void textEditVerticalScrollValueHasChanged(int value);
 
 private:
    Ui::PlainTextViewWidget *ui;

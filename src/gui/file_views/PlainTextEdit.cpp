@@ -11,7 +11,6 @@
 PlainTextEdit::PlainTextEdit(QWidget *parent)
    : QPlainTextEdit(parent)
 {
-   setCenterOnScroll(true);
    setReadOnly(true);
 }
 

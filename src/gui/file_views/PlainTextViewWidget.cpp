@@ -6,6 +6,8 @@
  *
  */
 
+#include <QScrollBar>
+
 #include "PlainTextViewWidget.h"
 #include "ui_PlainTextViewWidget.h"
 
@@ -18,6 +20,9 @@ PlainTextViewWidget::PlainTextViewWidget(QWidget *parent) :
    connect(ui->followTailCheckBox, &QCheckBox::toggled,
            this, &PlainTextViewWidget::setFollowTailEnabled);
    setFollowTailEnabled(ui->followTailCheckBox->isChecked());
+
+   connect(ui->plainTextEdit->verticalScrollBar(), &QScrollBar::valueChanged,
+           this, &PlainTextViewWidget::textEditVerticalScrollValueHasChanged);
 }
 
 PlainTextViewWidget::~PlainTextViewWidget()
@@ -55,4 +60,14 @@ void PlainTextViewWidget::clear()
 void PlainTextViewWidget::setFollowTailEnabled(bool enabled)
 {
    ui->plainTextEdit->setScrollEnabled(enabled);
+}
+
+void PlainTextViewWidget::textEditVerticalScrollValueHasChanged(int value)
+{
+   if (value < ui->plainTextEdit->verticalScrollBar()->maximum()) {
+      ui->followTailCheckBox->setChecked(false);
+   }
+   if (value == ui->plainTextEdit->verticalScrollBar()->maximum()) {
+      ui->followTailCheckBox->setChecked(true);
+   }
 }
