@@ -19,6 +19,7 @@ class PlainTextViewWidget : public QFrame
 {
    Q_OBJECT
 
+   friend class PlainTextViewWidgetTest;
 public:
    explicit PlainTextViewWidget(QWidget *parent = 0);
    ~PlainTextViewWidget();
