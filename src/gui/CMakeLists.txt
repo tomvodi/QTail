@@ -19,6 +19,11 @@ set(Project_Sources
   file_views/LineNumberArea.cpp
 
   tools/Settings.cpp
+
+  highlighting/HighlightingDialog.cpp
+  highlighting/ColorPicker.cpp
+  highlighting/ColorPickerListItemWidget.cpp
+  highlighting/FontPicker.cpp
 )
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
@@ -31,6 +36,11 @@ qt5_wrap_ui(Project_Sources
 
   file_views/FileListItemWidget.ui
   file_views/PlainTextViewWidget.ui
+
+  highlighting/HighlightingDialog.ui
+  highlighting/ColorPicker.ui
+  highlighting/ColorPickerListItemWidget.ui
+  highlighting/FontPicker.ui
 )
 
 qt5_add_resources(Project_Sources

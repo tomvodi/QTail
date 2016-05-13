@@ -31,5 +31,11 @@
         <file>resources/icons/actions/bookmark-new.png</file>
         <file>resources/icons/actions/go-next.png</file>
         <file>resources/icons/actions/go-previous.png</file>
+        <file>resources/icons/categories/applications-graphics.png</file>
+        <file>resources/icons/actions/document-new.png</file>
+        <file>resources/icons/actions/edit-delete.png</file>
+        <file>resources/icons/actions/go-down.png</file>
+        <file>resources/icons/actions/go-up.png</file>
+        <file>resources/icons/apps/preferences-desktop-font.png</file>
     </qresource>
 </RCC>

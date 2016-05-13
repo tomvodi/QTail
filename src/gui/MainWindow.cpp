@@ -21,6 +21,8 @@
 #include "file_views/FileListItemView.h"
 #include "file_views/FileListItemWidget.h"
 
+#include "highlighting/HighlightingDialog.h"
+
 #include "AboutDialog.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -62,6 +64,12 @@ void MainWindow::on_actionAbout_triggered()
 {
    AboutDialog dialog;
    dialog.setVersion(QVersionNumber(QTAIL_VERSION_MAJOR, QTAIL_VERSION_MINOR, QTAIL_VERSION_PATCH));
+   dialog.exec();
+}
+
+void MainWindow::on_actionHighlighting_triggered()
+{
+   HighlightingDialog dialog;
    dialog.exec();
 }
 

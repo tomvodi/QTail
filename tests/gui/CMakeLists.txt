@@ -1,4 +1,7 @@
-include_directories(${source_dir}/gui/file_views)
+include_directories(
+   ${source_dir}/gui/file_views
+   ${source_dir}/gui
+)
 
 add_subdirectory( MainWindow )
 add_subdirectory( file_views )
