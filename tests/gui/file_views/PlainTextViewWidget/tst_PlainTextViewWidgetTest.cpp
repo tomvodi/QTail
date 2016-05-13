@@ -55,7 +55,6 @@ void PlainTextViewWidgetTest::testSetup()
    PlainTextViewWidget viewWidget;
    QVERIFY2(viewWidget.ui->plainTextEdit->isReadOnly(), "Text view not read only");
    QVERIFY2(viewWidget.ui->followTailCheckBox->isChecked() == false, "Follow tail check box isn't set to false");
-   QVERIFY2(viewWidget.ui->plainTextEdit->scrollEnabled() == false, "Follow tail isn't disabled in text edit.");
 }
 
 void PlainTextViewWidgetTest::testAppendPlainText()

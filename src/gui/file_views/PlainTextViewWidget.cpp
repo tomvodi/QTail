@@ -59,7 +59,6 @@ void PlainTextViewWidget::clear()
 
 void PlainTextViewWidget::setFollowTailEnabled(bool enabled)
 {
-   ui->plainTextEdit->setScrollEnabled(enabled);
 }
 
 void PlainTextViewWidget::textEditVerticalScrollValueHasChanged(int value)

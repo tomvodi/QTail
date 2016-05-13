@@ -26,16 +26,6 @@ PlainTextEdit::PlainTextEdit(QWidget *parent)
            this, &PlainTextEdit::highlightCurrentLine);
 }
 
-void PlainTextEdit::setScrollEnabled(bool enabled)
-{
-   m_scrollEnabled = enabled;
-}
-
-bool PlainTextEdit::scrollEnabled() const
-{
-   return m_scrollEnabled;
-}
-
 quint16 PlainTextEdit::lineNumberAreaWidth() const
 {
    int digits = 1;
@@ -72,15 +62,6 @@ void PlainTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
       bottom = top + (int) blockBoundingRect(block).height();
       ++blockNumber;
    }
-}
-
-void PlainTextEdit::scrollContentsBy(int dx, int dy)
-{
-   if (!m_scrollEnabled) {
-      return;
-   }
-
-   QPlainTextEdit::scrollContentsBy(dx, dy);
 }
 
 void PlainTextEdit::resizeEvent(QResizeEvent *event)
