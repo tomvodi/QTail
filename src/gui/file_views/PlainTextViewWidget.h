@@ -31,10 +31,6 @@ public:
 protected:
    void changeEvent(QEvent *e);
 
-private slots:
-   void setFollowTailEnabled(bool enabled);
-   void textEditVerticalScrollValueHasChanged(int value);
-
 private:
    Ui::PlainTextViewWidget *ui;
 };

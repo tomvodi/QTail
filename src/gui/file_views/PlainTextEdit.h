@@ -22,6 +22,11 @@ public:
    quint16 lineNumberAreaWidth() const;
    void lineNumberAreaPaintEvent(QPaintEvent *event);
 
+public slots:
+   void scrollToTop();
+   void scrollToBottom();
+   void scrollToCursor();
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 

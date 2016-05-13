@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
-    <height>597</height>
+    <width>794</width>
+    <height>784</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,12 +62,51 @@
       <property name="verticalSpacing">
        <number>0</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="followTailCheckBox">
+      <item row="0" column="2">
+       <widget class="QToolButton" name="navigateCursorButton">
         <property name="text">
-         <string>Follow</string>
+         <string>Navigate to cursor</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/resources/icons/actions/go-jump.png</normaloff>:/resources/icons/actions/go-jump.png</iconset>
         </property>
        </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QToolButton" name="navigateTopButton">
+        <property name="text">
+         <string>Navigate to top</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/resources/icons/actions/go-top.png</normaloff>:/resources/icons/actions/go-top.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QToolButton" name="navigateBottomButton">
+        <property name="text">
+         <string>Navigate to bottom</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/resources/icons/actions/go-bottom.png</normaloff>:/resources/icons/actions/go-bottom.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -94,6 +133,8 @@
    <header location="global">PlainTextEdit.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

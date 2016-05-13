@@ -17,12 +17,12 @@ PlainTextViewWidget::PlainTextViewWidget(QWidget *parent) :
 {
    ui->setupUi(this);
 
-   connect(ui->followTailCheckBox, &QCheckBox::toggled,
-           this, &PlainTextViewWidget::setFollowTailEnabled);
-   setFollowTailEnabled(ui->followTailCheckBox->isChecked());
-
-   connect(ui->plainTextEdit->verticalScrollBar(), &QScrollBar::valueChanged,
-           this, &PlainTextViewWidget::textEditVerticalScrollValueHasChanged);
+   connect(ui->navigateBottomButton, &QToolButton::clicked,
+           ui->plainTextEdit, &PlainTextEdit::scrollToBottom);
+   connect(ui->navigateTopButton, &QToolButton::clicked,
+           ui->plainTextEdit, &PlainTextEdit::scrollToTop);
+   connect(ui->navigateCursorButton, &QToolButton::clicked,
+           ui->plainTextEdit, &PlainTextEdit::scrollToCursor);
 }
 
 PlainTextViewWidget::~PlainTextViewWidget()
@@ -55,18 +55,4 @@ QString PlainTextViewWidget::toPlainText() const
 void PlainTextViewWidget::clear()
 {
    ui->plainTextEdit->clear();
-}
-
-void PlainTextViewWidget::setFollowTailEnabled(bool enabled)
-{
-}
-
-void PlainTextViewWidget::textEditVerticalScrollValueHasChanged(int value)
-{
-   if (value < ui->plainTextEdit->verticalScrollBar()->maximum()) {
-      ui->followTailCheckBox->setChecked(false);
-   }
-   if (value == ui->plainTextEdit->verticalScrollBar()->maximum()) {
-      ui->followTailCheckBox->setChecked(true);
-   }
 }

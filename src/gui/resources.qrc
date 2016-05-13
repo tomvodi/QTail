@@ -25,5 +25,11 @@
         <file>resources/icons/emblems/emblem-urgent.png</file>
         <file>resources/icons/actions/window-close.png</file>
         <file>resources/icons/emblems/emblem-placeholder.png</file>
+        <file>resources/icons/actions/go-bottom.png</file>
+        <file>resources/icons/actions/go-top.png</file>
+        <file>resources/icons/actions/go-jump.png</file>
+        <file>resources/icons/actions/bookmark-new.png</file>
+        <file>resources/icons/actions/go-next.png</file>
+        <file>resources/icons/actions/go-previous.png</file>
     </qresource>
 </RCC>

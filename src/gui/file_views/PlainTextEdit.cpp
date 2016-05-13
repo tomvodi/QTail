@@ -8,6 +8,7 @@
 
 #include <QPainter>
 #include <QTextBlock>
+#include <QScrollBar>
 
 #include "PlainTextEdit.h"
 #include "LineNumberArea.h"
@@ -64,6 +65,23 @@ void PlainTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
    }
 }
 
+void PlainTextEdit::scrollToTop()
+{
+   verticalScrollBar()->setValue(0);
+}
+
+void PlainTextEdit::scrollToBottom()
+{
+   verticalScrollBar()->setValue(verticalScrollBar()->maximum());
+}
+
+void PlainTextEdit::scrollToCursor()
+{
+   setCenterOnScroll(true);
+   ensureCursorVisible();
+   setCenterOnScroll(false);
+}
+
 void PlainTextEdit::resizeEvent(QResizeEvent *event)
 {
    QPlainTextEdit::resizeEvent(event);
@@ -90,6 +108,7 @@ void PlainTextEdit::highlightCurrentLine()
    selection.format.setProperty(QTextFormat::FullWidthSelection, true);
    selection.cursor = textCursor();
    selection.cursor.clearSelection();
+
    extraSelections.append(selection);
 
    setExtraSelections(extraSelections);
@@ -97,11 +116,13 @@ void PlainTextEdit::highlightCurrentLine()
 
 void PlainTextEdit::updateLineNumberArea(const QRect &rect, int dy)
 {
-   if (dy)
+   if (dy) {
       m_lineNumberArea->scroll(0, dy);
-   else
+   } else {
       m_lineNumberArea->update(0, rect.y(), m_lineNumberArea->width(), rect.height());
+   }
 
-   if (rect.contains(viewport()->rect()))
+   if (rect.contains(viewport()->rect())) {
       updateLineNumberAreaWidth(0);
+   }
 }
