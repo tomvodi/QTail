@@ -10,6 +10,7 @@ set( Test_SOURCES
         ${source_dir}/gui/file_views/PlainTextView.cpp
         ${source_dir}/gui/file_views/PlainTextViewWidget.cpp
         ${source_dir}/gui/file_views/PlainTextEdit.cpp
+        ${source_dir}/gui/file_views/LineNumberArea.cpp
         )
 
 set( Test_UIs

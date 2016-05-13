@@ -16,6 +16,7 @@ set(Project_Sources
   file_views/PlainTextView.cpp
   file_views/PlainTextViewWidget.cpp
   file_views/PlainTextEdit.cpp
+  file_views/LineNumberArea.cpp
 
   tools/Settings.cpp
 )
