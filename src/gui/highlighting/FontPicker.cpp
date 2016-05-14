@@ -14,6 +14,10 @@ FontPicker::FontPicker(QWidget *parent) :
    ui(new Ui::FontPicker)
 {
    ui->setupUi(this);
+
+   // Init to default font size
+   QFont font;
+   ui->fontSizeSpinBox->setValue(font.pointSize());
 }
 
 FontPicker::~FontPicker()
@@ -23,5 +27,19 @@ FontPicker::~FontPicker()
 
 QFont FontPicker::currentFont() const
 {
-   return ui->fontComboBox->currentFont();
+   QFont font(ui->fontComboBox->currentFont());
+   if (ui->boldButton->isChecked()) {
+      font.setBold(true);
+   }
+   if (ui->italicButton->isChecked()) {
+      font.setItalic(true);
+   }
+   if (ui->underlineButton->isChecked()) {
+      font.setUnderline(true);
+   }
+   if (ui->strikeoutButton->isChecked()) {
+      font.setStrikeOut(true);
+   }
+   font.setPointSize(ui->fontSizeSpinBox->value());
+   return font;
 }

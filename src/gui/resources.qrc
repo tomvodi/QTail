@@ -37,5 +37,9 @@
         <file>resources/icons/actions/go-down.png</file>
         <file>resources/icons/actions/go-up.png</file>
         <file>resources/icons/apps/preferences-desktop-font.png</file>
+        <file>resources/icons/actions/format-text-bold.png</file>
+        <file>resources/icons/actions/format-text-italic.png</file>
+        <file>resources/icons/actions/format-text-strikethrough.png</file>
+        <file>resources/icons/actions/format-text-underline.png</file>
     </qresource>
 </RCC>
