@@ -23,5 +23,5 @@ FontPicker::~FontPicker()
 
 QFont FontPicker::currentFont() const
 {
-   ui->fontComboBox->currentFont();
+   return ui->fontComboBox->currentFont();
 }
