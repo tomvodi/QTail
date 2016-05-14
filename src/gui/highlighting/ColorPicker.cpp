@@ -9,10 +9,12 @@
 #include <QDebug>
 #include <QColor>
 #include <QStringList>
+#include <QPainter>
 
-#include "ColorPickerListItemWidget.h"
 #include "ColorPicker.h"
 #include "ui_ColorPicker.h"
+
+static const QSize ColorIconSize(30, 50);
 
 ColorPicker::ColorPicker(QWidget *parent) :
    QFrame(parent),
@@ -31,15 +33,126 @@ ColorPicker::~ColorPicker()
 void ColorPicker::initWithPredefinedColors()
 {
    QStringList predefinedColors = QColor::colorNames();
-   qDebug() << predefinedColors;
+   predefinedColors.removeDuplicates();
 
-   foreach (const QString &color, QColor::colorNames()) {
-      ColorPickerListItemWidget *itemWidget = new ColorPickerListItemWidget;
-      itemWidget->setColor(color);
-      QListWidgetItem *item = new QListWidgetItem(ui->colorListWidget);
-      item->setSizeHint(itemWidget->sizeHint());
+   QStringList baseColors(baseColorList());
+   QStringList moreRedColors;
+   QStringList moreGreenColors;
+   QStringList moreBlueColors;
+   QStringList contrasts;
 
-      ui->colorListWidget->addItem(item);
-      ui->colorListWidget->setItemWidget(item, itemWidget);
+   foreach (const QString &colorName, QColor::colorNames()) {
+      QColor color;
+      color.setNamedColor(colorName);
+
+      if (baseColors.contains(colorName)) {
+         continue;
+      }
+
+      if (color.saturation() == 0) {
+         contrasts << colorName;
+         continue;
+      }
+
+      if (color.red() >= color.blue() &&
+          color.red() >= color.green()) {
+         moreRedColors << colorName;
+         continue;
+      }
+
+      if (color.green() >= color.red() &&
+          color.green() >= color.blue()) {
+         moreGreenColors << colorName;
+         continue;
+      }
+
+      if (color.blue() >= color.red() &&
+          color.blue() >= color.green()) {
+         moreBlueColors << colorName;
+      }
    }
+
+   foreach (const QString &colorName, colorNamesSortedByLightness(moreBlueColors)) {
+      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+   }
+
+   ui->colorComboBox->insertSeparator(0);
+
+   foreach (const QString &colorName, colorNamesSortedByLightness(moreGreenColors)) {
+      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+   }
+
+   ui->colorComboBox->insertSeparator(0);
+
+   foreach (const QString &colorName, colorNamesSortedByLightness(moreRedColors)) {
+      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+   }
+
+   ui->colorComboBox->insertSeparator(0);
+
+   foreach (const QString &colorName, colorNamesSortedByLightness(contrasts)) {
+      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+   }
+
+   ui->colorComboBox->insertSeparator(0);
+
+   foreach (const QString &colorName, colorNamesSortedByLightness(baseColors)) {
+      if (colorName == "transparent") {
+         continue;
+      }
+
+      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+   }
+}
+
+QIcon ColorPicker::iconForColor(const QColor &color)
+{
+   QPixmap pixmap(ColorIconSize);
+   pixmap.fill(color);
+
+   return QIcon(pixmap);
+}
+
+QStringList ColorPicker::colorNamesSortedByLightness(const QStringList &colorNames)
+{
+   QMultiMap<int, QString> sortedColors;
+
+   foreach (const QString &colorName, colorNames) {
+      QColor color;
+      color.setNamedColor(colorName);
+      sortedColors.insert(color.lightness(), colorName);
+   }
+
+   QStringList sortedColorNames(sortedColors.values());
+   QStringList reverseLightnessColors;
+
+   QList<QString>::const_iterator it(sortedColorNames.constEnd());
+
+   while (it != sortedColorNames.constBegin()) {
+      --it;
+      reverseLightnessColors << (*it);
+   }
+
+   if (colorNames.count() != reverseLightnessColors.count()) {
+      qDebug() << "Not all colors are in list";
+   }
+   return reverseLightnessColors;
+}
+
+QStringList ColorPicker::baseColorList() const
+{
+   // As defined in Qt::GlobalColors
+   QStringList globalColors{ "black", "white", "darkGray", "gray", "lightGray", "red",
+                             "green", "blue", "cyan", "magenta", "yellow", "darkRed",
+                             "darkGreen", "darkBlue", "darkCyan", "darkMagenta", "darkYellow",
+                             "transparent" };
+
+   QStringList baseColors;
+   foreach (const QString &colorName, globalColors) {
+      if (QColor::isValidColor(colorName)) {
+         baseColors << colorName;
+      }
+   }
+
+   return baseColors;
 }

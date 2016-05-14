@@ -22,7 +22,6 @@ set(Project_Sources
 
   highlighting/HighlightingDialog.cpp
   highlighting/ColorPicker.cpp
-  highlighting/ColorPickerListItemWidget.cpp
   highlighting/FontPicker.cpp
 )
 
@@ -39,7 +38,6 @@ qt5_wrap_ui(Project_Sources
 
   highlighting/HighlightingDialog.ui
   highlighting/ColorPicker.ui
-  highlighting/ColorPickerListItemWidget.ui
   highlighting/FontPicker.ui
 )
 

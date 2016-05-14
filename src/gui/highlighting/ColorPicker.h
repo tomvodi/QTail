@@ -10,6 +10,7 @@
 #define COLORPICKER_H
 
 #include <QFrame>
+#include <QIcon>
 
 namespace Ui {
 class ColorPicker;
@@ -25,6 +26,9 @@ public:
 
 private:
    void initWithPredefinedColors();
+   QIcon iconForColor(const QColor &color);
+   QStringList colorNamesSortedByLightness(const QStringList &colorNames);
+   QStringList baseColorList() const;
    Ui::ColorPicker *ui;
 };
 
