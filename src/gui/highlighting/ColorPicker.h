@@ -24,11 +24,14 @@ public:
    explicit ColorPicker(QWidget *parent = 0);
    ~ColorPicker();
 
+   QColor currentColor() const;
+
 private:
    void initWithPredefinedColors();
    QIcon iconForColor(const QColor &color);
    QStringList colorNamesSortedByLightness(const QStringList &colorNames);
    QStringList baseColorList() const;
+   void insertColor(const QString &colorName);
    Ui::ColorPicker *ui;
 };
 

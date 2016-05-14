@@ -23,6 +23,8 @@ public:
    explicit FontPicker(QWidget *parent = 0);
    ~FontPicker();
 
+   QFont currentFont() const;
+
 private:
    Ui::FontPicker *ui;
 };

@@ -20,3 +20,8 @@ FontPicker::~FontPicker()
 {
    delete ui;
 }
+
+QFont FontPicker::currentFont() const
+{
+   ui->fontComboBox->currentFont();
+}

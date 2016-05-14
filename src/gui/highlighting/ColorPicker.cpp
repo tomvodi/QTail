@@ -30,6 +30,15 @@ ColorPicker::~ColorPicker()
    delete ui;
 }
 
+QColor ColorPicker::currentColor() const
+{
+   QString currentColorName = ui->colorComboBox->currentData().toString();
+   QColor color;
+   color.setNamedColor(currentColorName);
+
+   return color;
+}
+
 void ColorPicker::initWithPredefinedColors()
 {
    QStringList predefinedColors = QColor::colorNames();
@@ -73,25 +82,25 @@ void ColorPicker::initWithPredefinedColors()
    }
 
    foreach (const QString &colorName, colorNamesSortedByLightness(moreBlueColors)) {
-      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+      insertColor(colorName);
    }
 
    ui->colorComboBox->insertSeparator(0);
 
    foreach (const QString &colorName, colorNamesSortedByLightness(moreGreenColors)) {
-      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+      insertColor(colorName);
    }
 
    ui->colorComboBox->insertSeparator(0);
 
    foreach (const QString &colorName, colorNamesSortedByLightness(moreRedColors)) {
-      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+      insertColor(colorName);
    }
 
    ui->colorComboBox->insertSeparator(0);
 
    foreach (const QString &colorName, colorNamesSortedByLightness(contrasts)) {
-      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+      insertColor(colorName);
    }
 
    ui->colorComboBox->insertSeparator(0);
@@ -101,7 +110,7 @@ void ColorPicker::initWithPredefinedColors()
          continue;
       }
 
-      ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName);
+      insertColor(colorName);
    }
 }
 
@@ -155,4 +164,9 @@ QStringList ColorPicker::baseColorList() const
    }
 
    return baseColors;
+}
+
+void ColorPicker::insertColor(const QString &colorName)
+{
+   ui->colorComboBox->insertItem(0, iconForColor(colorName), colorName, colorName);
 }

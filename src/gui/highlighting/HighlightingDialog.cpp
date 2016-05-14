@@ -20,3 +20,19 @@ HighlightingDialog::~HighlightingDialog()
 {
    delete ui;
 }
+
+void HighlightingDialog::on_addRuleButton_clicked()
+{
+   addNewRuleToListWidget(ui->wordRulesListWidget);
+}
+
+void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget)
+{
+   QListWidgetItem *listItem = new QListWidgetItem;
+   listItem->setBackground(ui->backgroundColorPicker->currentColor());
+   listItem->setForeground(ui->foregroundColorPicker->currentColor());
+//   listItem->setFont(ui->fontPicker->currentFont());
+   listItem->setText(ui->regexLineEdit->text());
+   listWidget->addItem(listItem);
+
+}
