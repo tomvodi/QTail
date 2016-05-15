@@ -18,6 +18,19 @@ HighlightingDialog::HighlightingDialog(QWidget *parent) :
 
    ui->wordRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
    ui->lineRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
+
+   connect(ui->wordRulesListWidget, &QListWidget::itemSelectionChanged,
+           [this] {
+      if (ui->wordRulesListWidget->selectedItems().count()) {
+         ui->lineRulesListWidget->selectionModel()->clear();
+      }
+   });
+   connect(ui->lineRulesListWidget, &QListWidget::itemSelectionChanged,
+           [this] {
+      if (ui->lineRulesListWidget->selectedItems().count()) {
+         ui->wordRulesListWidget->selectionModel()->clear();
+      }
+   });
 }
 
 HighlightingDialog::~HighlightingDialog()
@@ -38,5 +51,4 @@ void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget)
    listItem->setFont(ui->fontPicker->currentFont());
    listItem->setText(ui->regexLineEdit->text());
    listWidget->addItem(listItem);
-
 }
