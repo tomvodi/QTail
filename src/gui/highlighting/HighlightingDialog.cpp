@@ -6,6 +6,7 @@
  *
  */
 
+#include "HighlightListItemDelegate.h"
 #include "HighlightingDialog.h"
 #include "ui_HighlightingDialog.h"
 
@@ -14,6 +15,9 @@ HighlightingDialog::HighlightingDialog(QWidget *parent) :
    ui(new Ui::HighlightingDialog)
 {
    ui->setupUi(this);
+
+   ui->wordRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
+   ui->lineRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
 }
 
 HighlightingDialog::~HighlightingDialog()

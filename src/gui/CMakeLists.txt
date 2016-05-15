@@ -23,6 +23,7 @@ set(Project_Sources
   highlighting/HighlightingDialog.cpp
   highlighting/ColorPicker.cpp
   highlighting/FontPicker.cpp
+  highlighting/HighlightListItemDelegate.cpp
 )
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
