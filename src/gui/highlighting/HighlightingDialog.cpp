@@ -43,6 +43,11 @@ void HighlightingDialog::on_addRuleButton_clicked()
    addNewRuleToListWidget(ui->wordRulesListWidget);
 }
 
+void HighlightingDialog::on_deleteRuleButton_clicked()
+{
+   deleteCurrentSelectedRule();
+}
+
 void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget)
 {
    QListWidgetItem *listItem = new QListWidgetItem;
@@ -51,4 +56,39 @@ void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget)
    listItem->setFont(ui->fontPicker->currentFont());
    listItem->setText(ui->regexLineEdit->text());
    listWidget->addItem(listItem);
+}
+
+void HighlightingDialog::deleteCurrentSelectedRule()
+{
+   QListWidgetItem *selectedItem = currentSelectedItem();
+   if (!selectedItem) {
+      return;
+   }
+
+   QListWidget *listWidget = selectedItem->listWidget();
+   if (!listWidget) {
+      return;
+   }
+
+   QWidget *itemWidget = listWidget->itemWidget(selectedItem);
+   listWidget->takeItem(listWidget->row(selectedItem));
+   if (itemWidget) {
+      delete itemWidget;
+   }
+   delete selectedItem;
+}
+
+QListWidgetItem *HighlightingDialog::currentSelectedItem() const
+{
+   QListWidgetItem *selectedItem = nullptr;
+
+   if (ui->wordRulesListWidget->selectedItems().count()) {
+      selectedItem = ui->wordRulesListWidget->selectedItems().at(0);
+   }
+
+   if (ui->lineRulesListWidget->selectedItems().count()) {
+      selectedItem = ui->lineRulesListWidget->selectedItems().at(0);
+   }
+
+   return selectedItem;
 }

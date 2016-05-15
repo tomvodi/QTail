@@ -15,6 +15,7 @@ namespace Ui {
 class HighlightingDialog;
 }
 class QListWidget;
+class QListWidgetItem;
 
 class HighlightingDialog : public QDialog
 {
@@ -26,10 +27,13 @@ public:
 
 private slots:
    void on_addRuleButton_clicked();
+   void on_deleteRuleButton_clicked();
 
 private:
    Ui::HighlightingDialog *ui;
    void addNewRuleToListWidget(QListWidget *listWidget);
+   void deleteCurrentSelectedRule();
+   QListWidgetItem *currentSelectedItem() const;
 };
 
 #endif // HIGHLIGHTINGDIALOG_H
