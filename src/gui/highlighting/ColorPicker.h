@@ -19,12 +19,14 @@ class ColorPicker;
 class ColorPicker : public QFrame
 {
    Q_OBJECT
+   friend class ColorPickerTest;
 
 public:
    explicit ColorPicker(QWidget *parent = 0);
    ~ColorPicker();
 
    QColor currentColor() const;
+   void setCurrentColor(const QString &colorName);
 
 private:
    void initWithPredefinedColors();

@@ -20,6 +20,7 @@ class QListWidgetItem;
 class HighlightingDialog : public QDialog
 {
    Q_OBJECT
+   friend class HighlightingDialogTest;
 
 public:
    explicit HighlightingDialog(QWidget *parent = 0);

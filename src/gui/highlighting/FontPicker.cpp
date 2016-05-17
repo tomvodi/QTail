@@ -43,3 +43,8 @@ QFont FontPicker::currentFont() const
    font.setPointSize(ui->fontSizeSpinBox->value());
    return font;
 }
+
+void FontPicker::setCurrentFont(const QFont &font)
+{
+   ui->fontComboBox->setCurrentFont(font);
+}

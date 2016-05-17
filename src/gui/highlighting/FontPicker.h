@@ -18,12 +18,14 @@ class FontPicker;
 class FontPicker : public QFrame
 {
    Q_OBJECT
+   friend class FontPickerTest;
 
 public:
    explicit FontPicker(QWidget *parent = 0);
    ~FontPicker();
 
    QFont currentFont() const;
+   void setCurrentFont(const QFont &font);
 
 private:
    Ui::FontPicker *ui;

@@ -5,3 +5,4 @@ include_directories(
 
 add_subdirectory( MainWindow )
 add_subdirectory( file_views )
+add_subdirectory( highlighting )
