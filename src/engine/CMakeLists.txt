@@ -5,19 +5,22 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package( Qt5Core REQUIRED )
+find_package( Qt5Gui REQUIRED )
 
 set(Project_Sources
   FileWatcher.cpp
   TailEngine.cpp
   FileReadLogic.cpp
+  HighlightingRule.cpp
 
   FileViewInterface.cpp
   FileWatcherInterface.cpp
 
   include/FileViewInterface.h
   include/FileWatcherInterface.h
+  include/HighlightingRule.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})
 
-target_link_libraries(${PROJECT_NAME} Qt5::Core)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui)

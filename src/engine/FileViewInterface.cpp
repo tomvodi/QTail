@@ -37,6 +37,16 @@ void FileViewInterface::clearTextView()
 {
 }
 
+void FileViewInterface::setLineHighlightingRules(const QList<HighlightingRule> &rules)
+{
+   Q_UNUSED(rules)
+}
+
+void FileViewInterface::setWordHighlighingRules(const QList<HighlightingRule> &rules)
+{
+   Q_UNUSED(rules)
+}
+
 QPointer<QWidget> FileViewInterface::widget() const
 {
    return QPointer<QWidget>();

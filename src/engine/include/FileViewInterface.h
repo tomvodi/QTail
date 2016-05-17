@@ -16,6 +16,8 @@
 #include <QObject>
 #include <QFileInfo>
 
+#include "HighlightingRule.h"
+
 enum class FileState {
    FileError,   //! File doesn't exist
    FileInSync,  //! File is in sync with UI, nothing new to see
@@ -52,6 +54,10 @@ public:
    virtual void appendLine(const QString &line);
    virtual void appendLines(const QStringList &lines);
    virtual void clearTextView();
+
+   // Highlighing methods
+   virtual void setWordHighlighingRules(const QList<HighlightingRule> &rules);
+   virtual void setLineHighlightingRules(const QList<HighlightingRule> &rules);
 
 signals:
    void requestCloseFile();

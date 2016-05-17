@@ -3,6 +3,7 @@ set( testmodules Test Core )
 set( testlibraries TestCommon TailEngine )
 
 find_package( Qt5Core REQUIRED )
+find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test REQUIRED )
 
 set( Test_SOURCES
