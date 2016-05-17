@@ -25,6 +25,7 @@ private Q_SLOTS:
    void cleanupTestCase();
    void testSetup();
    void testSetGetCurrentColor();
+   void testCurrentColorChangedSignal();
 };
 
 ColorPickerTest::ColorPickerTest()
@@ -55,6 +56,15 @@ void ColorPickerTest::testSetGetCurrentColor()
    colorPicker.setCurrentColor("limegreen");
 
    QVERIFY2(colorPicker.currentColor() == QColor("limegreen"), "Failed settings/getting current color");
+}
+
+void ColorPickerTest::testCurrentColorChangedSignal()
+{
+   ColorPicker colorPicker;
+   QSignalSpy spy(&colorPicker, SIGNAL(currentColorChanged(QColor)));
+
+   colorPicker.setCurrentColor(Qt::blue);
+   QVERIFY2(spy.count() == 1, "Color changed signal wasn't emitted.");
 }
 
 QTEST_MAIN(ColorPickerTest)

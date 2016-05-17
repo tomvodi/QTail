@@ -23,6 +23,10 @@ ColorPicker::ColorPicker(QWidget *parent) :
    ui->setupUi(this);
 
    initWithPredefinedColors();
+   connect(ui->colorComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+           [this] {
+      emit currentColorChanged(currentColor());
+   });
 }
 
 ColorPicker::~ColorPicker()

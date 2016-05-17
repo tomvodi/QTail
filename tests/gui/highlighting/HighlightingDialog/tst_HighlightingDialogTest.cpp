@@ -30,6 +30,7 @@ private Q_SLOTS:
    void testDeleteHighlighingRule();
    void testDeleteRuleWithMultipleRulesInList();
    void testChangeSelectedRule();
+   void testChangingSelectedRule();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -149,6 +150,10 @@ void HighlightingDialogTest::testDeleteRuleWithMultipleRulesInList()
    QVERIFY2(selectedRule == rule1, "Wrong selected rule, probably wrong rule deleted.");
 }
 
+/*!
+ * \brief HighlightingDialogTest::testChangeSelectedRule
+ * Changing the current selected rule should display the rule's setting in ui.
+ */
 void HighlightingDialogTest::testChangeSelectedRule()
 {
    HighlightingDialog dialog;
@@ -186,6 +191,50 @@ void HighlightingDialogTest::testChangeSelectedRule()
             "Text wasn't set from selected rule");
    QVERIFY2(dialog.ui->caseSensitiveCheckBox->isChecked() == (rule2.caseSensitivity() == Qt::CaseSensitive),
             "Case sensitivity wasn't set from selected rule");
+}
+
+/*!
+ * \brief HighlightingDialogTest::testChangingSelectedRule
+ * Changing the ui, should change the current selected rules values.
+ */
+void HighlightingDialogTest::testChangingSelectedRule()
+{
+   HighlightingDialog dialog;
+
+   QFont testFont = TestCommon::testFont();
+   HighlightingRule rule1;
+   rule1.setBackgroundColor(Qt::lightGray);
+   rule1.setForegroundColor(Qt::yellow);
+   rule1.setFont(testFont);
+   rule1.setText("Rule 1 text");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
+
+   Q_ASSERT(dialog.ui->wordRulesListWidget->selectedItems().count());
+
+   QColor newForegroundColor(Qt::blue);
+   QColor newBackgroundColor(Qt::green);
+   testFont.setBold(true);
+   testFont.setItalic(true);
+   QString testText("New text for rule");
+   bool newCaseValue = !dialog.ui->caseSensitiveCheckBox->isChecked();
+
+   dialog.ui->foregroundColorPicker->setCurrentColor(newForegroundColor);
+   dialog.ui->backgroundColorPicker->setCurrentColor(newBackgroundColor);
+   dialog.ui->fontPicker->setCurrentFont(testFont);
+   dialog.ui->regexLineEdit->setText(testText);
+   dialog.ui->caseSensitiveCheckBox->setChecked(newCaseValue);
+
+   QListWidgetItem *selectedItem = dialog.ui->wordRulesListWidget->selectedItems().at(0);
+   QVariant selectedRuleData = selectedItem->data(HighlightingDialog::HighlightRuleDataRole);
+   HighlightingRule selectedRule = selectedRuleData.value<HighlightingRule>();
+   QVERIFY2(selectedRule == rule1, "Wrong selected rule");
+
+   QVERIFY2(rule1.foregroundColor() == newForegroundColor, "Foreground color wasn't set for selected rule");
+   QVERIFY2(rule1.backgroundColor() == newBackgroundColor, "Background color wasn't set for selected rule");
+   QVERIFY2(rule1.font() == testFont, "Font wasn't set for selected rule");
+   QVERIFY2(rule1.text() == testText, "Text wasn't set for selected rule");
+   QVERIFY2((rule1.caseSensitivity() == Qt::CaseSensitive) == newCaseValue, "Case sensitivity wasn't set for selected rule");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

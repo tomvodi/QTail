@@ -38,6 +38,7 @@ signals:
 private slots:
    void on_addRuleButton_clicked();
    void on_deleteRuleButton_clicked();
+   void updateCurrentSelectedRuleValues();
 
 private:
    static int HighlightRuleDataRole;

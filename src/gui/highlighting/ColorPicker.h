@@ -28,6 +28,9 @@ public:
    QColor currentColor() const;
    void setCurrentColor(const QColor &color);
 
+signals:
+   void currentColorChanged(const QColor &color);
+
 private:
    void initWithPredefinedColors();
    QIcon iconForColor(const QColor &color);

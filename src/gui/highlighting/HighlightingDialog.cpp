@@ -35,6 +35,9 @@ HighlightingDialog::HighlightingDialog(QWidget *parent) :
       }
       setUiForCurrentSelectedItem();
    });
+
+   connect(ui->foregroundColorPicker, &ColorPicker::currentColorChanged,
+           this, &HighlightingDialog::updateCurrentSelectedRuleValues);
 }
 
 HighlightingDialog::~HighlightingDialog()
@@ -60,6 +63,16 @@ void HighlightingDialog::on_addRuleButton_clicked()
 void HighlightingDialog::on_deleteRuleButton_clicked()
 {
    deleteCurrentSelectedRule();
+}
+
+void HighlightingDialog::updateCurrentSelectedRuleValues()
+{
+   QListWidgetItem *currentItem = currentSelectedItem();
+   if (!currentItem) {
+      return;
+   }
+
+   currentItem->setForeground(ui->foregroundColorPicker->currentColor());
 }
 
 HighlightingRule HighlightingDialog::highlightingRuleFromGui() const
