@@ -26,6 +26,10 @@ private Q_SLOTS:
    void cleanupTestCase();
    void testExclusiveSelection();
    void testAddHighlightingRule();
+   void testAddMultipleHighlightingRules();
+   void testDeleteHighlighingRule();
+   void testDeleteRuleWithMultipleRulesInList();
+   void testChangeSelectedRule();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -70,6 +74,8 @@ void HighlightingDialogTest::testAddHighlightingRule()
 
    dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule);
 
+   QVERIFY2(dialog.ui->wordRulesListWidget->selectedItems().count(), "Added rule wasn't selected");
+
    QListWidgetItem *listItem = dialog.ui->wordRulesListWidget->item(0);
 
    QVERIFY2(listItem != 0, "No list item was added for new rule");
@@ -82,6 +88,104 @@ void HighlightingDialogTest::testAddHighlightingRule()
             "Highlighting rule data wasn't set in list item");
    HighlightingRule listItemDataRule = listItem->data(HighlightingDialog::HighlightRuleDataRole).value<HighlightingRule>();
    QVERIFY2(listItemDataRule == rule, "Rule in list item isn't the same that was set");
+}
+
+void HighlightingDialogTest::testAddMultipleHighlightingRules()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule rule1;
+   rule1.setText("Blablalbla");
+   HighlightingRule rule2;
+   rule2.setText("Rule 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule2);
+
+   QVERIFY2(dialog.ui->wordRulesListWidget->selectedItems().count() == 1, "Adding second rule selected more than one item.");
+}
+
+void HighlightingDialogTest::testDeleteHighlighingRule()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule rule;
+   rule.setText("Blablalbla");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule);
+   Q_ASSERT(dialog.ui->wordRulesListWidget->selectedItems().count());
+
+   dialog.deleteCurrentSelectedRule();
+   QVERIFY2(dialog.ui->wordRulesListWidget->count() == 0, "Selected rule wasn't deleted");
+}
+
+void HighlightingDialogTest::testDeleteRuleWithMultipleRulesInList()
+{
+   HighlightingDialog dialog;
+
+   QFont testFont = TestCommon::testFont();
+   HighlightingRule rule1;
+   rule1.setText("Blablalbla");
+
+   HighlightingRule rule2;
+   rule2.setText("Test text 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule2);
+
+   Q_ASSERT(dialog.ui->wordRulesListWidget->selectedItems().count());
+
+   QListWidgetItem *selectedItem = dialog.ui->wordRulesListWidget->selectedItems().at(0);
+   QVariant selectedRuleData = selectedItem->data(HighlightingDialog::HighlightRuleDataRole);
+   HighlightingRule selectedRule = selectedRuleData.value<HighlightingRule>();
+   QVERIFY2(selectedRule == rule2, "Wrong selected rule");
+
+   dialog.deleteCurrentSelectedRule();
+
+   QVERIFY2(dialog.ui->wordRulesListWidget->selectedItems().count(), "No selected rule after deleting one rule");
+   selectedItem = dialog.ui->wordRulesListWidget->selectedItems().at(0);
+   selectedRuleData = selectedItem->data(HighlightingDialog::HighlightRuleDataRole);
+   selectedRule = selectedRuleData.value<HighlightingRule>();
+   QVERIFY2(selectedRule == rule1, "Wrong selected rule, probably wrong rule deleted.");
+}
+
+void HighlightingDialogTest::testChangeSelectedRule()
+{
+   HighlightingDialog dialog;
+
+   QFont testFont = TestCommon::testFont();
+   HighlightingRule rule1;
+   rule1.setBackgroundColor(Qt::lightGray);
+   rule1.setForegroundColor(Qt::yellow);
+   rule1.setFont(testFont);
+   rule1.setText("Blablalbla");
+
+   HighlightingRule rule2;
+   rule2.setBackgroundColor(Qt::black);
+   rule2.setForegroundColor(Qt::white);
+   rule2.setFont(testFont);
+   rule2.setText("Test text 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule2);
+
+   Q_ASSERT(dialog.ui->wordRulesListWidget->selectedItems().count());
+
+   QListWidgetItem *selectedItem = dialog.ui->wordRulesListWidget->selectedItems().at(0);
+   QVariant selectedRuleData = selectedItem->data(HighlightingDialog::HighlightRuleDataRole);
+   HighlightingRule selectedRule = selectedRuleData.value<HighlightingRule>();
+   QVERIFY2(selectedRule == rule2, "Wrong selected rule");
+
+   QVERIFY2(dialog.ui->foregroundColorPicker->currentColor() == rule2.foregroundColor(),
+            "Foreground color wasn't set from selected rule");
+   QVERIFY2(dialog.ui->backgroundColorPicker->currentColor() == rule2.backgroundColor(),
+            "Background color wasn't set from selected rule");
+   QVERIFY2(dialog.ui->fontPicker->currentFont() == rule2.font(),
+            "Font wasn't set from selected rule");
+   QVERIFY2(dialog.ui->regexLineEdit->text() == rule2.text(),
+            "Text wasn't set from selected rule");
+   QVERIFY2(dialog.ui->caseSensitiveCheckBox->isChecked() == (rule2.caseSensitivity() == Qt::CaseSensitive),
+            "Case sensitivity wasn't set from selected rule");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

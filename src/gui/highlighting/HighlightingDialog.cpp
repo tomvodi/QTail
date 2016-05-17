@@ -26,12 +26,14 @@ HighlightingDialog::HighlightingDialog(QWidget *parent) :
       if (ui->wordRulesListWidget->selectedItems().count()) {
          ui->lineRulesListWidget->selectionModel()->clear();
       }
+      setUiForCurrentSelectedItem();
    });
    connect(ui->lineRulesListWidget, &QListWidget::itemSelectionChanged,
            [this] {
       if (ui->lineRulesListWidget->selectedItems().count()) {
          ui->wordRulesListWidget->selectionModel()->clear();
       }
+      setUiForCurrentSelectedItem();
    });
 }
 
@@ -83,11 +85,18 @@ void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget, const H
    listItem->setText(rule.text());
    listItem->setData(HighlightRuleDataRole, QVariant::fromValue<HighlightingRule>(rule));
    listWidget->addItem(listItem);
+
+   int row = listWidget->row(listItem);
+   QModelIndex itemIndex(listWidget->model()->index(row, 0));
+   listWidget->selectionModel()->clear();
+   listWidget->selectionModel()->select(itemIndex, QItemSelectionModel::Select);
 }
 
 void HighlightingDialog::deleteCurrentSelectedRule()
 {
    QListWidgetItem *selectedItem = currentSelectedItem();
+   int currentSelectedRow = selectedItem->listWidget()->row(selectedItem);
+
    if (!selectedItem) {
       return;
    }
@@ -103,6 +112,35 @@ void HighlightingDialog::deleteCurrentSelectedRule()
       delete itemWidget;
    }
    delete selectedItem;
+
+   if (listWidget->count() == 0) {
+      return;
+   }
+
+   int selectIndex = 0;
+
+   if (currentSelectedRow >= listWidget->count()) {
+      selectIndex = listWidget->count() - 1;
+   }
+
+   listWidget->selectionModel()->clear();
+   QModelIndex itemIndex = listWidget->model()->index(selectIndex, 0);
+   listWidget->selectionModel()->select(itemIndex, QItemSelectionModel::Select);
+}
+
+void HighlightingDialog::setUiForCurrentSelectedItem()
+{
+   QListWidgetItem *selectedItem = currentSelectedItem();
+   if (!selectedItem) {
+      return;
+   }
+
+   HighlightingRule highlightingRule = selectedItem->data(HighlightRuleDataRole).value<HighlightingRule>();
+   ui->foregroundColorPicker->setCurrentColor(highlightingRule.foregroundColor());
+   ui->backgroundColorPicker->setCurrentColor(highlightingRule.backgroundColor());
+   ui->fontPicker->setCurrentFont(highlightingRule.font());
+   ui->regexLineEdit->setText(highlightingRule.text());
+   ui->caseSensitiveCheckBox->setChecked(highlightingRule.caseSensitivity() == Qt::CaseSensitive);
 }
 
 QListWidgetItem *HighlightingDialog::currentSelectedItem() const

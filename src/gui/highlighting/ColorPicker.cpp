@@ -39,8 +39,9 @@ QColor ColorPicker::currentColor() const
    return color;
 }
 
-void ColorPicker::setCurrentColor(const QString &colorName)
+void ColorPicker::setCurrentColor(const QColor &color)
 {
+   QString colorName = color.name();
    int colorIndex = ui->colorComboBox->findData(QColor(colorName));
    if (colorIndex == -1) {
       qWarning() << "Failed to find color " << colorName << " in color combobox.";

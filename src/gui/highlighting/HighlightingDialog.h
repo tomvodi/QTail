@@ -45,6 +45,7 @@ private:
    HighlightingRule highlightingRuleFromGui() const;
    void addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule);
    void deleteCurrentSelectedRule();
+   void setUiForCurrentSelectedItem();
    QListWidgetItem *currentSelectedItem() const;
 };
 

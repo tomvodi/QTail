@@ -47,4 +47,9 @@ QFont FontPicker::currentFont() const
 void FontPicker::setCurrentFont(const QFont &font)
 {
    ui->fontComboBox->setCurrentFont(font);
+   ui->fontSizeSpinBox->setValue(font.pointSize());
+   ui->boldButton->setChecked(font.bold());
+   ui->italicButton->setChecked(font.italic());
+   ui->underlineButton->setChecked(font.underline());
+   ui->strikeoutButton->setChecked(font.strikeOut());
 }

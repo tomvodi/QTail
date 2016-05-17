@@ -26,7 +26,7 @@ public:
    ~ColorPicker();
 
    QColor currentColor() const;
-   void setCurrentColor(const QString &colorName);
+   void setCurrentColor(const QColor &color);
 
 private:
    void initWithPredefinedColors();

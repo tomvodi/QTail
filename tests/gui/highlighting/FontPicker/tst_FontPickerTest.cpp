@@ -72,13 +72,19 @@ void FontPickerTest::testSetGetFontWithModifiers()
 
    QFont font = TestCommon::testFont();
    // Modify testfont for ui state
-   font.setPointSize(fontPointSize);
-   font.setBold(true);
-   font.setItalic(true);
-   font.setUnderline(true);
-   font.setStrikeOut(true);
+   font.setPointSize(fontPointSize + 2);
+   font.setBold(false);
+   font.setItalic(false);
+   font.setUnderline(false);
+   font.setStrikeOut(false);
 
    fontPicker.setCurrentFont(font);
+
+   QVERIFY2(fontPicker.ui->fontSizeSpinBox->value() == font.pointSize(), "Font size wasn't set in ui from font.");
+   QVERIFY2(fontPicker.ui->boldButton->isChecked() == font.bold(), "Bold button wasn't set checked.");
+   QVERIFY2(fontPicker.ui->italicButton->isChecked() == font.italic(), "Italic button wasn't set checked.");
+   QVERIFY2(fontPicker.ui->underlineButton->isChecked() == font.underline(), "Underline button wasn't set checked.");
+   QVERIFY2(fontPicker.ui->strikeoutButton->isChecked() == font.strikeOut(), "Strike out button wasn't set checked.");
 
    QVERIFY2(fontPicker.currentFont() == font, "Returned font isn't the same as the one that was set.");
 }
