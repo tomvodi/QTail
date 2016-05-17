@@ -11,6 +11,7 @@
 #include <QCoreApplication>
 #include <QFontDatabase>
 
+#include <TestCommon.h>
 #include <highlighting/FontPicker.h>
 #include <ui_FontPicker.h>
 
@@ -26,9 +27,6 @@ private Q_SLOTS:
    void cleanupTestCase();
    void testSetGetFont();
    void testSetGetFontWithModifiers();
-
-private:
-   QFont testFont() const;
 };
 
 FontPickerTest::FontPickerTest()
@@ -46,7 +44,7 @@ void FontPickerTest::cleanupTestCase()
 void FontPickerTest::testSetGetFont()
 {
    FontPicker fontPicker;
-   QFont font = testFont();
+   QFont font = TestCommon::testFont();
 
    fontPicker.setCurrentFont(font);
 
@@ -72,7 +70,7 @@ void FontPickerTest::testSetGetFontWithModifiers()
    fontPicker.ui->underlineButton->setChecked(true);
    fontPicker.ui->strikeoutButton->setChecked(true);
 
-   QFont font = testFont();
+   QFont font = TestCommon::testFont();
    // Modify testfont for ui state
    font.setPointSize(fontPointSize);
    font.setBold(true);
@@ -83,18 +81,6 @@ void FontPickerTest::testSetGetFontWithModifiers()
    fontPicker.setCurrentFont(font);
 
    QVERIFY2(fontPicker.currentFont() == font, "Returned font isn't the same as the one that was set.");
-}
-
-QFont FontPickerTest::testFont() const
-{
-   QFontDatabase database;
-   QStringList fonts = database.families();
-
-   if (fonts.count() > 3) {
-      return QFont(fonts.at(2));
-   }
-
-   return QFont();
 }
 
 QTEST_MAIN(FontPickerTest)

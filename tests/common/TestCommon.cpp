@@ -12,6 +12,7 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <QCoreApplication>
+#include <QFontDatabase>
 
 #include "TestCommon.h"
 
@@ -58,4 +59,16 @@ void TestCommon::waitMsecs(quint32 mSecs)
    QEventLoop loop;
    QTimer::singleShot(mSecs, &loop, SLOT(quit()));
    loop.exec();
+}
+
+QFont TestCommon::testFont()
+{
+   QFontDatabase database;
+   QStringList fonts = database.families();
+
+   if (fonts.count() > 3) {
+      return QFont(fonts.at(2));
+   }
+
+   return QFont();
 }

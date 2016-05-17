@@ -9,8 +9,10 @@
 #ifndef HIGHLIGHTINGRULE_H
 #define HIGHLIGHTINGRULE_H
 
+#include <QDebug>
 #include <QColor>
 #include <QFont>
+#include <QMetaType>
 #include <QSharedDataPointer>
 
 class HighlightingRuleData;
@@ -21,6 +23,7 @@ public:
    HighlightingRule();
    HighlightingRule(const HighlightingRule &);
    HighlightingRule &operator=(const HighlightingRule &);
+   bool operator==(const HighlightingRule &other);
    ~HighlightingRule();
 
    QFont font() const;
@@ -41,5 +44,9 @@ public:
 private:
    QSharedDataPointer<HighlightingRuleData> data;
 };
+
+Q_DECLARE_METATYPE(HighlightingRule)
+
+QDebug operator<<(QDebug debug, const HighlightingRule &c);
 
 #endif // HIGHLIGHTINGRULE_H

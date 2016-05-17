@@ -1,6 +1,6 @@
 set( testname HighlightingDialogTest )
 set( testmodules Test Widgets )
-set( testlibraries TestCommon )
+set( testlibraries TestCommon TailEngine )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test REQUIRED )

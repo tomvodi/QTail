@@ -10,6 +10,8 @@
 #include "HighlightingDialog.h"
 #include "ui_HighlightingDialog.h"
 
+int HighlightingDialog::HighlightRuleDataRole = Qt::UserRole + 1;
+
 HighlightingDialog::HighlightingDialog(QWidget *parent) :
    QDialog(parent),
    ui(new Ui::HighlightingDialog)
@@ -38,9 +40,19 @@ HighlightingDialog::~HighlightingDialog()
    delete ui;
 }
 
+QList<HighlightingRule> HighlightingDialog::wordHighlightingRules() const
+{
+
+}
+
+QList<HighlightingRule> HighlightingDialog::lineHighlightingRules() const
+{
+
+}
+
 void HighlightingDialog::on_addRuleButton_clicked()
 {
-   addNewRuleToListWidget(ui->wordRulesListWidget);
+   addNewRuleToListWidget(ui->wordRulesListWidget, highlightingRuleFromGui());
 }
 
 void HighlightingDialog::on_deleteRuleButton_clicked()
@@ -48,13 +60,28 @@ void HighlightingDialog::on_deleteRuleButton_clicked()
    deleteCurrentSelectedRule();
 }
 
-void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget)
+HighlightingRule HighlightingDialog::highlightingRuleFromGui() const
+{
+   HighlightingRule rule;
+   rule.setBackgroundColor(ui->backgroundColorPicker->currentColor());
+   rule.setForegroundColor(ui->foregroundColorPicker->currentColor());
+   rule.setFont(ui->fontPicker->currentFont());
+   rule.setText(ui->regexLineEdit->text());
+   rule.setCaseSensitivity(ui->caseSensitiveCheckBox->isChecked() ?
+                              Qt::CaseSensitive :
+                              Qt::CaseInsensitive);
+
+   return rule;
+}
+
+void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule)
 {
    QListWidgetItem *listItem = new QListWidgetItem;
-   listItem->setBackground(ui->backgroundColorPicker->currentColor());
-   listItem->setForeground(ui->foregroundColorPicker->currentColor());
-   listItem->setFont(ui->fontPicker->currentFont());
-   listItem->setText(ui->regexLineEdit->text());
+   listItem->setBackground(rule.backgroundColor());
+   listItem->setForeground(rule.foregroundColor());
+   listItem->setFont(rule.font());
+   listItem->setText(rule.text());
+   listItem->setData(HighlightRuleDataRole, QVariant::fromValue<HighlightingRule>(rule));
    listWidget->addItem(listItem);
 }
 

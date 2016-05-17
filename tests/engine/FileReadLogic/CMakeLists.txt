@@ -1,5 +1,5 @@
 set( testname FileReadLogicTest )
-set( testmodules Test Core )
+set( testmodules Test Core Gui)
 set( testlibraries TestCommon TailEngine )
 
 find_package( Qt5Core REQUIRED )

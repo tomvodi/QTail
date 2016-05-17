@@ -16,7 +16,6 @@ class HighlightingRuleData : public QSharedData
 public:
    HighlightingRuleData() {}
    ~HighlightingRuleData() {}
-   HighlightingRuleData(const HighlightingRuleData &other) {}
 
    QColor foregroundColor = QColor(Qt::black);
    QColor backgroundColor = QColor(Qt::white);
@@ -41,6 +40,27 @@ HighlightingRule &HighlightingRule::operator=(const HighlightingRule &rhs)
    if (this != &rhs)
       data.operator=(rhs.data);
    return *this;
+}
+
+bool HighlightingRule::operator==(const HighlightingRule &other)
+{
+   if (data->foregroundColor != other.foregroundColor()) {
+      return false;
+   }
+   if (data->backgroundColor != other.backgroundColor()) {
+      return false;
+   }
+   if (data->font != other.font()) {
+      return false;
+   }
+   if (data->text != other.text()) {
+      return false;
+   }
+   if (data->caseSensitivity != other.caseSensitivity()) {
+      return false;
+   }
+
+   return true;
 }
 
 HighlightingRule::~HighlightingRule()
@@ -95,4 +115,18 @@ Qt::CaseSensitivity HighlightingRule::caseSensitivity() const
 void HighlightingRule::setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity)
 {
    data->caseSensitivity = caseSensitivity;
+}
+
+QDebug operator<<(QDebug debug, const HighlightingRule &c)
+{
+   QDebugStateSaver saver(debug);
+   QString caseSensitive(c.caseSensitivity() == Qt::CaseSensitive ? "true" : "false");
+   debug.nospace() << "HighlightingRule(" << c.text() <<
+                      ", bg-color: " << c.backgroundColor() <<
+                      ", fg-color: " << c.foregroundColor() <<
+                      ", font: " << c.font() <<
+                      ", casesensitive: " << caseSensitive <<
+                      ')';
+
+   return debug;
 }
