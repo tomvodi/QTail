@@ -22,6 +22,7 @@ class MainWindow;
 class TailEngine;
 class FileListItemWidget;
 class QListWidgetItem;
+class HighlightingDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -73,6 +74,7 @@ private:
    Settings m_settings;
    TailEngine *m_tailEngine = nullptr;
    QHash<QString, FileViewItems> m_fileViewItems;  // Hash for absolute file path -> FileViewItems
+   HighlightingDialog *m_highlightingDialog;
 };
 
 #endif // MAINWINDOW_H

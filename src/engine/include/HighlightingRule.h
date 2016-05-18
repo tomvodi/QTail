@@ -23,7 +23,7 @@ public:
    HighlightingRule();
    HighlightingRule(const HighlightingRule &);
    HighlightingRule &operator=(const HighlightingRule &);
-   bool operator==(const HighlightingRule &other);
+   bool operator==(const HighlightingRule &other) const;
    ~HighlightingRule();
 
    QFont font() const;

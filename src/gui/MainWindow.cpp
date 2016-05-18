@@ -6,6 +6,7 @@
  *
  */
 
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -29,7 +30,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),
-   ui(new Ui::MainWindow)
+   ui(new Ui::MainWindow),
+   m_highlightingDialog(new HighlightingDialog(this))
 {
    ui->setupUi(this);
    m_tailEngine = new TailEngine(this);
@@ -69,8 +71,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionHighlighting_triggered()
 {
-   HighlightingDialog dialog;
-   dialog.exec();
+   m_highlightingDialog->show();
 }
 
 void MainWindow::createConnections()

@@ -18,6 +18,7 @@ class HighlightingDialog;
 }
 class QListWidget;
 class QListWidgetItem;
+class QAbstractButton;
 
 class HighlightingDialog : public QDialog
 {
@@ -38,6 +39,7 @@ signals:
 private slots:
    void on_addRuleButton_clicked();
    void on_deleteRuleButton_clicked();
+   void on_buttonBox_clicked(QAbstractButton *button);
    void updateCurrentSelectedRuleValues();
 
 private:
@@ -50,6 +52,7 @@ private:
    QListWidgetItem *currentSelectedItem() const;
    void selectListWidgetItem(QListWidgetItem *item);
    void createConnections();
+   QList<HighlightingRule> rulesFromListWidget(QListWidget *listWidget) const;
 };
 
 #endif // HIGHLIGHTINGDIALOG_H

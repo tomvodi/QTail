@@ -53,6 +53,24 @@ void HighlightingDialog::createConnections()
            this, &HighlightingDialog::updateCurrentSelectedRuleValues);
 }
 
+QList<HighlightingRule> HighlightingDialog::rulesFromListWidget(QListWidget *listWidget) const
+{
+   QList<HighlightingRule> rules;
+
+   for (int i = 0; i < listWidget->count(); ++i) {
+      QListWidgetItem *item = listWidget->item(i);
+      if (!item) {
+         continue;
+      }
+
+      QVariant highlightingRuleData = item->data(HighlightRuleDataRole);
+      HighlightingRule highlightingRule = highlightingRuleData.value<HighlightingRule>();
+      rules << highlightingRule;
+   }
+
+   return rules;
+}
+
 HighlightingDialog::~HighlightingDialog()
 {
    delete ui;
@@ -60,12 +78,12 @@ HighlightingDialog::~HighlightingDialog()
 
 QList<HighlightingRule> HighlightingDialog::wordHighlightingRules() const
 {
-
+   return rulesFromListWidget(ui->wordRulesListWidget);
 }
 
 QList<HighlightingRule> HighlightingDialog::lineHighlightingRules() const
 {
-
+   return rulesFromListWidget(ui->lineRulesListWidget);
 }
 
 void HighlightingDialog::on_addRuleButton_clicked()
@@ -76,6 +94,16 @@ void HighlightingDialog::on_addRuleButton_clicked()
 void HighlightingDialog::on_deleteRuleButton_clicked()
 {
    deleteCurrentSelectedRule();
+}
+
+void HighlightingDialog::on_buttonBox_clicked(QAbstractButton *button)
+{
+   QDialogButtonBox::StandardButton standardButton = ui->buttonBox->standardButton(button);
+   if (standardButton == QDialogButtonBox::Apply ||
+       standardButton == QDialogButtonBox::Ok) {
+      emit wordHighlightingRulesChanged(wordHighlightingRules());
+      emit lineHighlightingRulesChanged(lineHighlightingRules());
+   }
 }
 
 void HighlightingDialog::updateCurrentSelectedRuleValues()

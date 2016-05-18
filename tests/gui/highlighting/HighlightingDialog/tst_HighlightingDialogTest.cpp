@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
+#include <QPushButton>
 
 #include <TestCommon.h>
 #include <highlighting/HighlightingDialog.h>
@@ -31,6 +32,8 @@ private Q_SLOTS:
    void testDeleteRuleWithMultipleRulesInList();
    void testChangeSelectedRule();
    void testChangingSelectedRule();
+   void testWordHighlightingRuleChanged();
+   void testLineHighlightingRuleChanged();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -244,6 +247,114 @@ void HighlightingDialogTest::testChangingSelectedRule()
 
    QVERIFY2(selectedRule.caseSensitivity() == (newCaseValue ? Qt::CaseSensitive : Qt::CaseInsensitive),
             "Case sensitivity wasn't set for selected rule");
+}
+
+void HighlightingDialogTest::testWordHighlightingRuleChanged()
+{
+   HighlightingDialog dialog;
+
+   QFont testFont = TestCommon::testFont();
+   HighlightingRule rule1;
+   rule1.setBackgroundColor(Qt::lightGray);
+   rule1.setForegroundColor(Qt::yellow);
+   rule1.setFont(testFont);
+   rule1.setText("Rule 1 text");
+
+   HighlightingRule rule2;
+   rule2.setBackgroundColor(Qt::black);
+   rule2.setForegroundColor(Qt::white);
+   rule2.setFont(testFont);
+   rule2.setText("Test text 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule2);
+
+   QSignalSpy ruleChangedSpy(&dialog, SIGNAL(wordHighlightingRulesChanged(QList<HighlightingRule>)));
+
+   QPushButton *applyButton = dialog.ui->buttonBox->button(QDialogButtonBox::Apply);
+   Q_ASSERT(applyButton);
+
+   applyButton->click();
+
+   QVERIFY2(ruleChangedSpy.count(), "Word highlighting rules changed signal wasn't emitted");
+
+   QVariant highlightRulesData = ruleChangedSpy.at(0).at(0);
+   Q_ASSERT(highlightRulesData.canConvert<QList<HighlightingRule>>());
+
+   QList<HighlightingRule> rules = highlightRulesData.value<QList<HighlightingRule>>();
+   QVERIFY2(rules.count() == 2, "The changed signal had no rules.");
+   QVERIFY2(rules.at(0) == rule1, "Wrong rule at first position");
+   QVERIFY2(rules.at(1) == rule2, "Wrong rule at second position");
+
+   ruleChangedSpy.clear();
+   QPushButton *okButton = dialog.ui->buttonBox->button(QDialogButtonBox::Ok);
+   Q_ASSERT(okButton);
+
+   okButton->click();
+
+   QVERIFY2(ruleChangedSpy.count(), "Word highlighting rules changed signal wasn't emitted on Ok button");
+
+   highlightRulesData = ruleChangedSpy.at(0).at(0);
+   Q_ASSERT(highlightRulesData.canConvert<QList<HighlightingRule>>());
+
+   rules = highlightRulesData.value<QList<HighlightingRule>>();
+   QVERIFY2(rules.count() == 2, "The changed signal had no rules.");
+   QVERIFY2(rules.at(0) == rule1, "Wrong rule at first position");
+   QVERIFY2(rules.at(1) == rule2, "Wrong rule at second position");
+}
+
+void HighlightingDialogTest::testLineHighlightingRuleChanged()
+{
+   HighlightingDialog dialog;
+
+   QFont testFont = TestCommon::testFont();
+   HighlightingRule rule1;
+   rule1.setBackgroundColor(Qt::lightGray);
+   rule1.setForegroundColor(Qt::yellow);
+   rule1.setFont(testFont);
+   rule1.setText("Rule 1 text");
+
+   HighlightingRule rule2;
+   rule2.setBackgroundColor(Qt::black);
+   rule2.setForegroundColor(Qt::white);
+   rule2.setFont(testFont);
+   rule2.setText("Test text 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->lineRulesListWidget, rule1);
+   dialog.addNewRuleToListWidget(dialog.ui->lineRulesListWidget, rule2);
+
+   QSignalSpy ruleChangedSpy(&dialog, SIGNAL(lineHighlightingRulesChanged(QList<HighlightingRule>)));
+
+   QPushButton *applyButton = dialog.ui->buttonBox->button(QDialogButtonBox::Apply);
+   Q_ASSERT(applyButton);
+
+   applyButton->click();
+
+   QVERIFY2(ruleChangedSpy.count(), "Line highlighting rules changed signal wasn't emitted on apply button.");
+
+   QVariant highlightRulesData = ruleChangedSpy.at(0).at(0);
+   Q_ASSERT(highlightRulesData.canConvert<QList<HighlightingRule>>());
+
+   QList<HighlightingRule> rules = highlightRulesData.value<QList<HighlightingRule>>();
+   QVERIFY2(rules.count() == 2, "The changed signal had no rules.");
+   QVERIFY2(rules.at(0) == rule1, "Wrong rule at first position");
+   QVERIFY2(rules.at(1) == rule2, "Wrong rule at second position");
+
+   ruleChangedSpy.clear();
+   QPushButton *okButton = dialog.ui->buttonBox->button(QDialogButtonBox::Ok);
+   Q_ASSERT(okButton);
+
+   okButton->click();
+
+   QVERIFY2(ruleChangedSpy.count(), "Line highlighting rules changed signal wasn't emitted on Ok button");
+
+   highlightRulesData = ruleChangedSpy.at(0).at(0);
+   Q_ASSERT(highlightRulesData.canConvert<QList<HighlightingRule>>());
+
+   rules = highlightRulesData.value<QList<HighlightingRule>>();
+   QVERIFY2(rules.count() == 2, "The changed signal had no rules.");
+   QVERIFY2(rules.at(0) == rule1, "Wrong rule at first position");
+   QVERIFY2(rules.at(1) == rule2, "Wrong rule at second position");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

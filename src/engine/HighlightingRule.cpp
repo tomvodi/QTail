@@ -42,7 +42,7 @@ HighlightingRule &HighlightingRule::operator=(const HighlightingRule &rhs)
    return *this;
 }
 
-bool HighlightingRule::operator==(const HighlightingRule &other)
+bool HighlightingRule::operator==(const HighlightingRule &other) const
 {
    if (data->foregroundColor != other.foregroundColor()) {
       return false;
