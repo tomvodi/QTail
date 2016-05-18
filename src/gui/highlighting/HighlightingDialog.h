@@ -48,6 +48,8 @@ private:
    void deleteCurrentSelectedRule();
    void setUiForCurrentSelectedItem();
    QListWidgetItem *currentSelectedItem() const;
+   void selectListWidgetItem(QListWidgetItem *item);
+   void createConnections();
 };
 
 #endif // HIGHLIGHTINGDIALOG_H

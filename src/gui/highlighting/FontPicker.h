@@ -27,7 +27,11 @@ public:
    QFont currentFont() const;
    void setCurrentFont(const QFont &font);
 
+signals:
+   void currentFontChanged(const QFont &font);
+
 private:
+   void createConnections();
    Ui::FontPicker *ui;
 };
 

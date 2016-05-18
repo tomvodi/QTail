@@ -200,6 +200,7 @@ void HighlightingDialogTest::testChangeSelectedRule()
 void HighlightingDialogTest::testChangingSelectedRule()
 {
    HighlightingDialog dialog;
+   dialog.show();
 
    QFont testFont = TestCommon::testFont();
    HighlightingRule rule1;
@@ -228,13 +229,21 @@ void HighlightingDialogTest::testChangingSelectedRule()
    QListWidgetItem *selectedItem = dialog.ui->wordRulesListWidget->selectedItems().at(0);
    QVariant selectedRuleData = selectedItem->data(HighlightingDialog::HighlightRuleDataRole);
    HighlightingRule selectedRule = selectedRuleData.value<HighlightingRule>();
-   QVERIFY2(selectedRule == rule1, "Wrong selected rule");
 
-   QVERIFY2(rule1.foregroundColor() == newForegroundColor, "Foreground color wasn't set for selected rule");
-   QVERIFY2(rule1.backgroundColor() == newBackgroundColor, "Background color wasn't set for selected rule");
-   QVERIFY2(rule1.font() == testFont, "Font wasn't set for selected rule");
-   QVERIFY2(rule1.text() == testText, "Text wasn't set for selected rule");
-   QVERIFY2((rule1.caseSensitivity() == Qt::CaseSensitive) == newCaseValue, "Case sensitivity wasn't set for selected rule");
+   QVERIFY2(selectedItem->foreground() == newForegroundColor, "Foreground color wasn't set for list item.");
+   QVERIFY2(selectedRule.foregroundColor() == newForegroundColor, "Foreground color wasn't set for selected rule");
+
+   QVERIFY2(selectedItem->backgroundColor() == newBackgroundColor, "Background color wasn't set for list item.");
+   QVERIFY2(selectedRule.backgroundColor() == newBackgroundColor, "Background color wasn't set for selected rule");
+
+   QVERIFY2(selectedItem->font() == testFont, "Font wasn't set for list item.");
+   QVERIFY2(selectedRule.font() == testFont, "Font wasn't set for selected rule");
+
+   QVERIFY2(selectedItem->text() == testText, "Text wasn't set for list item.");
+   QVERIFY2(selectedRule.text() == testText, "Text wasn't set for selected rule");
+
+   QVERIFY2(selectedRule.caseSensitivity() == (newCaseValue ? Qt::CaseSensitive : Qt::CaseInsensitive),
+            "Case sensitivity wasn't set for selected rule");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

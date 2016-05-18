@@ -65,6 +65,10 @@ void ColorPickerTest::testCurrentColorChangedSignal()
 
    colorPicker.setCurrentColor(Qt::blue);
    QVERIFY2(spy.count() == 1, "Color changed signal wasn't emitted.");
+
+   spy.clear();
+   colorPicker.ui->colorComboBox->setCurrentIndex( colorPicker.ui->colorComboBox->count() - 2 );
+   QVERIFY2(spy.count() == 1, "Color changed signal wasn't emitted for changed color in combobox.");
 }
 
 QTEST_MAIN(ColorPickerTest)

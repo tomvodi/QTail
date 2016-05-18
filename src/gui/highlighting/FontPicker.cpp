@@ -18,6 +18,22 @@ FontPicker::FontPicker(QWidget *parent) :
    // Init to default font size
    QFont font;
    ui->fontSizeSpinBox->setValue(font.pointSize());
+
+   createConnections();
+}
+
+void FontPicker::createConnections()
+{
+   connect(ui->boldButton, &QToolButton::toggled,
+           [this] { emit currentFontChanged(currentFont()); });
+   connect(ui->italicButton, &QToolButton::toggled,
+           [this] { emit currentFontChanged(currentFont()); });
+   connect(ui->underlineButton, &QToolButton::toggled,
+           [this] { emit currentFontChanged(currentFont()); });
+   connect(ui->strikeoutButton, &QToolButton::toggled,
+           [this] { emit currentFontChanged(currentFont()); });
+   connect(ui->fontSizeSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+           [this] { emit currentFontChanged(currentFont()); });
 }
 
 FontPicker::~FontPicker()
@@ -52,4 +68,6 @@ void FontPicker::setCurrentFont(const QFont &font)
    ui->italicButton->setChecked(font.italic());
    ui->underlineButton->setChecked(font.underline());
    ui->strikeoutButton->setChecked(font.strikeOut());
+
+   emit currentFontChanged(currentFont());
 }
