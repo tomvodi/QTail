@@ -62,4 +62,5 @@ QPointer<QWidget> PlainTextView::widget() const
 void PlainTextView::setHighlightingRules(const QList<HighlightingRule> &lineRules,
                                          const QList<HighlightingRule> &wordRules)
 {
+   m_syntaxHighlighter->setHighlightingRules(lineRules, wordRules);
 }
