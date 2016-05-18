@@ -7,6 +7,7 @@
  */
 
 #include <QScrollBar>
+#include <QTextDocument>
 
 #include "PlainTextViewWidget.h"
 #include "ui_PlainTextViewWidget.h"
@@ -55,4 +56,9 @@ QString PlainTextViewWidget::toPlainText() const
 void PlainTextViewWidget::clear()
 {
    ui->plainTextEdit->clear();
+}
+
+void PlainTextViewWidget::setTextDocument(QTextDocument *document)
+{
+   ui->plainTextEdit->setDocument(document);
 }

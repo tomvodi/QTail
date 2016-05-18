@@ -14,6 +14,8 @@
 #include <include/FileViewInterface.h>
 
 class PlainTextViewWidget;
+class SyntaxHighlighter;
+class QTextDocument;
 
 class PlainTextView : public FileViewInterface
 {
@@ -29,11 +31,14 @@ public:
    void clearTextView() override;
    QPointer<QWidget> widget() const override;
 
+public slots:
    void setHighlightingRules(const QList<HighlightingRule> &lineRules,
                              const QList<HighlightingRule> &wordRules) override;
 
 private:
+   QPointer<QTextDocument> m_textDocument;
    QPointer<PlainTextViewWidget> m_textEdit;
+   QPointer<SyntaxHighlighter> m_syntaxHighlighter;
 };
 
 #endif // PLAINTEXTVIEW_H

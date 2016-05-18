@@ -107,6 +107,8 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    listItemView->setFileInfo(fileInfo);
    PlainTextView *plainTextView = new PlainTextView(this);
    plainTextView->setFileInfo(fileInfo);
+   connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
+           plainTextView, &PlainTextView::setHighlightingRules);
    QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);
 
    FileViewItems viewItems;

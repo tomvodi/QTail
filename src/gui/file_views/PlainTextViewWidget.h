@@ -14,6 +14,7 @@
 namespace Ui {
 class PlainTextViewWidget;
 }
+class QTextDocument;
 
 class PlainTextViewWidget : public QFrame
 {
@@ -27,6 +28,8 @@ public:
    void appendPlainText(const QString &text);
    QString toPlainText() const;
    void clear();
+
+   void setTextDocument(QTextDocument *document);
 
 protected:
    void changeEvent(QEvent *e);
