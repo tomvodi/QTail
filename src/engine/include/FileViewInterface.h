@@ -55,9 +55,9 @@ public:
    virtual void appendLines(const QStringList &lines);
    virtual void clearTextView();
 
-   // Highlighing methods
-   virtual void setWordHighlighingRules(const QList<HighlightingRule> &rules);
-   virtual void setLineHighlightingRules(const QList<HighlightingRule> &rules);
+   // Highlighing
+   virtual void setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                                     const QList<HighlightingRule> &wordRules);
 
 signals:
    void requestCloseFile();

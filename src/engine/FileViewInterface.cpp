@@ -37,14 +37,19 @@ void FileViewInterface::clearTextView()
 {
 }
 
-void FileViewInterface::setLineHighlightingRules(const QList<HighlightingRule> &rules)
+/*!
+ * \brief FileViewInterface::setHighlightingRules
+ * Set the highlightin rules for this view. As line rules have to be applied first before
+ * word rules are applied, these rules are dependent. This is the reason why this method
+ * takes both types of rules as parameters.
+ * \param lineRules
+ * \param wordRules
+ */
+void FileViewInterface::setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                                             const QList<HighlightingRule> &wordRules)
 {
-   Q_UNUSED(rules)
-}
-
-void FileViewInterface::setWordHighlighingRules(const QList<HighlightingRule> &rules)
-{
-   Q_UNUSED(rules)
+   Q_UNUSED(lineRules)
+   Q_UNUSED(wordRules)
 }
 
 QPointer<QWidget> FileViewInterface::widget() const
