@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1072</width>
+    <width>1165</width>
     <height>798</height>
    </rect>
   </property>
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1072</width>
+     <width>1165</width>
      <height>27</height>
     </rect>
    </property>
@@ -79,6 +79,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="fileDockWidget">
+   <property name="windowTitle">
+    <string>Open Files</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
@@ -155,6 +158,11 @@
    </property>
    <property name="text">
     <string>Open Files</string>
+   </property>
+  </action>
+  <action name="actionShowHighlighting">
+   <property name="text">
+    <string>Highlighting</string>
    </property>
   </action>
  </widget>
