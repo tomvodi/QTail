@@ -41,21 +41,24 @@ void SyntaxHighlighter::highlightBlock(const QString &text)
       }
    }
 
-//   QList<HighlightingRule>::const_iterator it = m_wordRules.constEnd();
-//   while (it != m_lineRules.constBegin()) {
-//      --it;
-//      const HighlightingRule rule(*it);
-//      QRegExp expression(rule.text(), rule.caseSensitivity());
-//      int index = expression.indexIn(text);
-//      while (index >= 0) {
-//         QTextCharFormat format;
-//         format.setFont(rule.font());
-//         format.setBackground(rule.backgroundColor());
-//         format.setForeground(rule.foregroundColor());
+   // Highlighting words has to be after line highlighting
+   // There, all rules will be applied in reverse order, so that the high priority rule
+   // matches last
+   QList<HighlightingRule>::const_iterator it = m_wordRules.constEnd();
+   while (it != m_wordRules.constBegin()) {
+      --it;
+      const HighlightingRule rule(*it);
+      QRegExp expression(rule.text(), rule.caseSensitivity());
+      int index = expression.indexIn(text);
+      while (index >= 0) {
+         QTextCharFormat format;
+         format.setFont(rule.font());
+         format.setBackground(rule.backgroundColor());
+         format.setForeground(rule.foregroundColor());
 
-//         int length = expression.matchedLength();
-//         setFormat(index, length, format);
-//         index = expression.indexIn(text, index + length);
-//      }
-//   }
+         int length = expression.matchedLength();
+         setFormat(index, length, format);
+         index = expression.indexIn(text, index + length);
+      }
+   }
 }
