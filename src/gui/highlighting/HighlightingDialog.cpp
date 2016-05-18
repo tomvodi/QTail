@@ -101,8 +101,7 @@ void HighlightingDialog::on_buttonBox_clicked(QAbstractButton *button)
    QDialogButtonBox::StandardButton standardButton = ui->buttonBox->standardButton(button);
    if (standardButton == QDialogButtonBox::Apply ||
        standardButton == QDialogButtonBox::Ok) {
-      emit wordHighlightingRulesChanged(wordHighlightingRules());
-      emit lineHighlightingRulesChanged(lineHighlightingRules());
+      emit highlightingRulesChanged(lineHighlightingRules(), wordHighlightingRules());
    }
 }
 

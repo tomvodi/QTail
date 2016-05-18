@@ -29,12 +29,9 @@ public:
    explicit HighlightingDialog(QWidget *parent = 0);
    ~HighlightingDialog();
 
-   QList<HighlightingRule> wordHighlightingRules() const;
-   QList<HighlightingRule> lineHighlightingRules() const;
-
 signals:
-   void wordHighlightingRulesChanged(const QList<HighlightingRule> &rules);
-   void lineHighlightingRulesChanged(const QList<HighlightingRule> &rules);
+   void highlightingRulesChanged(const QList<HighlightingRule> &lineRules,
+                                 const QList<HighlightingRule> &wordRules);
 
 private slots:
    void on_addRuleButton_clicked();
@@ -46,6 +43,8 @@ private:
    static int HighlightRuleDataRole;
    Ui::HighlightingDialog *ui;
    HighlightingRule highlightingRuleFromGui() const;
+   QList<HighlightingRule> wordHighlightingRules() const;
+   QList<HighlightingRule> lineHighlightingRules() const;
    void addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule);
    void deleteCurrentSelectedRule();
    void setUiForCurrentSelectedItem();
