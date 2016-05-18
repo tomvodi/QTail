@@ -17,6 +17,8 @@ class PlainTextViewWidget;
 
 class PlainTextView : public FileViewInterface
 {
+   friend class PlainTextViewTest;
+
 public:
    PlainTextView(QObject *parent=0);
 
@@ -27,7 +29,8 @@ public:
    void clearTextView() override;
    QPointer<QWidget> widget() const override;
 
-   QPointer<PlainTextViewWidget> textEdit() const;
+   void setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                             const QList<HighlightingRule> &wordRules) override;
 
 private:
    QPointer<PlainTextViewWidget> m_textEdit;

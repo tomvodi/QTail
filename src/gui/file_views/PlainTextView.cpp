@@ -45,12 +45,12 @@ void PlainTextView::clearTextView()
    }
 }
 
-QPointer<PlainTextViewWidget> PlainTextView::textEdit() const
-{
-   return m_textEdit;
-}
-
 QPointer<QWidget> PlainTextView::widget() const
 {
    return QPointer<QWidget>(m_textEdit);
+}
+
+void PlainTextView::setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                                         const QList<HighlightingRule> &wordRules)
+{
 }

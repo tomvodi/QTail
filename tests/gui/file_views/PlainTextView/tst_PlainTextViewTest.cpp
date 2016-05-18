@@ -53,7 +53,7 @@ void PlainTextViewTest::testFeatures()
 void PlainTextViewTest::testAppendLine()
 {
    PlainTextView textView;
-   auto textEdit = textView.textEdit();
+   auto textEdit = textView.m_textEdit;
 
    QString testLine(QStringLiteral("This is a test line"));
    textView.appendLine(testLine);
@@ -64,7 +64,7 @@ void PlainTextViewTest::testAppendLine()
 void PlainTextViewTest::testAppendLines()
 {
    PlainTextView textView;
-   auto textEdit = textView.textEdit();
+   auto textEdit = textView.m_textEdit;
 
    QString testLine1(QStringLiteral("This is a test line"));
    QString testLine2(QStringLiteral("This is a second test line"));
@@ -76,7 +76,7 @@ void PlainTextViewTest::testAppendLines()
 void PlainTextViewTest::testClear()
 {
    PlainTextView textView;
-   auto textEdit = textView.textEdit();
+   auto textEdit = textView.m_textEdit;
 
    textEdit->appendPlainText("This is some plain text");
    textView.clearTextView();
