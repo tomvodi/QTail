@@ -47,6 +47,7 @@ public:
    virtual FileViewInterface::Features viewFeatures() const;
    virtual QPointer<QWidget> widget() const;
 
+public slots:
    // FileState feature methods
    virtual void setFileState(FileState state);
 
