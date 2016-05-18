@@ -42,14 +42,27 @@
     <addaction name="actionOpen"/>
     <addaction name="menuRecentFiles"/>
    </widget>
-   <widget class="QMenu" name="menu_Help">
+   <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <widget class="QMenu" name="menuWindows">
+     <property name="title">
+      <string>Windows</string>
+     </property>
+     <addaction name="actionShowOpenFiles"/>
+    </widget>
+    <addaction name="menuWindows"/>
+   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menu_Help"/>
+   <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="toolButtonStyle">
@@ -133,6 +146,17 @@
     <string>Alt+G</string>
    </property>
   </action>
+  <action name="actionShowOpenFiles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Open Files</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -152,6 +176,38 @@
     <hint type="destinationlabel">
      <x>534</x>
      <y>398</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowOpenFiles</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>fileDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>127</x>
+     <y>429</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fileDockWidget</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionShowOpenFiles</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>429</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>
