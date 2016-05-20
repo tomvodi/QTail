@@ -85,6 +85,11 @@ void MainWindow::createConnections()
       QString filePath = item->data(FilePathDataRole).toString();
       showFile(filePath);
    });
+
+   connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
+           [this] (const QList<HighlightingRule> &lineRules, const QList<HighlightingRule> &wordRules) {
+      m_settings.setHighlightingRules(lineRules, wordRules);
+   });
 }
 
 /*!
@@ -107,6 +112,7 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    listItemView->setFileInfo(fileInfo);
    PlainTextView *plainTextView = new PlainTextView(this);
    plainTextView->setFileInfo(fileInfo);
+   plainTextView->setHighlightingRules(m_settings.lineRules(), m_settings.wordRules());
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
            plainTextView, &PlainTextView::setHighlightingRules);
    QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);

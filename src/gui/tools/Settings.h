@@ -9,10 +9,14 @@
 #define SETTINGS_H
 
 #include <QDir>
+#include <QList>
 #include <QSettings>
+
+class HighlightingRule;
 
 class Settings
 {
+   friend class SettingsTest;
 public:
     Settings();
 
@@ -25,7 +29,15 @@ public:
     void setRecentlyOpenedFiles(const QStringList &files);
     QStringList recentlyOpenedFiles() const;
 
+    void setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                              const QList<HighlightingRule> &wordRules);
+
+    QList<HighlightingRule> wordRules() const;
+    QList<HighlightingRule> lineRules() const;
+
 private:
+    QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;
+    QList<HighlightingRule> highlightingStringListToList(const QStringList &array) const;
     QSettings m_settings;
 };
 
