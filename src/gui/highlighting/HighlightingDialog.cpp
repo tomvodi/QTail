@@ -76,6 +76,17 @@ HighlightingDialog::~HighlightingDialog()
    delete ui;
 }
 
+void HighlightingDialog::setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                                              const QList<HighlightingRule> &wordRules)
+{
+   foreach (const HighlightingRule &rule, lineRules) {
+      addNewRuleToListWidget(ui->lineRulesListWidget, rule);
+   }
+   foreach (const HighlightingRule &rule, wordRules) {
+      addNewRuleToListWidget(ui->wordRulesListWidget, rule);
+   }
+}
+
 QList<HighlightingRule> HighlightingDialog::wordHighlightingRules() const
 {
    return rulesFromListWidget(ui->wordRulesListWidget);

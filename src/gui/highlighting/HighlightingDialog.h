@@ -29,6 +29,9 @@ public:
    explicit HighlightingDialog(QWidget *parent = 0);
    ~HighlightingDialog();
 
+   void setHighlightingRules(const QList<HighlightingRule> &lineRules,
+                             const QList<HighlightingRule> &wordRules);
+
 signals:
    void highlightingRulesChanged(const QList<HighlightingRule> &lineRules,
                                  const QList<HighlightingRule> &wordRules);

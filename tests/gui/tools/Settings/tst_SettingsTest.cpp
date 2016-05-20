@@ -113,8 +113,8 @@ void SettingsTest::testSetHighlightingRules()
 
    Settings settingsRead;
 
-   QVERIFY2(settingsRead.wordRules() == wordRules, "Failed setting/getting word rules");
-   QVERIFY2(settingsRead.lineRules() == lineRules, "Failed setting/getting line rules");
+   QVERIFY2(settingsRead.wordHighlightingRules() == wordRules, "Failed setting/getting word rules");
+   QVERIFY2(settingsRead.lineHighlightingRules() == lineRules, "Failed setting/getting line rules");
 }
 
 QTEST_MAIN(SettingsTest)

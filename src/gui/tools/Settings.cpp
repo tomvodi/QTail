@@ -64,12 +64,12 @@ void Settings::setHighlightingRules(const QList<HighlightingRule> &lineRules,
    m_settings.setValue(WordHighlightingRulesValueName, highlightingListToStringList(wordRules));
 }
 
-QList<HighlightingRule> Settings::wordRules() const
+QList<HighlightingRule> Settings::wordHighlightingRules() const
 {
    return highlightingStringListToList(m_settings.value(WordHighlightingRulesValueName).toStringList());
 }
 
-QList<HighlightingRule> Settings::lineRules() const
+QList<HighlightingRule> Settings::lineHighlightingRules() const
 {
    return highlightingStringListToList(m_settings.value(LineHighlightingRulesValueName).toStringList());
 }

@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
    m_highlightingDialog(new HighlightingDialog(this))
 {
    ui->setupUi(this);
+
+   m_highlightingDialog->setHighlightingRules(m_settings.lineHighlightingRules(),
+                                              m_settings.wordHighlightingRules());
+
    m_tailEngine = new TailEngine(this);
 
    createConnections();
@@ -112,7 +116,7 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    listItemView->setFileInfo(fileInfo);
    PlainTextView *plainTextView = new PlainTextView(this);
    plainTextView->setFileInfo(fileInfo);
-   plainTextView->setHighlightingRules(m_settings.lineRules(), m_settings.wordRules());
+   plainTextView->setHighlightingRules(m_settings.lineHighlightingRules(), m_settings.wordHighlightingRules());
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
            plainTextView, &PlainTextView::setHighlightingRules);
    QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);

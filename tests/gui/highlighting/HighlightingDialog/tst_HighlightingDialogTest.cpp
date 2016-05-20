@@ -33,6 +33,7 @@ private Q_SLOTS:
    void testChangeSelectedRule();
    void testChangingSelectedRule();
    void testHighlightingRulesChanged();
+   void testSetHighlightingRules();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -328,6 +329,47 @@ void HighlightingDialogTest::testHighlightingRulesChanged()
    QVERIFY2(wordRules.count() == 2, "The changed signal had no word rules.");
    QVERIFY2(wordRules.at(0) == wordRule1, "Wrong word rule at first position");
    QVERIFY2(wordRules.at(1) == wordRule2, "Wrong word rule at second position");
+}
+
+void HighlightingDialogTest::testSetHighlightingRules()
+{
+   HighlightingDialog dialog;
+
+   QFont testFont = TestCommon::testFont();
+   HighlightingRule wordRule1;
+   wordRule1.setBackgroundColor(Qt::lightGray);
+   wordRule1.setForegroundColor(Qt::yellow);
+   wordRule1.setFont(testFont);
+   wordRule1.setText("word rule 1 text");
+
+   HighlightingRule wordRule2;
+   wordRule2.setBackgroundColor(Qt::black);
+   wordRule2.setForegroundColor(Qt::white);
+   wordRule2.setFont(testFont);
+   wordRule2.setText("word rule 2 text 2");
+
+   HighlightingRule lineRule1;
+   lineRule1.setBackgroundColor(Qt::yellow);
+   lineRule1.setForegroundColor(Qt::white);
+   lineRule1.setFont(testFont);
+   lineRule1.setText("line rule 1 text");
+
+   HighlightingRule lineRule2;
+   lineRule2.setBackgroundColor(Qt::green);
+   lineRule2.setForegroundColor(Qt::blue);
+   lineRule2.setFont(testFont);
+   lineRule2.setText("line rule 2 text 2");
+
+   QList<HighlightingRule> wordHighlightingRules({wordRule1, wordRule2});
+   QList<HighlightingRule> lineHighlightingRules({lineRule1, lineRule2});
+
+   dialog.setHighlightingRules(lineHighlightingRules, wordHighlightingRules);
+
+   QVERIFY2(dialog.ui->lineRulesListWidget->count() == 2, "Line rules weren't added to list");
+   QVERIFY2(dialog.ui->wordRulesListWidget->count() == 2, "Word rules weren't added to list");
+
+   QVERIFY2(dialog.wordHighlightingRules() == wordHighlightingRules, "Wrong word highlighting rules were added to list");
+   QVERIFY2(dialog.lineHighlightingRules() == lineHighlightingRules, "Wrong line highlighting rules were added to list");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

@@ -29,11 +29,11 @@ public:
     void setRecentlyOpenedFiles(const QStringList &files);
     QStringList recentlyOpenedFiles() const;
 
-    void setHighlightingRules(const QList<HighlightingRule> &lineRules,
-                              const QList<HighlightingRule> &wordRules);
+    void setHighlightingRules(const QList<HighlightingRule> &lineHighlightingRules,
+                              const QList<HighlightingRule> &wordHighlightingRules);
 
-    QList<HighlightingRule> wordRules() const;
-    QList<HighlightingRule> lineRules() const;
+    QList<HighlightingRule> wordHighlightingRules() const;
+    QList<HighlightingRule> lineHighlightingRules() const;
 
 private:
     QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;
