@@ -24,6 +24,7 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testSetterAndGetter();
+   void testToAndFromJson();
 };
 
 HighlightingRuleTest::HighlightingRuleTest()
@@ -62,6 +63,29 @@ void HighlightingRuleTest::testSetterAndGetter()
    Qt::CaseSensitivity caseSensitivity((rule.caseSensitivity() == Qt::CaseSensitive ? Qt::CaseInsensitive : Qt::CaseSensitive));
    rule.setCaseSensitivity(caseSensitivity);
    QVERIFY2(rule.caseSensitivity() == caseSensitivity, "Failed set/get caseSensitivity");
+}
+
+void HighlightingRuleTest::testToAndFromJson()
+{
+   QFont testFont = TestCommon::testFont();
+   QColor foregroundColor(Qt::blue);
+   QColor backgroundColor(Qt::yellow);
+   QString testText("test text");
+
+   HighlightingRule rule;
+   rule.setFont(testFont);
+   rule.setForegroundColor(foregroundColor);
+   rule.setBackgroundColor(backgroundColor);
+   rule.setText(testText);
+   Qt::CaseSensitivity caseSensitivity((rule.caseSensitivity() == Qt::CaseSensitive ? Qt::CaseInsensitive : Qt::CaseSensitive));
+   rule.setCaseSensitivity(caseSensitivity);
+
+   QJsonObject json = rule.toJson();
+
+   HighlightingRule deserializedRule;
+   deserializedRule.fromJson(json);
+
+   QVERIFY2(rule == deserializedRule, "Failed serialize and deserialize rule");
 }
 
 QTEST_MAIN(HighlightingRuleTest)

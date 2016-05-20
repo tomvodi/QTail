@@ -117,6 +117,29 @@ void HighlightingRule::setCaseSensitivity(const Qt::CaseSensitivity &caseSensiti
    data->caseSensitivity = caseSensitivity;
 }
 
+QJsonObject HighlightingRule::toJson() const
+{
+   QJsonObject json;
+   json.insert("font", data->font.toString());
+   json.insert("foreground", data->foregroundColor.name());
+   json.insert("background", data->backgroundColor.name());
+   json.insert("text", data->text);
+   json.insert("case", static_cast<int>(data->caseSensitivity));
+
+   return json;
+}
+
+void HighlightingRule::fromJson(const QJsonObject &json)
+{
+   QFont font;
+   font.fromString(json.value("font").toString());
+   data->font = font;
+   data->foregroundColor = QColor(json.value("foreground").toString());
+   data->backgroundColor = QColor(json.value("background").toString());
+   data->text = json.value("text").toString();
+   data->caseSensitivity = static_cast<Qt::CaseSensitivity>(json.value("case").toInt());
+}
+
 QDebug operator<<(QDebug debug, const HighlightingRule &c)
 {
    QDebugStateSaver saver(debug);

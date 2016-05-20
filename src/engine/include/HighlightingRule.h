@@ -14,6 +14,7 @@
 #include <QFont>
 #include <QMetaType>
 #include <QSharedDataPointer>
+#include <QJsonObject>
 
 class HighlightingRuleData;
 
@@ -40,6 +41,9 @@ public:
 
    Qt::CaseSensitivity caseSensitivity() const;
    void setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity);
+
+   QJsonObject toJson() const;
+   void fromJson(const QJsonObject &json);
 
 private:
    QSharedDataPointer<HighlightingRuleData> data;
