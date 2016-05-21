@@ -24,6 +24,8 @@ enum class FileState {
    FileHasChanged  //! File has new unread lines
 };
 
+class FileViewInterfacePrivate;
+
 /*!
  * \brief The FileViewInterface class
  *  The FileViewInterface is an base class for a general file view.
@@ -39,9 +41,8 @@ public:
    };
    Q_DECLARE_FLAGS(Features, Feature)
 
-   FileViewInterface(QObject *parent=0)
-      : QObject(parent) {}
-   virtual ~FileViewInterface() {}
+   FileViewInterface(QObject *parent=0);
+   virtual ~FileViewInterface();
 
    virtual void setFileInfo(const QFileInfo &fileInfo);
    virtual FileViewInterface::Features viewFeatures() const;
@@ -62,6 +63,10 @@ public slots:
 
 signals:
    void requestCloseFile();
+
+private:
+   Q_DECLARE_PRIVATE(FileViewInterface)
+   FileViewInterfacePrivate *d;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(FileViewInterface::Features)

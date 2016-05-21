@@ -8,14 +8,30 @@
 
 #include "include/FileViewInterface.h"
 
+struct FileViewInterfacePrivate
+{
+   QFileInfo fileInfo;
+};
+
 void FileViewInterface::setFileState(FileState state)
 {
    Q_UNUSED(state);
 }
 
+FileViewInterface::FileViewInterface(QObject *parent)
+      : QObject(parent),
+        d(new FileViewInterfacePrivate)
+{
+}
+
+FileViewInterface::~FileViewInterface()
+{
+   delete d;
+}
+
 void FileViewInterface::setFileInfo(const QFileInfo &fileInfo)
 {
-   Q_UNUSED(fileInfo);
+   d->fileInfo = fileInfo;
 }
 
 FileViewInterface::Features FileViewInterface::viewFeatures() const
