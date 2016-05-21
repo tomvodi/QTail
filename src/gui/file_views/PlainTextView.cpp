@@ -54,6 +54,19 @@ void PlainTextView::clearTextView()
    }
 }
 
+void PlainTextView::readCompleteFileUntil(qint64 maxLength)
+{
+   QFile file(fileInfo().absoluteFilePath());
+   if (!file.open(QIODevice::ReadOnly)) {
+      qWarning() << "readCompleteFileUntil: Failed opening file for reading.";
+      return;
+   }
+
+   clearTextView();
+
+   m_textEdit->appendPlainText(file.read(maxLength));
+}
+
 QPointer<QWidget> PlainTextView::widget() const
 {
    return QPointer<QWidget>(m_textEdit);

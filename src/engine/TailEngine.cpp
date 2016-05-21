@@ -29,6 +29,8 @@ void TailEngine::addFiles(const QFileInfo &file, const FileViews &views)
 
 void TailEngine::addFile(const QFileInfo &file, const FileView &view)
 {
+   view->setFileInfo(file);
+
    FileWatcher *fileWatcher = new FileWatcher(this);
    fileWatcher->setFilePath(file.absoluteFilePath());
 
@@ -38,6 +40,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
               [view] { view->clearTextView(); });
       connect(fileReadLogic, &FileReadLogic::linesAppended,
               [view] (const QStringList &lines) { view->appendLines(lines); });
+      view->readCompleteFileUntil(file.size());
    }
    fileReadLogic->setFileWatcher(fileWatcher);
 

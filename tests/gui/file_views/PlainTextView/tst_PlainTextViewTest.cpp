@@ -12,6 +12,7 @@
 
 #include <gui/file_views/PlainTextView.h>
 #include <gui/file_views/PlainTextViewWidget.h>
+#include <TestCommon.h>
 
 class PlainTextViewTest : public QObject
 {
@@ -27,6 +28,7 @@ private Q_SLOTS:
    void testAppendLine();
    void testAppendLines();
    void testClear();
+   void testReadCompleteUntil();
 };
 
 PlainTextViewTest::PlainTextViewTest()
@@ -82,6 +84,30 @@ void PlainTextViewTest::testClear()
    textView.clearTextView();
 
    QVERIFY2(textEdit->toPlainText().isEmpty(), "Text edit wasn't cleared.");
+}
+
+void PlainTextViewTest::testReadCompleteUntil()
+{
+   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testReadCompleteUntil.log"));
+
+   QString testFileContent("Test text\nTest line 2\nTest Line 3\n");
+   QString testFileContent2("Test line 4\n");
+   QFile outFile(filePath);
+   outFile.open(QIODevice::WriteOnly);
+   outFile.write(testFileContent.toUtf8());
+   outFile.write(testFileContent2.toUtf8());
+   outFile.close();
+
+   TestCommon::waitMsecs(100);
+
+   PlainTextView textView;
+   QFileInfo fileInfo(filePath);
+   textView.setFileInfo(fileInfo);
+
+   textView.readCompleteFileUntil(testFileContent.length());
+   QString textViewText = textView.m_textEdit->toPlainText();
+   QVERIFY2(textViewText.count(), "No text in text loaded into text view");
+   QVERIFY2(textViewText == testFileContent, "Too much or too less text was loaded into text view");
 }
 
 QTEST_MAIN(PlainTextViewTest)

@@ -29,6 +29,7 @@ public:
    void appendLine(const QString &line) override;
    void appendLines(const QStringList &lines) override;
    void clearTextView() override;
+   void readCompleteFileUntil(qint64 maxLength) override;
    QPointer<QWidget> widget() const override;
 
 public slots:

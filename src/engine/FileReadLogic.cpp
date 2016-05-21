@@ -97,6 +97,4 @@ void FileReadLogic::setFileWatcher(FileWatcherInterface *fileWatcher)
            this, &FileReadLogic::sizeChanged);
    connect(fileWatcher, &FileWatcherInterface::fileRemoved,
            this, &FileReadLogic::fileRemoved);
-
-   sizeChanged(0, 0);
 }

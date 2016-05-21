@@ -22,6 +22,7 @@ public:
    void appendLine(const QString &line) override;
    void appendLines(const QStringList &lines) override;
    void clearTextView() override;
+   void readCompleteFileUntil(qint64 maxLength) override;
    void setFileInfo(const QFileInfo &fileInfo) override;
 
    QStringList textViewLines() const;
@@ -30,6 +31,8 @@ public:
    bool fileStateWasSetByInterfaceMethod() const;
    QFileInfo fileInfo() const;
 
+   qint64 readUntilMaxLength() const;
+
 private:
    void setTextViewLines(const QStringList &textViewLines);
    QStringList m_textViewLines;
@@ -37,6 +40,7 @@ private:
    FileState m_fileState = FileState::FileInSync;
    bool m_fileStateWasSetByInterfaceMethod = false;
    QFileInfo m_fileInfo;
+   qint64 m_readUntilMaxLength = -1;
 };
 
 #endif // MOCFILEVIEW_H

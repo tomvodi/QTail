@@ -34,6 +34,11 @@ void FileViewInterface::setFileInfo(const QFileInfo &fileInfo)
    d->fileInfo = fileInfo;
 }
 
+QFileInfo FileViewInterface::fileInfo() const
+{
+   return d->fileInfo;
+}
+
 FileViewInterface::Features FileViewInterface::viewFeatures() const
 {
    return FileViewInterface::NoFeature;
@@ -47,6 +52,17 @@ void FileViewInterface::appendLine(const QString &line)
 void FileViewInterface::appendLines(const QStringList &lines)
 {
    Q_UNUSED(lines);
+}
+
+/*!
+ * \brief FileViewInterface::readCompleteFileUntil
+ * If a file is opened, this method will be called on the view in order to read the complete file
+ * until a maximum length.
+ * \param maxLength
+ */
+void FileViewInterface::readCompleteFileUntil(qint64 maxLength)
+{
+   Q_UNUSED(maxLength);
 }
 
 void FileViewInterface::clearTextView()

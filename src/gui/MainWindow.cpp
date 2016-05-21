@@ -113,9 +113,9 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    }
 
    FileListItemView *listItemView = new FileListItemView(this);
-   listItemView->setFileInfo(fileInfo);
    PlainTextView *plainTextView = new PlainTextView(this);
-   plainTextView->setFileInfo(fileInfo);
+   m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
+
    plainTextView->setHighlightingRules(m_settings.lineHighlightingRules(), m_settings.wordHighlightingRules());
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
            plainTextView, &PlainTextView::setHighlightingRules);
@@ -138,8 +138,6 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    item->setSizeHint(itemWidget->sizeHint());
    ui->fileListWidget->setItemWidget(item, itemWidget);
    ui->fileListWidget->setCurrentRow(ui->fileListWidget->row(item));
-
-   m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
 
    if (!justOpenFile) {
       saveLastOpenedFiles();

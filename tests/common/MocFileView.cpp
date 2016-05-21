@@ -39,6 +39,11 @@ void MocFileView::clearTextView()
    m_textViewLines.clear();
 }
 
+void MocFileView::readCompleteFileUntil(qint64 maxLength)
+{
+   m_readUntilMaxLength = maxLength;
+}
+
 void MocFileView::setFileInfo(const QFileInfo &fileInfo)
 {
    m_fileInfo = fileInfo;
@@ -52,6 +57,11 @@ QStringList MocFileView::textViewLines() const
 void MocFileView::setTextViewLines(const QStringList &textViewLines)
 {
    m_textViewLines = textViewLines;
+}
+
+qint64 MocFileView::readUntilMaxLength() const
+{
+   return m_readUntilMaxLength;
 }
 
 QFileInfo MocFileView::fileInfo() const

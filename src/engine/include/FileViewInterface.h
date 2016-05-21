@@ -45,6 +45,7 @@ public:
    virtual ~FileViewInterface();
 
    virtual void setFileInfo(const QFileInfo &fileInfo);
+   QFileInfo fileInfo() const;
    virtual FileViewInterface::Features viewFeatures() const;
    virtual QPointer<QWidget> widget() const;
 
@@ -55,6 +56,7 @@ public slots:
    // View feature methods
    virtual void appendLine(const QString &line);
    virtual void appendLines(const QStringList &lines);
+   virtual void readCompleteFileUntil(qint64 maxLength);
    virtual void clearTextView();
 
    // Highlighing

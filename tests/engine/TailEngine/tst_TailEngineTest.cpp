@@ -29,10 +29,11 @@ private Q_SLOTS:
    void testFileStateViewHasNoStateFeature();
    void testFileStateRemovedFile();
    void testFileStateRemovedLines();
+   void testSetFileInfoCallOnAddFile();
+   void testReadUntilCallInAddFile();
    void testLinesAddedLinesToFile();
    void testLinesViewHasNoTextFeature();
    void testLinesOpenNonEmptyFile();
-   void testLinesInitialPopulatingView();
 };
 
 TailEngineTest::TailEngineTest()
@@ -150,6 +151,49 @@ void TailEngineTest::testFileStateRemovedLines()
    QVERIFY2(fileView->fileState() == FileState::FileHasChanged, "File state is wrong for removed lines.");
 }
 
+void TailEngineTest::testSetFileInfoCallOnAddFile()
+{
+   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testReadUntilCallInAddFile.log"));
+   TailEngine engine;
+
+   MocFileView *fileView = new MocFileView;
+   fileView->setViewFeatures(FileViewInterface::HasTextView);
+   FileView sharedFileView(fileView);
+
+   QFileInfo fileInfo(filePath);
+   engine.addFiles(fileInfo, {sharedFileView});
+
+   QVERIFY2(fileView->fileInfo() == fileInfo, "File info wasn't set on adding file");
+}
+
+/*!
+ * \brief TailEngineTest::testReadUntilCallInAddFile
+ * If a file is added to the engine which has already content, the engine must init text views
+ * to read the file until the current size.
+ */
+void TailEngineTest::testReadUntilCallInAddFile()
+{
+   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testReadUntilCallInAddFile.log"));
+   TailEngine engine;
+
+   MocFileView *fileView = new MocFileView;
+   fileView->setViewFeatures(FileViewInterface::HasTextView);
+   FileView sharedFileView(fileView);
+
+   QString testText1("Test text1\nTest line 2\n");
+   QFile outFile(filePath);
+   outFile.open(QIODevice::WriteOnly);
+   QTextStream stream(&outFile);
+   stream << testText1;
+   stream.flush();
+   TestCommon::waitMsecs(100);
+
+   engine.addFiles(QFileInfo(filePath), {sharedFileView});
+
+   QVERIFY2(fileView->readUntilMaxLength() != -1, "readCompleteFileUntil wasn't called on file");
+   QVERIFY2(fileView->readUntilMaxLength() == testText1.length(), "readCompleteFileUntil wasn't called with correct file size");
+}
+
 void TailEngineTest::testLinesAddedLinesToFile()
 {
    QString line1(QStringLiteral("This is the first text line\n"));
@@ -206,29 +250,6 @@ void TailEngineTest::testLinesOpenNonEmptyFile()
    // Open non empty file
    // -> Clear
    // -> appendLines
-}
-
-void TailEngineTest::testLinesInitialPopulatingView()
-{
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesInitialPopulatingView.log"));
-   TailEngine engine;
-
-   MocFileView *fileView = new MocFileView;
-   fileView->setViewFeatures(FileViewInterface::HasTextView);  // View has no text feature
-   FileView sharedFileView(fileView);
-
-   QFile outFile(filePath);
-   outFile.open(QIODevice::WriteOnly);
-   QTextStream stream(&outFile);
-   stream << "Test line 1\n" << "Test line 2";
-   stream.flush();
-   TestCommon::waitMsecs(100);
-
-   engine.addFiles(QFileInfo(filePath), {sharedFileView});
-
-   TestCommon::waitMsecs(100);
-
-   QVERIFY2(fileView->textViewLines().count() == 2, "View text wasn't set by initially adding file.");
 }
 
 QTEST_MAIN(TailEngineTest)
