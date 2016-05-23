@@ -40,6 +40,10 @@ private slots:
    void on_addRuleButton_clicked();
    void on_deleteRuleButton_clicked();
    void on_buttonBox_clicked(QAbstractButton *button);
+   void on_downButton_clicked();
+   void on_upButton_clicked();
+   void on_bottomButton_clicked();
+   void on_topButton_clicked();
    void updateCurrentSelectedRuleValues();
 
 private:

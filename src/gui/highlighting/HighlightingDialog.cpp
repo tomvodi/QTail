@@ -116,6 +116,82 @@ void HighlightingDialog::on_buttonBox_clicked(QAbstractButton *button)
    }
 }
 
+void HighlightingDialog::on_downButton_clicked()
+{
+   QListWidgetItem *currentItem = currentSelectedItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QListWidget *listWidget = currentItem->listWidget();
+   int currentItemRow = listWidget->row(currentItem);
+   if (currentItemRow >= (listWidget->count() - 1)) {
+      return;
+   }
+
+   listWidget->takeItem(currentItemRow);
+   listWidget->insertItem(currentItemRow + 1, currentItem);
+
+   selectListWidgetItem(currentItem);
+}
+
+void HighlightingDialog::on_upButton_clicked()
+{
+   QListWidgetItem *currentItem = currentSelectedItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QListWidget *listWidget = currentItem->listWidget();
+   int currentItemRow = listWidget->row(currentItem);
+   if (currentItemRow <= 0) {
+      return;
+   }
+
+   listWidget->takeItem(currentItemRow);
+   listWidget->insertItem(currentItemRow - 1, currentItem);
+
+   selectListWidgetItem(currentItem);
+}
+
+void HighlightingDialog::on_bottomButton_clicked()
+{
+   QListWidgetItem *currentItem = currentSelectedItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QListWidget *listWidget = currentItem->listWidget();
+   int currentItemRow = listWidget->row(currentItem);
+   if (currentItemRow >= (listWidget->count() - 1)) {
+      return;
+   }
+
+   listWidget->takeItem(currentItemRow);
+   listWidget->insertItem(listWidget->count(), currentItem);
+
+   selectListWidgetItem(currentItem);
+}
+
+void HighlightingDialog::on_topButton_clicked()
+{
+   QListWidgetItem *currentItem = currentSelectedItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QListWidget *listWidget = currentItem->listWidget();
+   int currentItemRow = listWidget->row(currentItem);
+   if (currentItemRow <= 0) {
+      return;
+   }
+
+   listWidget->takeItem(currentItemRow);
+   listWidget->insertItem(0, currentItem);
+
+   selectListWidgetItem(currentItem);
+}
+
 void HighlightingDialog::updateCurrentSelectedRuleValues()
 {
    QListWidgetItem *currentItem = currentSelectedItem();

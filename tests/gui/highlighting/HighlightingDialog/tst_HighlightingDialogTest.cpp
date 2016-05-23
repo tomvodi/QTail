@@ -34,6 +34,10 @@ private Q_SLOTS:
    void testChangingSelectedRule();
    void testHighlightingRulesChanged();
    void testSetHighlightingRules();
+   void testMoveDownWordHighlightItem();
+   void testMoveUpWordHighlightItem();
+   void testMoveBottomWordHighlightItem();
+   void testMoveTopWordHighlightItem();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -370,6 +374,134 @@ void HighlightingDialogTest::testSetHighlightingRules()
 
    QVERIFY2(dialog.wordHighlightingRules() == wordHighlightingRules, "Wrong word highlighting rules were added to list");
    QVERIFY2(dialog.lineHighlightingRules() == lineHighlightingRules, "Wrong line highlighting rules were added to list");
+}
+
+void HighlightingDialogTest::testMoveDownWordHighlightItem()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule wordRule1;
+   wordRule1.setText("word rule 1 text");
+
+   HighlightingRule wordRule2;
+   wordRule2.setText("word rule 2 text 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule2);
+
+   // Select first item
+   QAbstractItemModel *wordListModel = dialog.ui->wordRulesListWidget->model();
+   dialog.ui->wordRulesListWidget->selectionModel()->clear();
+   dialog.ui->wordRulesListWidget->selectionModel()->select(wordListModel->index(0, 0), QItemSelectionModel::Select);
+
+   dialog.ui->downButton->clicked();
+
+   QListWidgetItem *firstWordItem = dialog.ui->wordRulesListWidget->item(0);
+   Q_ASSERT(firstWordItem);
+
+   QVERIFY2(firstWordItem->text() == wordRule2.text(),
+            "Second rule isn't at first position after moving first rule down");
+   QListWidgetItem *selectedItem = dialog.currentSelectedItem();
+   QVERIFY2(selectedItem, "No selected item after moving item down.");
+   QVERIFY2(selectedItem->text() == wordRule1.text(), "The moved item isn't selected after moving");
+}
+
+void HighlightingDialogTest::testMoveUpWordHighlightItem()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule wordRule1;
+   wordRule1.setText("word rule 1 text");
+
+   HighlightingRule wordRule2;
+   wordRule2.setText("word rule 2 text 2");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule2);
+
+   // Select second item
+   QAbstractItemModel *wordListModel = dialog.ui->wordRulesListWidget->model();
+   dialog.ui->wordRulesListWidget->selectionModel()->clear();
+   dialog.ui->wordRulesListWidget->selectionModel()->select(wordListModel->index(1, 0), QItemSelectionModel::Select);
+
+   dialog.ui->upButton->clicked();
+
+   QListWidgetItem *secondWordItem = dialog.ui->wordRulesListWidget->item(1);
+   Q_ASSERT(secondWordItem);
+
+   QVERIFY2(secondWordItem->text() == wordRule1.text(),
+            "First rule isn't at second position after moving second rule up");
+   QListWidgetItem *selectedItem = dialog.currentSelectedItem();
+   QVERIFY2(selectedItem, "No selected item after moving item down.");
+   QVERIFY2(selectedItem->text() == wordRule2.text(), "The moved item isn't selected after moving");
+}
+
+void HighlightingDialogTest::testMoveBottomWordHighlightItem()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule wordRule1;
+   wordRule1.setText("word rule 1 text");
+
+   HighlightingRule wordRule2;
+   wordRule2.setText("word rule 2 text");
+
+   HighlightingRule wordRule3;
+   wordRule3.setText("word rule 3 text");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule2);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule3);
+
+   // Select first item
+   QAbstractItemModel *wordListModel = dialog.ui->wordRulesListWidget->model();
+   dialog.ui->wordRulesListWidget->selectionModel()->clear();
+   dialog.ui->wordRulesListWidget->selectionModel()->select(wordListModel->index(0, 0), QItemSelectionModel::Select);
+
+   dialog.ui->bottomButton->clicked();
+
+   QListWidgetItem *lastWordItem = dialog.ui->wordRulesListWidget->item(dialog.ui->wordRulesListWidget->count() - 1);
+   Q_ASSERT(lastWordItem);
+
+   QVERIFY2(lastWordItem->text() == wordRule1.text(),
+            "First rule isn't at last position after moving to bottom");
+   QListWidgetItem *selectedItem = dialog.currentSelectedItem();
+   QVERIFY2(selectedItem, "No selected item after moving item to bottom.");
+   QVERIFY2(selectedItem->text() == wordRule1.text(), "The moved item isn't selected after moving");
+}
+
+void HighlightingDialogTest::testMoveTopWordHighlightItem()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule wordRule1;
+   wordRule1.setText("word rule 1 text");
+
+   HighlightingRule wordRule2;
+   wordRule2.setText("word rule 2 text");
+
+   HighlightingRule wordRule3;
+   wordRule3.setText("word rule 3 text");
+
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule1);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule2);
+   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, wordRule3);
+
+   // Select first item
+   QAbstractItemModel *wordListModel = dialog.ui->wordRulesListWidget->model();
+   dialog.ui->wordRulesListWidget->selectionModel()->clear();
+   dialog.ui->wordRulesListWidget->selectionModel()->select(wordListModel->index(2, 0), QItemSelectionModel::Select);
+
+   dialog.ui->topButton->clicked();
+
+   QListWidgetItem *firstWordItem = dialog.ui->wordRulesListWidget->item(0);
+   Q_ASSERT(firstWordItem);
+
+   QVERIFY2(firstWordItem->text() == wordRule3.text(),
+            "Last rule isn't at first position after moving to top");
+   QListWidgetItem *selectedItem = dialog.currentSelectedItem();
+   QVERIFY2(selectedItem, "No selected item after moving item to top.");
+   QVERIFY2(selectedItem->text() == wordRule3.text(), "The moved item isn't selected after moving");
 }
 
 QTEST_MAIN(HighlightingDialogTest)
