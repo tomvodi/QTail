@@ -24,6 +24,8 @@ FontPicker::FontPicker(QWidget *parent) :
 
 void FontPicker::createConnections()
 {
+   connect(ui->fontComboBox, &QFontComboBox::currentFontChanged,
+           [this] { emit currentFontChanged(currentFont()); });
    connect(ui->boldButton, &QToolButton::toggled,
            [this] { emit currentFontChanged(currentFont()); });
    connect(ui->italicButton, &QToolButton::toggled,

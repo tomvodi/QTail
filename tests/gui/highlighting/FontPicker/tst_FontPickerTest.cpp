@@ -99,6 +99,17 @@ void FontPickerTest::testCurrentFontChangedSignal()
    QVERIFY2(spy.count(), "Font changed signal wasn't emitted");
 
    spy.clear();
+   int currentIndex = fontPicker.ui->fontComboBox->currentIndex();
+   int newIndex = currentIndex + 1;
+   if (newIndex >= fontPicker.ui->fontComboBox->count() - 1) {
+      newIndex = currentIndex - 1;
+   }
+
+   Q_ASSERT(newIndex >= 0);
+   fontPicker.ui->fontComboBox->setCurrentIndex(newIndex);
+   QVERIFY2(spy.count(), "Font changed signal wasn't emitted on font change.");
+
+   spy.clear();
    fontPicker.ui->boldButton->toggle();
    QVERIFY2(spy.count(), "Font changed signal wasn't emitted on bold button change.");
 
