@@ -99,7 +99,19 @@ QList<HighlightingRule> HighlightingDialog::lineHighlightingRules() const
 
 void HighlightingDialog::on_addRuleButton_clicked()
 {
-   addNewRuleToListWidget(ui->wordRulesListWidget, highlightingRuleFromGui());
+   QListWidgetItem *currentItem = currentSelectedItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QListWidget *listWidget = currentItem->listWidget();
+   if (!listWidget) {
+      return;
+   }
+
+   int currentItemIndex = listWidget->row(currentItem);
+
+   addNewRuleToListWidget(listWidget, highlightingRuleFromGui(), currentItemIndex + 1);
 }
 
 void HighlightingDialog::on_deleteRuleButton_clicked()
@@ -238,7 +250,15 @@ HighlightingRule HighlightingDialog::highlightingRuleFromGui() const
    return rule;
 }
 
-void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule)
+/*!
+ * \brief HighlightingDialog::addNewRuleToListWidget
+ * Adds a new rule to a list widget. If position is a valid position, the new rule will be inserted
+ * at this position. If the position isn't valid, the rule will be appended to the list.
+ * \param listWidget
+ * \param rule
+ * \param position
+ */
+void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule, int position)
 {
    QListWidgetItem *listItem = new QListWidgetItem;
    listItem->setBackground(rule.backgroundColor());
@@ -246,7 +266,13 @@ void HighlightingDialog::addNewRuleToListWidget(QListWidget *listWidget, const H
    listItem->setFont(rule.font());
    listItem->setText(rule.text());
    listItem->setData(HighlightRuleDataRole, QVariant::fromValue<HighlightingRule>(rule));
-   listWidget->addItem(listItem);
+
+   int insertIndex = position;
+   if (insertIndex < 0 ||
+       insertIndex >= listWidget->count()) {
+      insertIndex = listWidget->count();
+   }
+   listWidget->insertItem(insertIndex, listItem);
 
    selectListWidgetItem(listItem);
 }
@@ -276,7 +302,7 @@ void HighlightingDialog::deleteCurrentSelectedRule()
       return;
    }
 
-   int selectIndex = 0;
+   int selectIndex = currentSelectedRow;
 
    if (currentSelectedRow >= listWidget->count()) {
       selectIndex = listWidget->count() - 1;

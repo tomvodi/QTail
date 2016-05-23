@@ -52,7 +52,7 @@ private:
    HighlightingRule highlightingRuleFromGui() const;
    QList<HighlightingRule> wordHighlightingRules() const;
    QList<HighlightingRule> lineHighlightingRules() const;
-   void addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule);
+   void addNewRuleToListWidget(QListWidget *listWidget, const HighlightingRule &rule, int position=-1);
    void deleteCurrentSelectedRule();
    void setUiForCurrentSelectedItem();
    QListWidgetItem *currentSelectedItem() const;

@@ -26,7 +26,8 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testExclusiveSelection();
-   void testAddHighlightingRule();
+   void testAddHighlightingRuleToListWidget();
+   void testAddRuleButtonclicked();
    void testAddMultipleHighlightingRules();
    void testDeleteHighlighingRule();
    void testDeleteRuleWithMultipleRulesInList();
@@ -69,7 +70,7 @@ void HighlightingDialogTest::testExclusiveSelection()
    QVERIFY2(dialog.ui->lineRulesListWidget->selectedItems().count(), "Line item wasn't selected.");
 }
 
-void HighlightingDialogTest::testAddHighlightingRule()
+void HighlightingDialogTest::testAddHighlightingRuleToListWidget()
 {
    HighlightingDialog dialog;
 
@@ -98,6 +99,43 @@ void HighlightingDialogTest::testAddHighlightingRule()
    QVERIFY2(listItemDataRule == rule, "Rule in list item isn't the same that was set");
 }
 
+/*!
+ * \brief HighlightingDialogTest::testAddRuleButtonclicked
+ * If a rule is selected in a list widget, the new rule should be added after this selected rule
+ * with the same highlighting values.
+ */
+void HighlightingDialogTest::testAddRuleButtonclicked()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule wordRule1;
+   wordRule1.setText("word rule 1 text");
+
+   HighlightingRule wordRule2;
+   wordRule2.setText("word rule 2 text");
+
+   HighlightingRule wordRule3;
+   wordRule3.setText("word rule 3 text");
+
+   QListWidget *listWidget = dialog.ui->lineRulesListWidget;
+   dialog.addNewRuleToListWidget(listWidget, wordRule1);
+   dialog.addNewRuleToListWidget(listWidget, wordRule2);
+   dialog.addNewRuleToListWidget(listWidget, wordRule3);
+
+   int selectedRuleIndex = 1;
+
+   // Select second item
+   QAbstractItemModel *listModel = listWidget->model();
+   listWidget->selectionModel()->clear();
+   listWidget->selectionModel()->select(listModel->index(selectedRuleIndex, 0),
+                                        QItemSelectionModel::Select);
+
+   dialog.on_addRuleButton_clicked();
+   QVERIFY2(listWidget->count() == 4, "No rule was added to list widget.");
+   QVERIFY2(listWidget->item(selectedRuleIndex + 1)->text() == wordRule2.text(),
+            "The rule item after the copied rule hasn't the same text");
+}
+
 void HighlightingDialogTest::testAddMultipleHighlightingRules()
 {
    HighlightingDialog dialog;
@@ -113,18 +151,39 @@ void HighlightingDialogTest::testAddMultipleHighlightingRules()
    QVERIFY2(dialog.ui->wordRulesListWidget->selectedItems().count() == 1, "Adding second rule selected more than one item.");
 }
 
+/*!
+ * \brief HighlightingDialogTest::testDeleteHighlighingRule
+ * Test deleting rule. After deleting rule in the middle of the list, the selected rule index
+ * should be the same as before deleting the item.
+ */
 void HighlightingDialogTest::testDeleteHighlighingRule()
 {
    HighlightingDialog dialog;
 
-   HighlightingRule rule;
-   rule.setText("Blablalbla");
+   HighlightingRule rule1;
+   rule1.setText("Rule 1");
+   HighlightingRule rule2;
+   rule2.setText("Rule 2");
+   HighlightingRule rule3;
+   rule3.setText("Rule 3");
 
-   dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule);
-   Q_ASSERT(dialog.ui->wordRulesListWidget->selectedItems().count());
+   int deleteItemRowIndex = 1;
+   QListWidget *listWidget = dialog.ui->wordRulesListWidget;
+   dialog.addNewRuleToListWidget(listWidget, rule1);
+   dialog.addNewRuleToListWidget(listWidget, rule2);
+   dialog.addNewRuleToListWidget(listWidget, rule3);
+   Q_ASSERT(listWidget->count() == 3);
+
+   // Select second item
+   QAbstractItemModel *wordListModel = dialog.ui->wordRulesListWidget->model();
+   listWidget->selectionModel()->clear();
+   listWidget->selectionModel()->select(wordListModel->index(deleteItemRowIndex, 0),
+                                        QItemSelectionModel::Select);
 
    dialog.deleteCurrentSelectedRule();
-   QVERIFY2(dialog.ui->wordRulesListWidget->count() == 0, "Selected rule wasn't deleted");
+   QVERIFY2(listWidget->count() == 2, "Selected rule wasn't deleted");
+   QVERIFY2(listWidget->row(dialog.currentSelectedItem()) == deleteItemRowIndex,
+            "Wrong selected rule after deleting rule");
 }
 
 void HighlightingDialogTest::testDeleteRuleWithMultipleRulesInList()
