@@ -27,6 +27,8 @@ public:
 HighlightingRule::HighlightingRule()
    : data(new HighlightingRuleData)
 {
+   qRegisterMetaType<HighlightingRule>("HighlightingRule");
+   qRegisterMetaTypeStreamOperators<HighlightingRule>("HighlightingRule");
 }
 
 HighlightingRule::HighlightingRule(const HighlightingRule &rhs)
@@ -152,4 +154,37 @@ QDebug operator<<(QDebug debug, const HighlightingRule &c)
                       ')';
 
    return debug;
+}
+
+QDataStream &operator<<(QDataStream &out, const HighlightingRule &rule)
+{
+   out << rule.font()
+       << rule.foregroundColor()
+       << rule.backgroundColor()
+       << rule.text()
+       << (rule.caseSensitivity() == Qt::CaseSensitive ? true : false);
+   return out;
+}
+
+QDataStream &operator>>(QDataStream &in, HighlightingRule &rule)
+{
+   QFont font;
+   QColor foregroundColor;
+   QColor backgroundColor;
+   QString text;
+   bool caseSensitive;
+
+   in >> font
+         >> foregroundColor
+         >> backgroundColor
+         >> text
+         >> caseSensitive;
+
+   Qt::CaseSensitivity caseSensitivity(caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+   rule.setFont(font);
+   rule.setForegroundColor(foregroundColor);
+   rule.setBackgroundColor(backgroundColor);
+   rule.setText(text);
+   rule.setCaseSensitivity(caseSensitivity);
+   return in;
 }

@@ -15,6 +15,7 @@
 #include <QMetaType>
 #include <QSharedDataPointer>
 #include <QJsonObject>
+#include <QDataStream>
 
 class HighlightingRuleData;
 
@@ -52,5 +53,8 @@ private:
 Q_DECLARE_METATYPE(HighlightingRule)
 
 QDebug operator<<(QDebug debug, const HighlightingRule &c);
+
+QDataStream &operator<<(QDataStream &out, const HighlightingRule &rule);
+QDataStream &operator>>(QDataStream &in, HighlightingRule &rule);
 
 #endif // HIGHLIGHTINGRULE_H

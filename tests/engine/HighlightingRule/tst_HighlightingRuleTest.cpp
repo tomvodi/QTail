@@ -25,6 +25,7 @@ private Q_SLOTS:
    void cleanupTestCase();
    void testSetterAndGetter();
    void testToAndFromJson();
+   void testSerializationAndDeserialization();
 };
 
 HighlightingRuleTest::HighlightingRuleTest()
@@ -86,6 +87,35 @@ void HighlightingRuleTest::testToAndFromJson()
    deserializedRule.fromJson(json);
 
    QVERIFY2(rule == deserializedRule, "Failed serialize and deserialize rule");
+}
+
+void HighlightingRuleTest::testSerializationAndDeserialization()
+{
+   QFont testFont = TestCommon::testFont();
+   QColor foregroundColor(Qt::blue);
+   QColor backgroundColor(Qt::yellow);
+   QString testText("test text");
+
+   HighlightingRule rule;
+   rule.setFont(testFont);
+   rule.setForegroundColor(foregroundColor);
+   rule.setBackgroundColor(backgroundColor);
+   rule.setText(testText);
+   Qt::CaseSensitivity caseSensitivity((rule.caseSensitivity() == Qt::CaseSensitive ? Qt::CaseInsensitive : Qt::CaseSensitive));
+   rule.setCaseSensitivity(caseSensitivity);
+
+   QByteArray data;
+   QDataStream writeStream(&data, QIODevice::WriteOnly);
+
+   // Serialize
+   writeStream << rule;
+
+   // Deserialize
+   QDataStream readStream(&data, QIODevice::ReadOnly);
+   HighlightingRule deserializedRule;
+   readStream >> deserializedRule;
+
+   QVERIFY2(deserializedRule == rule, "Failed serializing/deserializing rule");
 }
 
 QTEST_MAIN(HighlightingRuleTest)
