@@ -29,6 +29,8 @@ public:
    void setFileName(const QString &fileName);
    QString fileName() const;
    void setLineCount(quint64 lineCount);
+   void addLineCount(quint64 lineCount);
+   qint64 lineCount() const;
 
    void setFileState(FileState state);
 
@@ -40,6 +42,7 @@ signals:
 private:
    Ui::FileListItemWidget *ui;
    FileState m_fileState;
+   qint64 m_lineCount;
 };
 
 #endif // FILELISTITEMWIDGET_H

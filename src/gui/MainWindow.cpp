@@ -81,13 +81,19 @@ void MainWindow::on_actionHighlighting_triggered()
 void MainWindow::createConnections()
 {
    connect(ui->fileListWidget, &QListWidget::currentItemChanged,
-           [this] (QListWidgetItem *item, QListWidgetItem *) {
-      if (!item) {
+           [this] (QListWidgetItem *currentItem, QListWidgetItem *previousItem) {
+      if (!currentItem) {
          return;
       }
 
-      QString filePath = item->data(FilePathDataRole).toString();
+      QString filePath = currentItem->data(FilePathDataRole).toString();
       showFile(filePath);
+      m_tailEngine->setFileActive(filePath, true);
+
+      if (previousItem) {
+         QString filePath = previousItem->data(FilePathDataRole).toString();
+         m_tailEngine->setFileActive(filePath, false);
+      }
    });
 
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,

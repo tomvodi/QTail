@@ -89,3 +89,14 @@ QPointer<QWidget> FileViewInterface::widget() const
    return QPointer<QWidget>();
 }
 
+/*!
+ * \brief FileViewInterface::setFileActive
+ * Set the active state of of a file. E.g. if the file is now the current file in the view,
+ * it is active.
+ * \param active
+ */
+void FileViewInterface::setFileActive(bool active)
+{
+   Q_UNUSED(active)
+}
+

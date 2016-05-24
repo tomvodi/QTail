@@ -32,9 +32,15 @@ public:
    void setFileState(FileState state) override;
    QPointer<QWidget> widget() const override;
    void setFileInfo(const QFileInfo &fileInfo) override;
+   void setFileActive(bool active) override;
+
+public slots:
+   void appendLine(const QString &) override;
+   void appendLines(const QStringList &lines) override;
 
 private:
    QPointer<FileListItemWidget> m_listWidget;
+   bool m_fileActive = false;
 };
 
 #endif // FILELISTITEMVIEW_H

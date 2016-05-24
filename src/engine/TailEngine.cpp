@@ -72,6 +72,20 @@ void TailEngine::reloadFile(const QFileInfo &file)
 
 }
 
+void TailEngine::setFileActive(const QFileInfo &file, bool active)
+{
+   if (!m_fileContexts.contains(file)) {
+      return;
+   }
+
+   FileContext context = fileContextOfFile(file);
+
+   // Handle file state
+   foreach (FileView view, context.fileViews()) {
+      view->setFileActive(active);
+   }
+}
+
 uint qHash(const QFileInfo &fileInfo)
 {
    return qHash(fileInfo.absoluteFilePath());

@@ -48,6 +48,7 @@ public:
    QFileInfo fileInfo() const;
    virtual FileViewInterface::Features viewFeatures() const;
    virtual QPointer<QWidget> widget() const;
+   virtual void setFileActive(bool active);
 
 public slots:
    // FileState feature methods

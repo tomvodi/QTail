@@ -49,6 +49,11 @@ void MocFileView::setFileInfo(const QFileInfo &fileInfo)
    m_fileInfo = fileInfo;
 }
 
+void MocFileView::setFileActive(bool active)
+{
+   m_fileActive = active;
+}
+
 QStringList MocFileView::textViewLines() const
 {
    return m_textViewLines;
@@ -59,9 +64,14 @@ void MocFileView::setTextViewLines(const QStringList &textViewLines)
    m_textViewLines = textViewLines;
 }
 
+bool MocFileView::fileActive() const
+{
+    return m_fileActive;
+}
+
 qint64 MocFileView::readUntilMaxLength() const
 {
-   return m_readUntilMaxLength;
+    return m_readUntilMaxLength;
 }
 
 QFileInfo MocFileView::fileInfo() const

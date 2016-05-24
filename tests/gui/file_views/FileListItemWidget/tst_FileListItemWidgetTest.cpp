@@ -24,7 +24,8 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testSetFileName();
-   void testSetLineCount();
+   void testSetGetLineCount();
+   void testAddLineCount();
    void testInitialFileState();
    void testCloseRequest();
 };
@@ -51,14 +52,24 @@ void FileListItemWidgetTest::testSetFileName()
    QVERIFY2(listWidget.fileName() == testText, "Filename wasn't returned.");
 }
 
-void FileListItemWidgetTest::testSetLineCount()
+void FileListItemWidgetTest::testSetGetLineCount()
 {
    quint64 lineCount = 45312;
    FileListItemWidget listWidget;
    listWidget.setLineCount(lineCount);
 
+   QVERIFY2(listWidget.lineCount() == 45312, "Failed set/get line count");
    QVERIFY2(listWidget.ui->lineCountLabel->text() == QString::number(lineCount),
             "Line count wasn't set in gui");
+}
+
+void FileListItemWidgetTest::testAddLineCount()
+{
+   FileListItemWidget listWidget;
+   Q_ASSERT(listWidget.lineCount() == 0);
+
+   listWidget.addLineCount(12);
+   QVERIFY2(listWidget.lineCount() == 12, "Failed adding line count");
 }
 
 void FileListItemWidgetTest::testInitialFileState()

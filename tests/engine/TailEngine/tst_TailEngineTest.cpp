@@ -33,7 +33,7 @@ private Q_SLOTS:
    void testReadUntilCallInAddFile();
    void testLinesAddedLinesToFile();
    void testLinesViewHasNoTextFeature();
-   void testLinesOpenNonEmptyFile();
+   void testSetFileActive();
 };
 
 TailEngineTest::TailEngineTest()
@@ -245,11 +245,20 @@ void TailEngineTest::testLinesViewHasNoTextFeature()
    QVERIFY2(fileView->textViewLines().count() == 0, "View text was set by engine despite no text feature.");
 }
 
-void TailEngineTest::testLinesOpenNonEmptyFile()
+void TailEngineTest::testSetFileActive()
 {
-   // Open non empty file
-   // -> Clear
-   // -> appendLines
+   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
+   TailEngine engine;
+
+   MocFileView *fileView = new MocFileView;
+   fileView->setViewFeatures(FileViewInterface::NoFeature);
+   FileView sharedFileView(fileView);
+
+   engine.addFiles(QFileInfo(filePath), {sharedFileView});
+
+   engine.setFileActive(filePath, true);
+
+   QVERIFY2(fileView->fileActive() == true, "File active state wasn't set on file");
 }
 
 QTEST_MAIN(TailEngineTest)
