@@ -31,6 +31,8 @@ uint qHash(const QFileInfo &fileInfo);
 class TailEngine : public QObject
 {
    Q_OBJECT
+   friend class TailEngineTest;
+
 public:
    explicit TailEngine(QObject *parent = 0);
 

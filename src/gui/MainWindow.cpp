@@ -164,6 +164,8 @@ void MainWindow::closeFileItem(QListWidgetItem *listItem)
 {
    QString filePath = listItem->data(FilePathDataRole).toString();
 
+   m_tailEngine->removeFile(filePath);
+
    int itemRow = ui->fileListWidget->row(listItem);
    ui->fileListWidget->takeItem(itemRow);
    delete listItem;

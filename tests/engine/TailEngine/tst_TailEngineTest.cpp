@@ -34,6 +34,7 @@ private Q_SLOTS:
    void testLinesAddedLinesToFile();
    void testLinesViewHasNoTextFeature();
    void testSetFileActive();
+   void testRemoveFile();
 };
 
 TailEngineTest::TailEngineTest()
@@ -259,6 +260,24 @@ void TailEngineTest::testSetFileActive()
    engine.setFileActive(filePath, true);
 
    QVERIFY2(fileView->fileActive() == true, "File active state wasn't set on file");
+}
+
+void TailEngineTest::testRemoveFile()
+{
+   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
+   TailEngine engine;
+
+   MocFileView *fileView = new MocFileView;
+   fileView->setViewFeatures(FileViewInterface::NoFeature);
+   FileView sharedFileView(fileView);
+
+   QFileInfo fileInfo(filePath);
+   engine.addFiles(fileInfo, {sharedFileView});
+   Q_ASSERT(engine.m_fileContexts.contains(fileInfo));
+
+   engine.removeFile(fileInfo);
+
+   QVERIFY2(engine.m_fileContexts.isEmpty(), "File context wasn't removed for file");
 }
 
 QTEST_MAIN(TailEngineTest)
