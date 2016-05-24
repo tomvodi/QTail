@@ -67,11 +67,6 @@ void TailEngine::removeFile(const QFileInfo &file)
 
 }
 
-void TailEngine::reloadFile(const QFileInfo &file)
-{
-
-}
-
 void TailEngine::setFileActive(const QFileInfo &file, bool active)
 {
    if (!m_fileContexts.contains(file)) {
