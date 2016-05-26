@@ -14,6 +14,8 @@
 #include <QListWidget>
 #include <QFileDialog>
 #include <QVersionNumber>
+#include <QDragEnterEvent>
+#include <QMimeData>
 
 #include <QTail_version.h>
 #include <TailEngine.h>
@@ -76,6 +78,35 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionHighlighting_triggered()
 {
    m_highlightingDialog->show();
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+   if (event->mimeData()->hasUrls()) {
+      event->acceptProposedAction();
+   }
+}
+
+void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+{
+   if (event->mimeData()->hasUrls()) {
+      event->acceptProposedAction();
+   }
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+   foreach (const QUrl &url, event->mimeData()->urls()) {
+      if (!url.isLocalFile()) {
+         continue;
+      }
+      QString filePath = url.toString(QUrl::PreferLocalFile);
+      QFileInfo fileInfo(filePath);
+
+      if (fileInfo.isFile()) {
+         openFile(fileInfo.absoluteFilePath());
+      }
+   }
 }
 
 void MainWindow::createConnections()

@@ -38,6 +38,11 @@ private slots:
    void on_actionAbout_triggered();
    void on_actionHighlighting_triggered();
 
+protected:
+   void dragEnterEvent(QDragEnterEvent *event);
+   void dragMoveEvent(QDragMoveEvent *event);
+   void dropEvent(QDropEvent *event);
+
 private:
    class FileViewItems {
    public:
