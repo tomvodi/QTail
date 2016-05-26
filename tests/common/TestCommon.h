@@ -10,6 +10,7 @@
 
 #include <QFont>
 #include <QString>
+#include <QCoreApplication>
 
 class TestCommon
 {
@@ -20,7 +21,7 @@ public:
       ClearFile
    };
 
-   static QString generateExistingFilePath(const QString &fileName);
+   static QString generateExistingFileInPath(const QString &fileName, const QString &path=QCoreApplication::applicationDirPath());
    static void appendLinesToFile(const QString &fileName, const QStringList &lines,
                                  FileAction fileAction=FileAction::AppendOnly);
    static void waitMsecs(quint32 mSecs);

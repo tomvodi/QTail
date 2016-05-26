@@ -88,7 +88,7 @@ void PlainTextViewTest::testClear()
 
 void PlainTextViewTest::testReadCompleteUntil()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testReadCompleteUntil.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadCompleteUntil.log"));
 
    QString testFileContent("Test text\nTest line 2\nTest Line 3\n");
    QString testFileContent2("Test line 4\n");

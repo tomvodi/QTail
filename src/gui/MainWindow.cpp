@@ -106,6 +106,9 @@ void MainWindow::dropEvent(QDropEvent *event)
       if (fileInfo.isFile()) {
          openFile(fileInfo.absoluteFilePath());
       }
+      if (fileInfo.isDir()) {
+         openDir(fileInfo.absoluteFilePath());
+      }
    }
 }
 
@@ -179,6 +182,18 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    if (!justOpenFile) {
       saveLastOpenedFiles();
       addRecentlyOpenedFile(fileInfo);
+   }
+}
+
+void MainWindow::openDir(const QString &dirPath)
+{
+   QDir dir(dirPath);
+   foreach (const QFileInfo &fileInfo, dir.entryInfoList()) {
+      if (!fileInfo.isFile()) {
+         continue;
+      }
+
+      openFile(fileInfo.absoluteFilePath());
    }
 }
 

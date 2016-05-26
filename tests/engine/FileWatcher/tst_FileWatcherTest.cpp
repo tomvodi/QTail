@@ -60,7 +60,7 @@ void FileWatcherTest::testAddEmptyPath()
 
 void FileWatcherTest::testSetGetFilePath()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testSetGetFilePath.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetGetFilePath.log"));
 
    FileWatcher watcher;
    watcher.setFilePath(filePath);
@@ -69,7 +69,7 @@ void FileWatcherTest::testSetGetFilePath()
 
 void FileWatcherTest::testSizeChanged()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLineAddedSignal.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLineAddedSignal.log"));
 
    QScopedPointer<FileWatcher> fileWatcher(new FileWatcher);
    QSignalSpy spy(fileWatcher.data(), SIGNAL(sizeChanged(qint64, qint64)));

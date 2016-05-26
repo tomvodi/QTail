@@ -51,7 +51,7 @@ void TailEngineTest::cleanupTestCase()
 
 void TailEngineTest::testFileStateAddedLines()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLineAddedSignal.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLineAddedSignal.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -77,7 +77,7 @@ void TailEngineTest::testFileStateAddedLines()
 
 void TailEngineTest::testFileStateViewHasNoStateFeature()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testFileStateViewHasNoStateFeature.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testFileStateViewHasNoStateFeature.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -100,7 +100,7 @@ void TailEngineTest::testFileStateViewHasNoStateFeature()
 
 void TailEngineTest::testFileStateRemovedFile()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testFileStateRemovedFile.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testFileStateRemovedFile.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -126,7 +126,7 @@ void TailEngineTest::testFileStateRemovedFile()
 
 void TailEngineTest::testFileStateRemovedLines()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testFileStateNewLines.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testFileStateNewLines.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -154,7 +154,7 @@ void TailEngineTest::testFileStateRemovedLines()
 
 void TailEngineTest::testSetFileInfoCallOnAddFile()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testReadUntilCallInAddFile.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadUntilCallInAddFile.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -174,7 +174,7 @@ void TailEngineTest::testSetFileInfoCallOnAddFile()
  */
 void TailEngineTest::testReadUntilCallInAddFile()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testReadUntilCallInAddFile.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadUntilCallInAddFile.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -199,7 +199,7 @@ void TailEngineTest::testLinesAddedLinesToFile()
 {
    QString line1(QStringLiteral("This is the first text line\n"));
    QString line2(QStringLiteral("This is the second text line\n"));
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesAddedLines.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesAddedLines.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -226,7 +226,7 @@ void TailEngineTest::testLinesAddedLinesToFile()
 
 void TailEngineTest::testLinesViewHasNoTextFeature()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -248,7 +248,7 @@ void TailEngineTest::testLinesViewHasNoTextFeature()
 
 void TailEngineTest::testSetFileActive()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;
@@ -264,7 +264,7 @@ void TailEngineTest::testSetFileActive()
 
 void TailEngineTest::testRemoveFile()
 {
-   QString filePath = TestCommon::generateExistingFilePath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView;

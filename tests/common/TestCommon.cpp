@@ -20,9 +20,9 @@ TestCommon::TestCommon()
 {
 }
 
-QString TestCommon::generateExistingFilePath(const QString &fileName)
+QString TestCommon::generateExistingFileInPath(const QString &fileName, const QString &path)
 {
-   QString filePath = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(fileName);
+   QString filePath = QDir(path).absoluteFilePath(fileName);
    QFile file(filePath);
    file.open(QIODevice::WriteOnly | QIODevice::Truncate);
    file.close();

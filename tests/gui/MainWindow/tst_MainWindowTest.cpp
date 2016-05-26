@@ -36,6 +36,7 @@ private Q_SLOTS:
    void testClosingFileWithFileItemCloseButton();
    void testOpenLastOpenedFiles();
    void testOpenRecentFilesMenu();
+   void testOpenDir();
 
 private:
    void clearLastOpenedFiles();
@@ -76,7 +77,7 @@ void MainWindowTest::testSetup()
 
 void MainWindowTest::testOpenFile_fileInList()
 {
-   QString filePath = TestCommon::generateExistingFilePath("testOpenFile_fileInList");
+   QString filePath = TestCommon::generateExistingFileInPath("testOpenFile_fileInList");
    MainWindow window;
    window.openFile(filePath);
 
@@ -91,7 +92,7 @@ void MainWindowTest::testOpenFile_fileInList()
 
 void MainWindowTest::testOpenFile_noDuplicates()
 {
-   QString filePath = TestCommon::generateExistingFilePath("testOpenFile_noDuplicates");
+   QString filePath = TestCommon::generateExistingFileInPath("testOpenFile_noDuplicates");
    MainWindow window;
    window.openFile(filePath);
    window.openFile(filePath);
@@ -103,7 +104,7 @@ void MainWindowTest::testOpenFile_noDuplicates()
 
 void MainWindowTest::testOpenFile_textEditVisible()
 {
-   QString filePath = TestCommon::generateExistingFilePath("testOpenFile_textLoaded");
+   QString filePath = TestCommon::generateExistingFileInPath("testOpenFile_textLoaded");
 
    QFile outFile(filePath);
    outFile.open(QIODevice::WriteOnly);
@@ -130,7 +131,7 @@ void MainWindowTest::testOpenFile_textEditVisible()
 
 void MainWindowTest::testIfHasFileListItemWidgetForOpenFile()
 {
-   QString filePath = TestCommon::generateExistingFilePath("testOpenFile_textLoaded");
+   QString filePath = TestCommon::generateExistingFileInPath("testOpenFile_textLoaded");
 
    MainWindow window;
    window.openFile(filePath);
@@ -145,7 +146,7 @@ void MainWindowTest::testIfHasFileListItemWidgetForOpenFile()
 
 void MainWindowTest::testClosingFileWithFileItemCloseButton()
 {
-   QString filePath = TestCommon::generateExistingFilePath("testOpenFile_textLoaded");
+   QString filePath = TestCommon::generateExistingFileInPath("testOpenFile_textLoaded");
 
    QFile outFile(filePath);
    outFile.open(QIODevice::WriteOnly);
@@ -175,8 +176,8 @@ void MainWindowTest::testClosingFileWithFileItemCloseButton()
 
 void MainWindowTest::testOpenLastOpenedFiles()
 {
-   QString filePath1 = TestCommon::generateExistingFilePath("testOpenLastOpenedFiles1");
-   QString filePath2 = TestCommon::generateExistingFilePath("testOpenLastOpenedFiles2");
+   QString filePath1 = TestCommon::generateExistingFileInPath("testOpenLastOpenedFiles1");
+   QString filePath2 = TestCommon::generateExistingFileInPath("testOpenLastOpenedFiles2");
 
    MainWindow *window = new MainWindow;
    window->openFile(filePath1);
@@ -200,12 +201,14 @@ void MainWindowTest::testOpenLastOpenedFiles()
    firstItem = window->ui->fileListWidget->item(0);
    firstItemPath = firstItem->data(window->FilePathDataRole).toString();
    QVERIFY2(firstItemPath == filePath1, "Last opened files were opened in wrong order.");
+
+   delete window;
 }
 
 void MainWindowTest::testOpenRecentFilesMenu()
 {
-   QFileInfo file1(TestCommon::generateExistingFilePath("testOpenRecentFilesFile1"));
-   QFileInfo file2(TestCommon::generateExistingFilePath("testOpenRecentFilesFile2"));
+   QFileInfo file1(TestCommon::generateExistingFileInPath("testOpenRecentFilesFile1"));
+   QFileInfo file2(TestCommon::generateExistingFileInPath("testOpenRecentFilesFile2"));
 
    MainWindow *window = new MainWindow;
    window->openFile(file1.absoluteFilePath());
@@ -249,6 +252,28 @@ void MainWindowTest::testOpenRecentFilesMenu()
    QString filePathInItem = item->data(window->FilePathDataRole).toString();
    QString actionFilePath = action->data().toString();
    QVERIFY2(filePathInItem == actionFilePath, "Wrong file was opened by triggering a recently opened files action.");
+
+   delete window;
+}
+
+void MainWindowTest::testOpenDir()
+{
+   QDir testDir(QCoreApplication::applicationDirPath());
+   testDir.mkdir("subdir");
+   Q_ASSERT(testDir.cd("subdir"));
+
+   TestCommon::generateExistingFileInPath("testOpenDirFile1", testDir.absolutePath());
+   TestCommon::generateExistingFileInPath("testOpenDirFile2", testDir.absolutePath());
+
+   TestCommon::waitMsecs(200);
+
+   MainWindow *window = new MainWindow;
+   Q_ASSERT(window->ui->fileListWidget->count() == 0);
+   window->openDir(testDir.absolutePath());
+
+   QVERIFY2(window->ui->fileListWidget->count() == 2, "File wasn't opened after triggering a recently opened files action");
+
+   delete window;
 }
 
 void MainWindowTest::clearLastOpenedFiles()

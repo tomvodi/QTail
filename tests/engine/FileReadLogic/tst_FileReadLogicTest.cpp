@@ -48,7 +48,7 @@ void FileReadLogicTest::cleanupTestCase()
  */
 void FileReadLogicTest::testAppendLineToEmptyFile()
 {
-   QString testFile = TestCommon::generateExistingFilePath("testAppendLineToEmptyFile.log");
+   QString testFile = TestCommon::generateExistingFileInPath("testAppendLineToEmptyFile.log");
    QScopedPointer<MocFileWatcher> fileWatcher(new MocFileWatcher);
    fileWatcher->setFilePath(testFile);
 
@@ -76,7 +76,7 @@ void FileReadLogicTest::testAppendLineToEmptyFile()
  */
 void FileReadLogicTest::testAppendLineToNonEmptyFile()
 {
-   QString testFile = TestCommon::generateExistingFilePath("testAppendLineToNonEmptyFile.log");
+   QString testFile = TestCommon::generateExistingFileInPath("testAppendLineToNonEmptyFile.log");
    // Add file content before file watcher is active
    QStringList fileContent({"First line\n", "Second line\n", "Third line\n"});
    TestCommon::appendLinesToFile(testFile, fileContent);
@@ -122,7 +122,7 @@ void FileReadLogicTest::testAppendLineToNonEmptyFile()
  */
 void FileReadLogicTest::testAppendLineToShrinkedFile()
 {
-   QString testFile = TestCommon::generateExistingFilePath("testAppendLineToShrinkedFile.log");
+   QString testFile = TestCommon::generateExistingFileInPath("testAppendLineToShrinkedFile.log");
    // Add file content before file watcher is active
    QString fileLine1("First line\n");
    QString fileLine2("Second line\n");

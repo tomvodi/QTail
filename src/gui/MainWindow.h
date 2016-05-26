@@ -67,6 +67,7 @@ private:
 
    void createConnections();
    void openFile(const QString &filePath, bool justOpenFile=false);
+   void openDir(const QString &dirPath);
    void showFile(const QString &filePath);
    void closeFileItem(QListWidgetItem *listItem);
    void openLastOpenedFiles();
