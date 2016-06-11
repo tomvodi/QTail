@@ -260,12 +260,15 @@ void MainWindowTest::testOpenDir()
 {
    QDir testDir(QCoreApplication::applicationDirPath());
    testDir.mkdir("subdir");
-   Q_ASSERT(testDir.cd("subdir"));
+   testDir = testDir.absoluteFilePath("subdir");
+   Q_ASSERT(testDir.exists());
 
-   TestCommon::generateExistingFileInPath("testOpenDirFile1", testDir.absolutePath());
-   TestCommon::generateExistingFileInPath("testOpenDirFile2", testDir.absolutePath());
+   TestCommon::generateExistingFileInPath("testOpenDirFile1.log", testDir.absolutePath());
+   TestCommon::generateExistingFileInPath("testOpenDirFile2.log", testDir.absolutePath());
 
    TestCommon::waitMsecs(200);
+
+   Q_ASSERT(testDir.entryInfoList(QStringList() << QStringLiteral("*.log"), QDir::Files).count() == 2);
 
    MainWindow *window = new MainWindow;
    Q_ASSERT(window->ui->fileListWidget->count() == 0);
