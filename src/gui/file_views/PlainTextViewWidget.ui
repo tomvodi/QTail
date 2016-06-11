@@ -69,6 +69,9 @@
       </property>
       <item row="0" column="2">
        <widget class="QToolButton" name="navigateCursorButton">
+        <property name="toolTip">
+         <string>Navigate to current line</string>
+        </property>
         <property name="text">
          <string>Navigate to cursor</string>
         </property>
@@ -86,6 +89,9 @@
       </item>
       <item row="0" column="0">
        <widget class="QToolButton" name="navigateTopButton">
+        <property name="toolTip">
+         <string>Navigate to top of file</string>
+        </property>
         <property name="text">
          <string>Navigate to top</string>
         </property>
@@ -103,6 +109,9 @@
       </item>
       <item row="0" column="1">
        <widget class="QToolButton" name="navigateBottomButton">
+        <property name="toolTip">
+         <string>Navigate to bottom of file</string>
+        </property>
         <property name="text">
          <string>Navigate to bottom</string>
         </property>
