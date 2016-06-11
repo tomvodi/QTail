@@ -1,10 +1,8 @@
-cmake_minimum_required(VERSION 2.8.12)
 
-project( QTail CXX )
+cmake_minimum_required(VERSION 3.5.2)
+cmake_policy(SET CMP0048 NEW)
 
-set(QTail_VERSION_MAJOR 0)
-set(QTail_VERSION_MINOR 1)
-set(QTail_VERSION_PATCH 0)
+project( QTail LANGUAGES CXX VERSION 0.1.0)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

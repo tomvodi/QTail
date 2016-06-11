@@ -1,5 +1,3 @@
-project(QTail CXX)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package( Qt5Widgets REQUIRED )
@@ -58,3 +56,13 @@ if (WIN32)
     include(WinDeployQt)
     windeployqt(TARGET ${PROJECT_NAME} OUTPUT_DIR ${CMAKE_INSTALL_PREFIX}/bin )
 endif()
+
+# Packaging
+
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A tail programm written in C++/Qt.")
+set(CPACK_PACKAGE_VERSION "1.0.0") # Version of installer
+set(CPACK_GENERATOR "IFW")
+
+include(CPack)
+include(CPackIFW)
