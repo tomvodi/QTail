@@ -47,6 +47,14 @@ qt5_add_resources(Project_Sources
     resources.qrc
 )
 
-add_executable(${PROJECT_NAME} ${Project_Sources})
+add_executable(${PROJECT_NAME} WIN32 ${Project_Sources})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets TailEngine )
+
+install(TARGETS ${PROJECT_NAME}
+   RUNTIME DESTINATION bin)
+
+if (WIN32)
+    include(WinDeployQt)
+    windeployqt(TARGET ${PROJECT_NAME} OUTPUT_DIR ${CMAKE_INSTALL_PREFIX}/bin )
+endif()

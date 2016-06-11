@@ -8,7 +8,7 @@ find_package( Qt5Test REQUIRED )
 set( Test_SOURCES
         tst_${testname}.cpp
         ${source_dir}/gui/file_views/FileListItemWidget.cpp
-		${source_dir}/gui/file_views/FileListItemView.cpp
+      ${source_dir}/gui/file_views/FileListItemView.cpp
         )
 
 set( Test_UIs
@@ -28,3 +28,8 @@ qt5_use_modules( ${testname} ${testmodules} )
 target_link_libraries( ${testname} ${testlibraries} )
 
 add_test( NAME ${testname} COMMAND ${testname} )
+
+if (WIN32)
+    include(WinDeployQt)
+    windeployqt(TARGET ${testname})
+endif()
