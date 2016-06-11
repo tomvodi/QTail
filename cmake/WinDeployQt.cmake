@@ -32,6 +32,9 @@ function(windeployqt)
       message(FATAL_ERROR "Failed finding windeployqt.exe")
    endif()
 
+   # No redistributables
+   list(APPEND _ARGUMENTS "--no-compiler-runtime")
+
    add_custom_target(windeployqt_${_windeploy_TARGET} ALL ${_windeploy_EXE} ${_ARGUMENTS}
       $<TARGET_FILE:${_windeploy_TARGET}>
       DEPENDS ${_windeploy_TARGET}

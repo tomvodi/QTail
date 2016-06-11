@@ -8,8 +8,9 @@
 
 #include "include/FileViewInterface.h"
 
-struct FileViewInterfacePrivate
+class FileViewInterfacePrivate
 {
+public:
    QFileInfo fileInfo;
 };
 
