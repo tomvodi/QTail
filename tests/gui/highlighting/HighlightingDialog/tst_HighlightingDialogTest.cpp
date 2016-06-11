@@ -193,9 +193,11 @@ void HighlightingDialogTest::testDeleteRuleWithMultipleRulesInList()
    QFont testFont = TestCommon::testFont();
    HighlightingRule rule1;
    rule1.setText("Blablalbla");
+   rule1.setFont(testFont);
 
    HighlightingRule rule2;
    rule2.setText("Test text 2");
+   rule2.setFont(testFont);
 
    dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
    dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule2);

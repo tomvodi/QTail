@@ -27,6 +27,8 @@ QString TestCommon::generateExistingFileInPath(const QString &fileName, const QS
    file.open(QIODevice::WriteOnly | QIODevice::Truncate);
    file.close();
 
+   waitMsecs(10);
+
    return filePath;
 }
 
@@ -66,9 +68,11 @@ QFont TestCommon::testFont()
    QFontDatabase database;
    QStringList fonts = database.families();
 
+   QFont font;
    if (fonts.count() > 3) {
-      return QFont(fonts.at(2));
+      font = QFont(fonts.at(2));
    }
 
-   return QFont();
+   font.setPointSize(8); // Set integer value for pointsize that is selectable in the gui
+   return font;
 }
