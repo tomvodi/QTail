@@ -102,9 +102,11 @@ void PlainTextEdit::highlightCurrentLine()
 
    QTextEdit::ExtraSelection selection;
 
-   QColor lineColor = QColor(Qt::yellow).lighter(160);
+   QColor lineBackgroundColor = QColor(Qt::yellow).lighter(160);
+   QColor lineForegroundColor = QColor(Qt::black);
 
-   selection.format.setBackground(lineColor);
+   selection.format.setBackground(lineBackgroundColor);
+   selection.format.setForeground(lineForegroundColor);
    selection.format.setProperty(QTextFormat::FullWidthSelection, true);
    selection.cursor = textCursor();
    selection.cursor.clearSelection();
