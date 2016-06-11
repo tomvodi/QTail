@@ -169,6 +169,7 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    m_fileViewItems.insert(insertPath, viewItems);
 
    item->setData(FilePathDataRole, fileInfo.absoluteFilePath());
+   item->setData(Qt::ToolTipRole, fileInfo.absoluteFilePath());
    ui->fileListWidget->addItem(item);
    QWidget *itemWidget = listItemView->widget();
    connect(listItemView, &FileListItemView::requestCloseFile,
@@ -199,6 +200,7 @@ void MainWindow::openDir(const QString &dirPath)
 
 void MainWindow::showFile(const QString &filePath)
 {
+   statusBar()->showMessage(filePath);
    FileViewItems viewItems = m_fileViewItems.value(filePath);
 
    if (viewItems.viewWidget()) {
