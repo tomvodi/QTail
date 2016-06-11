@@ -39,7 +39,6 @@ function(windeployqt)
    endif()
 
    if (NOT _windeploy_CREATE_INSTALLS)
-       message(STATUS "Normal deploy qt")
       add_custom_target(windeployqt_${_windeploy_TARGET} ALL ${_windeploy_EXE} ${_ARGUMENTS}
          $<TARGET_FILE:${_windeploy_TARGET}>
          DEPENDS ${_windeploy_TARGET}
@@ -47,7 +46,8 @@ function(windeployqt)
    endif()
 
   if (_windeploy_CREATE_INSTALLS)
-      message(STATUS "QtDir: " ${QtDir})
+
+      # Run windeployqt with sourcefile output
       list(APPEND _ARGUMENTS "--list" "source")
       get_property(target_location TARGET ${_windeploy_TARGET} PROPERTY LOCATION)
       execute_process( COMMAND ${_windeploy_EXE} ${_ARGUMENTS} ${target_location}

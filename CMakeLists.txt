@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5.2)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0026 OLD)
 
-project( QTail LANGUAGES CXX VERSION 0.1.0)
+project( QTail LANGUAGES CXX VERSION 0.1.1)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
