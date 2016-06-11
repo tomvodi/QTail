@@ -41,7 +41,12 @@ QString FileListItemWidget::fileName() const
 void FileListItemWidget::setLineCount(quint64 lineCount)
 {
    m_lineCount = lineCount;
-   ui->lineCountLabel->setText(QString::number(lineCount));
+   QString lineCountText;
+   if (lineCount > 0) {
+      lineCountText = QString::number(lineCount);
+   }
+
+   ui->lineCountLabel->setText(lineCountText);
 }
 
 void FileListItemWidget::addLineCount(quint64 lineCount)
