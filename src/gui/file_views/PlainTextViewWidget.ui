@@ -37,6 +37,11 @@
    </property>
    <item row="0" column="0">
     <widget class="QFrame" name="optionsFrame">
+     <property name="styleSheet">
+      <string notr="true">QToolButton {
+	background-color: rgb(110, 110, 110);
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -51,19 +56,22 @@
        <number>6</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="rightMargin">
        <number>6</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="verticalSpacing">
        <number>0</number>
       </property>
       <item row="0" column="2">
        <widget class="QToolButton" name="navigateCursorButton">
+        <property name="toolTip">
+         <string>Navigate to current line</string>
+        </property>
         <property name="text">
          <string>Navigate to cursor</string>
         </property>
@@ -71,10 +79,19 @@
          <iconset resource="../resources.qrc">
           <normaloff>:/resources/icons/actions/go-jump.png</normaloff>:/resources/icons/actions/go-jump.png</iconset>
         </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item row="0" column="0">
        <widget class="QToolButton" name="navigateTopButton">
+        <property name="toolTip">
+         <string>Navigate to top of file</string>
+        </property>
         <property name="text">
          <string>Navigate to top</string>
         </property>
@@ -82,16 +99,31 @@
          <iconset resource="../resources.qrc">
           <normaloff>:/resources/icons/actions/go-top.png</normaloff>:/resources/icons/actions/go-top.png</iconset>
         </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
        <widget class="QToolButton" name="navigateBottomButton">
+        <property name="toolTip">
+         <string>Navigate to bottom of file</string>
+        </property>
         <property name="text">
          <string>Navigate to bottom</string>
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
           <normaloff>:/resources/icons/actions/go-bottom.png</normaloff>:/resources/icons/actions/go-bottom.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
         </property>
        </widget>
       </item>

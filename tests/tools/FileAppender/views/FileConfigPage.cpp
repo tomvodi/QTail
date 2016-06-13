@@ -31,10 +31,18 @@ FileConfigPage::~FileConfigPage()
 
 void FileConfigPage::setFile(const QFileInfo &fileinfo)
 {
-   m_file = fileinfo;
-   ui->fileNameLabel->setText(m_file.fileName());
+   m_fileInfo = fileinfo;
+   ui->fileNameLabel->setText(m_fileInfo.fileName());
 
-   QFile file(m_file.absoluteFilePath());
+   if (m_file) {
+      delete m_file;
+      m_file = nullptr;
+   }
+
+   m_file = new QFile(m_fileInfo.absoluteFilePath(), this);
+   m_file->open(QIODevice::Append);
+
+   QFile file(m_fileInfo.absoluteFilePath());
    file.open(QIODevice::ReadOnly);
    setFileContent(file.readAll());
 }
@@ -64,19 +72,19 @@ void FileConfigPage::on_startStopAppendButton_clicked()
 
 void FileConfigPage::appendLinesToFile()
 {
-   QFile appendFile(m_file.absoluteFilePath());
-   if (!appendFile.open(QIODevice::Append | QIODevice::Text)) {
-      qWarning() << "Failed opening file for appending lines";
+   if (!m_file) {
       return;
    }
 
    QString appendText = ui->appendTextEdit->toPlainText();
+   ui->fileContentTextEdit->appendPlainText(appendText);
+
    if (!appendText.endsWith('\n') ||
        appendText.endsWith('\r')) {
       appendText.append('\n');
    }
 
-   QTextStream stream(&appendFile);
+   QTextStream stream(m_file);
    stream << appendText;
    stream.flush();
 }

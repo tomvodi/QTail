@@ -16,6 +16,7 @@ namespace Ui {
 class FileConfigPage;
 }
 class QTimer;
+class QFile;
 
 class FileConfigPage : public QFrame
 {
@@ -36,9 +37,10 @@ private:
    void setFileContent(const QString &fileContent);
    void checkEnabledStateOfStartStopButton();
    void setStartStopButtonTextForState(bool startable);
-   QFileInfo m_file;
+   QFileInfo m_fileInfo;
    Ui::FileConfigPage *ui;
-   QTimer *m_appendLinesTimer;
+   QTimer *m_appendLinesTimer = nullptr;
+   QFile *m_file = nullptr;
 };
 
 #endif // FILECONFIGPAGE_H

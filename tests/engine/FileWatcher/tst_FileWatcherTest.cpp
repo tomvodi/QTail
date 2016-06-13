@@ -84,7 +84,7 @@ void FileWatcherTest::testSizeChanged()
    stream.flush();
    outFile.close();
 
-   TestCommon::waitMsecs(100);
+   spy.wait();
 
    QVERIFY2(spy.count() == 1, "Signal for changed size wasn't emitted.");
 }

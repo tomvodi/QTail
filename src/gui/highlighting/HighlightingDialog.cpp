@@ -100,16 +100,18 @@ QList<HighlightingRule> HighlightingDialog::lineHighlightingRules() const
 void HighlightingDialog::on_addRuleButton_clicked()
 {
    QListWidgetItem *currentItem = currentSelectedItem();
+
+   QListWidget *listWidget = nullptr;
    if (!currentItem) {
-      return;
+      listWidget = ui->wordRulesListWidget;
+   } else {
+      listWidget = currentItem->listWidget();
    }
 
-   QListWidget *listWidget = currentItem->listWidget();
-   if (!listWidget) {
-      return;
+   int currentItemIndex = 0;
+   if (currentItem) {
+      currentItemIndex = listWidget->row(currentItem);
    }
-
-   int currentItemIndex = listWidget->row(currentItem);
 
    addNewRuleToListWidget(listWidget, highlightingRuleFromGui(), currentItemIndex + 1);
 }

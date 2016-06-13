@@ -32,7 +32,7 @@ qt5_add_resources(Project_Sources
     ${QTail_Source_Dir}/resources.qrc
 )
 
-add_executable(${PROJECT_NAME} ${Project_Sources})
+add_executable(${PROJECT_NAME} WIN32 ${Project_Sources})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets TailEngine )
 

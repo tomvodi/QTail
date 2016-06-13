@@ -39,6 +39,7 @@ private Q_SLOTS:
    void testMoveUpWordHighlightItem();
    void testMoveBottomWordHighlightItem();
    void testMoveTopWordHighlightItem();
+   void testAddRuleIfListWidgetsAreEmpty();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -193,9 +194,11 @@ void HighlightingDialogTest::testDeleteRuleWithMultipleRulesInList()
    QFont testFont = TestCommon::testFont();
    HighlightingRule rule1;
    rule1.setText("Blablalbla");
+   rule1.setFont(testFont);
 
    HighlightingRule rule2;
    rule2.setText("Test text 2");
+   rule2.setFont(testFont);
 
    dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule1);
    dialog.addNewRuleToListWidget(dialog.ui->wordRulesListWidget, rule2);
@@ -561,6 +564,20 @@ void HighlightingDialogTest::testMoveTopWordHighlightItem()
    QListWidgetItem *selectedItem = dialog.currentSelectedItem();
    QVERIFY2(selectedItem, "No selected item after moving item to top.");
    QVERIFY2(selectedItem->text() == wordRule3.text(), "The moved item isn't selected after moving");
+}
+
+// See bug #1
+void HighlightingDialogTest::testAddRuleIfListWidgetsAreEmpty()
+{
+   HighlightingDialog dialog;
+
+   Q_ASSERT(dialog.ui->wordRulesListWidget->count() == 0);
+   Q_ASSERT(dialog.ui->lineRulesListWidget->count() == 0);
+
+   dialog.ui->regexLineEdit->setText("First rule ever");
+   dialog.on_addRuleButton_clicked();
+
+   QVERIFY2(dialog.ui->wordRulesListWidget->count() == 1, "No word rule was added when both lists are empty.");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

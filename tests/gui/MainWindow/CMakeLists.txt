@@ -30,8 +30,9 @@ set( Test_UIs
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 
-configure_file(${source_dir}/version.h.in
-               ${CMAKE_CURRENT_BINARY_DIR}/QTail_version.h)
+include_directories(
+    ${CMAKE_BINARY_DIR}/src/gui
+)
 
 add_executable( ${testname} ${Test_SOURCES} )
 qt5_use_modules( ${testname} ${testmodules} )
