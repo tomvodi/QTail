@@ -76,3 +76,13 @@ QFont TestCommon::testFont()
    font.setPointSize(8); // Set integer value for pointsize that is selectable in the gui
    return font;
 }
+
+void TestCommon::clearDir(const QDir &dir)
+{
+   QDir emptyDir(dir);
+   emptyDir.setNameFilters(QStringList() << "*");
+   emptyDir.setFilter(QDir::Files);
+   foreach(QString dirFile, emptyDir.entryList()) {
+      emptyDir.remove(dirFile);
+   }
+}

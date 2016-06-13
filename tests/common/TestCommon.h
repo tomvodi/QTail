@@ -11,6 +11,7 @@
 #include <QFont>
 #include <QString>
 #include <QCoreApplication>
+#include <QDir>
 
 class TestCommon
 {
@@ -27,6 +28,8 @@ public:
    static void waitMsecs(quint32 mSecs);
 
    static QFont testFont();
+
+   static void clearDir(const QDir &dir);
 };
 
 #endif // TESTCOMMON_H

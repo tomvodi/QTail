@@ -263,6 +263,8 @@ void MainWindowTest::testOpenDir()
    testDir = testDir.absoluteFilePath("subdir");
    Q_ASSERT(testDir.exists());
 
+   TestCommon::clearDir(testDir);
+
    TestCommon::generateExistingFileInPath("testOpenDirFile1.log", testDir.absolutePath());
    TestCommon::generateExistingFileInPath("testOpenDirFile2.log", testDir.absolutePath());
 
