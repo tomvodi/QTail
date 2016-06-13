@@ -23,6 +23,7 @@ class TailEngine;
 class FileListItemWidget;
 class QListWidgetItem;
 class HighlightingDialog;
+class PreferencesDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -37,6 +38,7 @@ private slots:
    void on_actionOpen_triggered();
    void on_actionAbout_triggered();
    void on_actionHighlighting_triggered();
+   void on_actionPreferences_triggered();
 
 protected:
    void dragEnterEvent(QDragEnterEvent *event);
@@ -81,6 +83,7 @@ private:
    TailEngine *m_tailEngine = nullptr;
    QHash<QString, FileViewItems> m_fileViewItems;  // Hash for absolute file path -> FileViewItems
    HighlightingDialog *m_highlightingDialog;
+   PreferencesDialog *m_preferencesDialog;
 };
 
 #endif // MAINWINDOW_H

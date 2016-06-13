@@ -73,3 +73,13 @@ void FontPicker::setCurrentFont(const QFont &font)
 
    emit currentFontChanged(currentFont());
 }
+
+QFontComboBox::FontFilters FontPicker::fontFilters() const
+{
+   return ui->fontComboBox->fontFilters();
+}
+
+void FontPicker::setFontFilters(QFontComboBox::FontFilters fontFilters)
+{
+   ui->fontComboBox->setFontFilters(fontFilters);
+}

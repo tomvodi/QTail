@@ -26,6 +26,7 @@
 
 #include "highlighting/HighlightingDialog.h"
 
+#include "PreferencesDialog.h"
 #include "AboutDialog.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -33,7 +34,8 @@
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),
    ui(new Ui::MainWindow),
-   m_highlightingDialog(new HighlightingDialog(this))
+   m_highlightingDialog(new HighlightingDialog(this)),
+   m_preferencesDialog(new PreferencesDialog(this))
 {
    ui->setupUi(this);
 
@@ -78,6 +80,11 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionHighlighting_triggered()
 {
    m_highlightingDialog->show();
+}
+
+void MainWindow::on_actionPreferences_triggered()
+{
+   m_preferencesDialog->show();
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)

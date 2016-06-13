@@ -35,6 +35,9 @@ public:
     QList<HighlightingRule> wordHighlightingRules() const;
     QList<HighlightingRule> lineHighlightingRules() const;
 
+    QFont textViewFont() const;
+    void setTextViewFont(const QFont &font);
+
 private:
     QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;
     QList<HighlightingRule> highlightingStringListToList(const QStringList &array) const;

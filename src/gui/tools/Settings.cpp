@@ -8,6 +8,7 @@
 #include "Settings.h"
 
 #include <QCoreApplication>
+#include <QFontDatabase>
 #include <QJsonDocument>
 #include <QJsonValue>
 
@@ -18,6 +19,7 @@ static const QString LastOpenedFilesValueName("last open files");
 static const QString RecentlyOpenedFilesValueName("recent files");
 static const QString WordHighlightingRulesValueName("word rules");
 static const QString LineHighlightingRulesValueName("line rules");
+static const QString TextViewFontValueName("text view font");
 
 Settings::Settings()
 {
@@ -72,6 +74,23 @@ QList<HighlightingRule> Settings::wordHighlightingRules() const
 QList<HighlightingRule> Settings::lineHighlightingRules() const
 {
    return highlightingStringListToList(m_settings.value(LineHighlightingRulesValueName).toStringList());
+}
+
+QFont Settings::textViewFont() const
+{
+   QFont defaultFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+   QString fontString = m_settings.value(TextViewFontValueName, defaultFont.toString()).toString();
+   QFont font;
+   if (!font.fromString(fontString)) {
+      return defaultFont;
+   }
+
+   return font;
+}
+
+void Settings::setTextViewFont(const QFont &font)
+{
+   m_settings.setValue(TextViewFontValueName, font.toString());
 }
 
 QStringList Settings::highlightingListToStringList(const QList<HighlightingRule> &rules) const

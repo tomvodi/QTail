@@ -10,6 +10,7 @@
 #define FONTPICKER_H
 
 #include <QFrame>
+#include <QFontComboBox>
 
 namespace Ui {
 class FontPicker;
@@ -26,6 +27,9 @@ public:
 
    QFont currentFont() const;
    void setCurrentFont(const QFont &font);
+
+   QFontComboBox::FontFilters fontFilters() const;
+   void setFontFilters(QFontComboBox::FontFilters fontFilters);
 
 signals:
    void currentFontChanged(const QFont &font);

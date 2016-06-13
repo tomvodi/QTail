@@ -11,6 +11,7 @@
 #include <QtTest>
 #include <QList>
 #include <QCoreApplication>
+#include <QFontDatabase>
 
 #include <gui/tools/Settings.h>
 #include <include/HighlightingRule.h>
@@ -31,6 +32,7 @@ private Q_SLOTS:
    void testLastOpenFiles();
    void testRecentlyOpenedFiles();
    void testSetHighlightingRules();
+   void testTextViewFont();
 };
 
 SettingsTest::SettingsTest()
@@ -115,6 +117,18 @@ void SettingsTest::testSetHighlightingRules()
 
    QVERIFY2(settingsRead.wordHighlightingRules() == wordRules, "Failed setting/getting word rules");
    QVERIFY2(settingsRead.lineHighlightingRules() == lineRules, "Failed setting/getting line rules");
+}
+
+void SettingsTest::testTextViewFont()
+{
+   Settings settings;
+   QFont defaultFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+
+   QVERIFY2(settings.textViewFont() == defaultFont, "The wrong default text view font was returned.");
+
+   QFont testFont = TestCommon::testFont();
+   settings.setTextViewFont(testFont);
+   QVERIFY2(settings.textViewFont() == testFont, "Failed setting/getting text view font");
 }
 
 QTEST_MAIN(SettingsTest)

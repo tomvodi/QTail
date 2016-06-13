@@ -41,5 +41,6 @@
         <file>resources/icons/actions/format-text-italic.png</file>
         <file>resources/icons/actions/format-text-strikethrough.png</file>
         <file>resources/icons/actions/format-text-underline.png</file>
+        <file>resources/icons/categories/preferences-other.png</file>
     </qresource>
 </RCC>

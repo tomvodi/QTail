@@ -28,6 +28,7 @@ private Q_SLOTS:
    void testSetGetFont();
    void testSetGetFontWithModifiers();
    void testCurrentFontChangedSignal();
+   void testFontFilters();
 };
 
 FontPickerTest::FontPickerTest()
@@ -128,6 +129,16 @@ void FontPickerTest::testCurrentFontChangedSignal()
    spy.clear();
    fontPicker.ui->fontSizeSpinBox->setValue(18);
    QVERIFY2(spy.count(), "Font changed signal wasn't emitted on changed size in font size spin box.");
+}
+
+void FontPickerTest::testFontFilters()
+{
+   FontPicker fontPicker;
+
+   QVERIFY2(fontPicker.fontFilters() == QFontComboBox::AllFonts, "Wrong default filter");
+
+   fontPicker.setFontFilters(QFontComboBox::MonospacedFonts);
+   QVERIFY2(fontPicker.fontFilters() == QFontComboBox::MonospacedFonts, "Failed setting/getting font filters");
 }
 
 QTEST_MAIN(FontPickerTest)
