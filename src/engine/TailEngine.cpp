@@ -41,6 +41,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
       connect(fileReadLogic, &FileReadLogic::linesAppended,
               [view] (const QStringList &lines) { view->appendLines(lines); });
       view->readCompleteFileUntil(file.size());
+      view->setTextViewFont(m_textViewFont);
    }
    fileReadLogic->setFileWatcher(fileWatcher);
 
@@ -91,6 +92,8 @@ void TailEngine::setFileActive(const QFileInfo &file, bool active)
 
 void TailEngine::setTextViewFont(const QFont &font)
 {
+   m_textViewFont = font;
+
    foreach (const FileContext &fileContext, m_fileContexts) {
       foreach (const FileView &view, fileContext.fileViews()) {
          if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {

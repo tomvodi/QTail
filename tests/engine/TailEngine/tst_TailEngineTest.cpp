@@ -306,6 +306,15 @@ void TailEngineTest::testSetTextViewFont()
 
    QVERIFY2(textFileView->textViewFont() == testFont, "Font wasn't set on text view.");
    QVERIFY2(noTextFileView->textViewFont() != testFont, "Font was set on nont text view.");
+
+   // Now test if a newly added text view gets the font
+   textFileView = new MocFileView(this);
+   textFileView->setViewFeatures(FileViewInterface::HasTextView);
+   sharedTextFileView = FileView(textFileView);
+   textFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontTextViewNew.log"));
+
+   engine.addFile(QFileInfo(textFilePath), textFileView);
+   QVERIFY2(textFileView->textViewFont() == testFont, "Font wasn't set on text view that was added after the font was set to engine.");
 }
 
 QTEST_MAIN(TailEngineTest)

@@ -14,6 +14,7 @@
 #include <QHash>
 #include <QFileInfo>
 #include <QSharedPointer>
+#include <QFont>
 
 class FileReadLogic;
 class FileViewInterface;
@@ -71,6 +72,7 @@ private:
 
    FileContext fileContextOfFile(const QFileInfo &file);
    QHash<QFileInfo, FileContext> m_fileContexts;
+   QFont m_textViewFont;
    void setFileContextOfFile(const QFileInfo &file, FileContext context);
    void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
    void handleRemovedFile(const QFileInfo &file);

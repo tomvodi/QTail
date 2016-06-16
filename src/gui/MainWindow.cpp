@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
                                               m_settings->wordHighlightingRules());
 
    m_tailEngine = new TailEngine(this);
+   m_tailEngine->setTextViewFont(m_settings->textViewFont());
 
    createConnections();
    openLastOpenedFiles();
