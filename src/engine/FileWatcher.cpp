@@ -7,17 +7,28 @@
  */
 
 #include <QDebug>
+#include <QTimerEvent>
 
 #include <QFileSystemWatcher>
 #include <QFileInfo>
 
 #include "FileWatcher.h"
 
+static const int FileCheckInterval(500);
+
 FileWatcher::FileWatcher(QObject *parent)
    : FileWatcherInterface(parent),
      m_fileSystemWatcher(new QFileSystemWatcher(this))
 {
    createConnections();
+}
+
+FileWatcher::~FileWatcher()
+{
+   if (m_timerId > 0) {
+      killTimer(m_timerId);
+      m_timerId = 0;
+   }
 }
 
 void FileWatcher::createConnections()
@@ -43,6 +54,23 @@ void FileWatcher::setFilePath(const QString &filePath)
 
    connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged,
            this, &FileWatcher::fileHasChanged);
+
+   m_timerId = startTimer(FileCheckInterval);
+}
+
+void FileWatcher::timerEvent(QTimerEvent *event)
+{
+   if (event->timerId() == m_timerId) {
+      QFileInfo tempFileInfo(m_fileInfo.absoluteFilePath());
+      qint64 oldSize = m_fileInfo.size();
+      qint64 newSize = tempFileInfo.size();
+
+      if (oldSize != newSize) {
+         fileHasChanged();
+      }
+   }
+
+   FileWatcherInterface::timerEvent(event);
 }
 
 void FileWatcher::fileHasChanged()

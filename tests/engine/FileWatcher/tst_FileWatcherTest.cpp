@@ -30,6 +30,7 @@ private Q_SLOTS:
    void testAddEmptyPath();
    void testSetGetFilePath();
    void testSizeChanged();
+   void testFileCheckTimer();
 };
 
 FileWatcherTest::FileWatcherTest()
@@ -69,7 +70,7 @@ void FileWatcherTest::testSetGetFilePath()
 
 void FileWatcherTest::testSizeChanged()
 {
-   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLineAddedSignal.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSizeChanged.log"));
 
    QScopedPointer<FileWatcher> fileWatcher(new FileWatcher);
    QSignalSpy spy(fileWatcher.data(), SIGNAL(sizeChanged(qint64, qint64)));
@@ -87,6 +88,33 @@ void FileWatcherTest::testSizeChanged()
    spy.wait();
 
    QVERIFY2(spy.count() == 1, "Signal for changed size wasn't emitted.");
+}
+
+void FileWatcherTest::testFileCheckTimer()
+{
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSizeChanged.log"));
+
+   QScopedPointer<FileWatcher> fileWatcher(new FileWatcher);
+
+   // Block QFileSystemWatcher's signal so the sizeChanged signal of FileWatcher will only be
+   // emitted by the timer event
+   fileWatcher->m_fileSystemWatcher->blockSignals(true);
+
+   QSignalSpy spy(fileWatcher.data(), SIGNAL(sizeChanged(qint64, qint64)));
+   fileWatcher->setFilePath(filePath);
+
+   QFile outFile(filePath);
+   QVERIFY(outFile.open(QIODevice::WriteOnly));
+   QTextStream stream(&outFile);
+
+   QString testLine("This is the first line");
+   stream << testLine;
+   stream.flush();
+   outFile.close();
+
+   spy.wait(5000);
+
+   QVERIFY2(spy.count() == 1, "Signal for changed size wasn't emitted by timer event.");
 }
 
 QTEST_MAIN(FileWatcherTest)

@@ -17,10 +17,16 @@ class QFileSystemWatcher;
 class FileWatcher : public FileWatcherInterface
 {
    Q_OBJECT
+   friend class FileWatcherTest;
+
 public:
    explicit FileWatcher(QObject *parent = 0);
+   ~FileWatcher();
 
    void setFilePath(const QString &filePath);
+
+protected:
+   void timerEvent(QTimerEvent *event);
 
 private slots:
    void fileHasChanged();
@@ -29,6 +35,7 @@ private:
    void createConnections();
    QFileSystemWatcher *m_fileSystemWatcher;
    QFileInfo m_fileInfo;
+   int m_timerId = 0;
 };
 
 #endif // FILEWATCHER_H
