@@ -45,6 +45,12 @@ public:
    QFont textViewFont() const;
    void setTextViewFont(const QFont &font);
 
+   QByteArray mainWindowGeometry() const;
+   void setMainWindowGeometry(const QByteArray &geometry);
+
+   QByteArray mainWindowState() const;
+   void setMainWindowState(const QByteArray &state);
+
 private:
    QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;
    QList<HighlightingRule> highlightingStringListToList(const QStringList &array) const;

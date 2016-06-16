@@ -51,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent) :
    createConnections();
    openLastOpenedFiles();
    initRecentlyOpenedFilesMenu();
+
+   restoreGeometry(m_settings->mainWindowGeometry());
+   restoreState(m_settings->mainWindowState());
 }
 
 MainWindow::~MainWindow()
@@ -136,6 +139,13 @@ void MainWindow::dropEvent(QDropEvent *event)
          openDir(fileInfo.absoluteFilePath());
       }
    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+   m_settings->setMainWindowGeometry(saveGeometry());
+   m_settings->setMainWindowState(saveState());
+   QMainWindow::closeEvent(event);
 }
 
 void MainWindow::createConnections()

@@ -20,6 +20,8 @@ static const QString RecentlyOpenedFilesValueName("recent files");
 static const QString WordHighlightingRulesValueName("word rules");
 static const QString LineHighlightingRulesValueName("line rules");
 static const QString TextViewFontValueName("text view font");
+static const QString MainWindowGeometryValueName("main window geometry");
+static const QString MainWindowStateValueName("main window state");
 
 Settings::Settings()
 {
@@ -92,6 +94,26 @@ QFont Settings::textViewFont() const
 void Settings::setTextViewFont(const QFont &font)
 {
    m_settings.setValue(TextViewFontValueName, font.toString());
+}
+
+QByteArray Settings::mainWindowGeometry() const
+{
+   return m_settings.value(MainWindowGeometryValueName).toByteArray();
+}
+
+void Settings::setMainWindowGeometry(const QByteArray &geometry)
+{
+   m_settings.setValue(MainWindowGeometryValueName, geometry);
+}
+
+QByteArray Settings::mainWindowState() const
+{
+   return m_settings.value(MainWindowStateValueName).toByteArray();
+}
+
+void Settings::setMainWindowState(const QByteArray &state)
+{
+   m_settings.setValue(MainWindowStateValueName, state);
 }
 
 QStringList Settings::highlightingListToStringList(const QList<HighlightingRule> &rules) const
