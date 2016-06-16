@@ -34,13 +34,16 @@
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),
    ui(new Ui::MainWindow),
+   m_settings(new Settings),
    m_highlightingDialog(new HighlightingDialog(this)),
    m_preferencesDialog(new PreferencesDialog(this))
 {
    ui->setupUi(this);
 
-   m_highlightingDialog->setHighlightingRules(m_settings.lineHighlightingRules(),
-                                              m_settings.wordHighlightingRules());
+   m_preferencesDialog->setSettings(m_settings);
+
+   m_highlightingDialog->setHighlightingRules(m_settings->lineHighlightingRules(),
+                                              m_settings->wordHighlightingRules());
 
    m_tailEngine = new TailEngine(this);
 
@@ -56,14 +59,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionOpen_triggered()
 {
-   QStringList filePaths = QFileDialog::getOpenFileNames(this, tr("Open file"), m_settings.lastOpenDir().absolutePath(),
+   QStringList filePaths = QFileDialog::getOpenFileNames(this, tr("Open file"), m_settings->lastOpenDir().absolutePath(),
                                                          QStringLiteral("All files *.*"));
 
    if (filePaths.isEmpty()) {
       return;
    }
 
-   m_settings.setLastOpenDir(QFileInfo(filePaths.first()).absoluteDir());
+   m_settings->setLastOpenDir(QFileInfo(filePaths.first()).absoluteDir());
 
    foreach (const QString &filePath, filePaths) {
       openFile(filePath);
@@ -85,6 +88,21 @@ void MainWindow::on_actionHighlighting_triggered()
 void MainWindow::on_actionPreferences_triggered()
 {
    m_preferencesDialog->show();
+}
+
+void MainWindow::settingsValueHasChanged(Settings::SettingValue valueType)
+{
+   switch (valueType) {
+   case Settings::NoValue:
+      break;
+   case Settings::TextViewFont:
+      foreach (const FileViewItems &fileView, m_fileViewItems) {
+         if (fileView.listWidget()) {
+            m_tailEngine->setTextViewFont(m_settings->textViewFont());
+         }
+      }
+      break;
+   }
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -139,8 +157,11 @@ void MainWindow::createConnections()
 
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
            [this] (const QList<HighlightingRule> &lineRules, const QList<HighlightingRule> &wordRules) {
-      m_settings.setHighlightingRules(lineRules, wordRules);
+      m_settings->setHighlightingRules(lineRules, wordRules);
    });
+
+   connect(m_preferencesDialog, &PreferencesDialog::settingsHaveChanged,
+           this, &MainWindow::settingsValueHasChanged);
 }
 
 /*!
@@ -163,7 +184,7 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
    PlainTextView *plainTextView = new PlainTextView(this);
    m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
 
-   plainTextView->setHighlightingRules(m_settings.lineHighlightingRules(), m_settings.wordHighlightingRules());
+   plainTextView->setHighlightingRules(m_settings->lineHighlightingRules(), m_settings->wordHighlightingRules());
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
            plainTextView, &PlainTextView::setHighlightingRules);
    QListWidgetItem *item = new QListWidgetItem(ui->fileListWidget);
@@ -239,7 +260,7 @@ void MainWindow::closeFileItem(QListWidgetItem *listItem)
 
 void MainWindow::openLastOpenedFiles()
 {
-   QStringList lastOpenedFiles = m_settings.lastOpenedFiles();
+   QStringList lastOpenedFiles = m_settings->lastOpenedFiles();
    foreach (const QString &lastOpenedFile, lastOpenedFiles) {
       openFile(lastOpenedFile, true);
    }
@@ -257,7 +278,7 @@ void MainWindow::saveLastOpenedFiles()
       lastOpenFiles << filePath;
    }
 
-   m_settings.setLastOpenedFiles(lastOpenFiles);
+   m_settings->setLastOpenedFiles(lastOpenFiles);
 }
 
 void MainWindow::saveRecentlyOpenedFiles()
@@ -272,7 +293,7 @@ void MainWindow::saveRecentlyOpenedFiles()
       recentlyOpenedFiles << filePath;
    }
 
-   m_settings.setRecentlyOpenedFiles(recentlyOpenedFiles);
+   m_settings->setRecentlyOpenedFiles(recentlyOpenedFiles);
 }
 
 QString MainWindow::filePathOfFileListIndex(int index)
@@ -320,7 +341,7 @@ void MainWindow::addRecentlyOpenedFile(const QFileInfo &fileInfo)
 
 void MainWindow::initRecentlyOpenedFilesMenu()
 {
-   foreach (const QString &recentFile, m_settings.recentlyOpenedFiles()) {
+   foreach (const QString &recentFile, m_settings->recentlyOpenedFiles()) {
       if (recentFile.isEmpty()) {
          continue;
       }

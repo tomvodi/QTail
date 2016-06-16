@@ -25,6 +25,7 @@ public:
    void readCompleteFileUntil(qint64 maxLength) override;
    void setFileInfo(const QFileInfo &fileInfo) override;
    void setFileActive(bool active) override;
+   void setTextViewFont(const QFont &font) override;
 
    QStringList textViewLines() const;
    void setViewFeatures(const FileViewInterface::Features &viewFeatures);
@@ -34,6 +35,7 @@ public:
 
    qint64 readUntilMaxLength() const;
    bool fileActive() const;
+   QFont textViewFont() const;
 
 private:
    void setTextViewLines(const QStringList &textViewLines);
@@ -44,6 +46,7 @@ private:
    QFileInfo m_fileInfo;
    qint64 m_readUntilMaxLength = -1;
    bool m_fileActive = false;
+   QFont m_textViewFont;
 };
 
 #endif // MOCFILEVIEW_H

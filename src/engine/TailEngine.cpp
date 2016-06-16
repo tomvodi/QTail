@@ -89,6 +89,17 @@ void TailEngine::setFileActive(const QFileInfo &file, bool active)
    }
 }
 
+void TailEngine::setTextViewFont(const QFont &font)
+{
+   foreach (const FileContext &fileContext, m_fileContexts) {
+      foreach (const FileView &view, fileContext.fileViews()) {
+         if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
+            view->setTextViewFont(font);
+         }
+      }
+   }
+}
+
 uint qHash(const QFileInfo &fileInfo)
 {
    return qHash(fileInfo.absoluteFilePath());

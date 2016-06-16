@@ -11,6 +11,8 @@
 
 #include <QDialog>
 
+#include "tools/Settings.h"
+
 namespace Ui {
 class PreferencesDialog;
 }
@@ -18,13 +20,21 @@ class PreferencesDialog;
 class PreferencesDialog : public QDialog
 {
    Q_OBJECT
+   friend class PreferencesDialogTest;
 
 public:
    explicit PreferencesDialog(QWidget *parent = 0);
    ~PreferencesDialog();
 
+   ApplicationSettings settings() const;
+   void setSettings(const ApplicationSettings &settings);
+
+signals:
+   void settingsHaveChanged(Settings::SettingValue valueType);
+
 private:
    Ui::PreferencesDialog *ui;
+   ApplicationSettings m_settings;
 };
 
 #endif // PREFERENCESDIALOG_H

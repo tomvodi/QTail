@@ -23,6 +23,7 @@ static const QString TextViewFontValueName("text view font");
 
 Settings::Settings()
 {
+   qRegisterMetaType<Settings::SettingValue>("Settings::SettingValue");
 }
 
 void Settings::setLastOpenDir(const QDir &dir)

@@ -39,6 +39,7 @@ private slots:
    void on_actionAbout_triggered();
    void on_actionHighlighting_triggered();
    void on_actionPreferences_triggered();
+   void settingsValueHasChanged(Settings::SettingValue valueType);
 
 protected:
    void dragEnterEvent(QDragEnterEvent *event);
@@ -79,7 +80,7 @@ private:
    void addRecentlyOpenedFile(const QFileInfo &fileInfo);
    void initRecentlyOpenedFilesMenu();
    Ui::MainWindow *ui;
-   Settings m_settings;
+   ApplicationSettings m_settings;
    TailEngine *m_tailEngine = nullptr;
    QHash<QString, FileViewItems> m_fileViewItems;  // Hash for absolute file path -> FileViewItems
    HighlightingDialog *m_highlightingDialog;

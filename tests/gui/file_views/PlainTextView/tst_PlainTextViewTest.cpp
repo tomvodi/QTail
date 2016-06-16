@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
+#include <QTextDocument>
 
 #include <gui/file_views/PlainTextView.h>
 #include <gui/file_views/PlainTextViewWidget.h>
@@ -29,6 +30,7 @@ private Q_SLOTS:
    void testAppendLines();
    void testClear();
    void testReadCompleteUntil();
+   void testSetTextViewFont();
 };
 
 PlainTextViewTest::PlainTextViewTest()
@@ -108,6 +110,16 @@ void PlainTextViewTest::testReadCompleteUntil()
    QString textViewText = textView.m_textEdit->toPlainText();
    QVERIFY2(textViewText.count(), "No text in text loaded into text view");
    QVERIFY2(textViewText == testFileContent, "Too much or too less text was loaded into text view");
+}
+
+void PlainTextViewTest::testSetTextViewFont()
+{
+   QFont testFont = TestCommon::testFont();
+
+   PlainTextView textView;
+   textView.setTextViewFont(testFont);
+
+   QVERIFY2(textView.m_textDocument->defaultFont() == testFont, "Default font wasn't set.");
 }
 
 QTEST_MAIN(PlainTextViewTest)

@@ -54,11 +54,12 @@ public slots:
    // FileState feature methods
    virtual void setFileState(FileState state);
 
-   // View feature methods
+   // TextView feature methods
    virtual void appendLine(const QString &line);
    virtual void appendLines(const QStringList &lines);
    virtual void readCompleteFileUntil(qint64 maxLength);
    virtual void clearTextView();
+   virtual void setTextViewFont(const QFont &font);
 
    // Highlighing
    virtual void setHighlightingRules(const QList<HighlightingRule> &lineRules,

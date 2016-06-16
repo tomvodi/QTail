@@ -35,6 +35,7 @@ private Q_SLOTS:
    void testLinesViewHasNoTextFeature();
    void testSetFileActive();
    void testRemoveFile();
+   void testSetTextViewFont();
 };
 
 TailEngineTest::TailEngineTest()
@@ -54,7 +55,7 @@ void TailEngineTest::testFileStateAddedLines()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLineAddedSignal.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasStateView);
    FileView sharedFileView(fileView);
 
@@ -80,7 +81,7 @@ void TailEngineTest::testFileStateViewHasNoStateFeature()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testFileStateViewHasNoStateFeature.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::NoFeature);  // View has no state feature
    FileView sharedFileView(fileView);
 
@@ -103,7 +104,7 @@ void TailEngineTest::testFileStateRemovedFile()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testFileStateRemovedFile.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasStateView);
    FileView sharedFileView(fileView);
 
@@ -129,7 +130,7 @@ void TailEngineTest::testFileStateRemovedLines()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testFileStateNewLines.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasStateView);
    FileView sharedFileView(fileView);
 
@@ -157,7 +158,7 @@ void TailEngineTest::testSetFileInfoCallOnAddFile()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadUntilCallInAddFile.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasTextView);
    FileView sharedFileView(fileView);
 
@@ -177,7 +178,7 @@ void TailEngineTest::testReadUntilCallInAddFile()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadUntilCallInAddFile.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasTextView);
    FileView sharedFileView(fileView);
 
@@ -202,7 +203,7 @@ void TailEngineTest::testLinesAddedLinesToFile()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesAddedLines.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasTextView);
    fileView->appendLine("This line should be cleared.");
    FileView sharedFileView(fileView);
@@ -229,7 +230,7 @@ void TailEngineTest::testLinesViewHasNoTextFeature()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::NoFeature);  // View has no text feature
    FileView sharedFileView(fileView);
 
@@ -251,7 +252,7 @@ void TailEngineTest::testSetFileActive()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::NoFeature);
    FileView sharedFileView(fileView);
 
@@ -267,7 +268,7 @@ void TailEngineTest::testRemoveFile()
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesViewHasNoTextFeature.log"));
    TailEngine engine;
 
-   MocFileView *fileView = new MocFileView;
+   MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::NoFeature);
    FileView sharedFileView(fileView);
 
@@ -278,6 +279,33 @@ void TailEngineTest::testRemoveFile()
    engine.removeFile(fileInfo);
 
    QVERIFY2(engine.m_fileContexts.isEmpty(), "File context wasn't removed for file");
+}
+
+void TailEngineTest::testSetTextViewFont()
+{
+   QString textFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontTextView.log"));
+   QString noTextFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontNoTextView.log"));
+   TailEngine engine;
+
+   MocFileView *textFileView = new MocFileView(this);
+   textFileView->setViewFeatures(FileViewInterface::HasTextView);
+   FileView sharedTextFileView(textFileView);
+
+   MocFileView *noTextFileView = new MocFileView(this);
+   noTextFileView->setViewFeatures(FileViewInterface::HasStateView);
+   FileView sharedFileView(noTextFileView);
+
+   engine.addFile(QFileInfo(textFilePath), sharedTextFileView);
+   engine.addFile(QFileInfo(noTextFilePath), sharedFileView);
+
+   QFont testFont = TestCommon::testFont();
+   Q_ASSERT(testFont != textFileView->textViewFont());
+   Q_ASSERT(testFont != noTextFileView->textViewFont());
+
+   engine.setTextViewFont(testFont);
+
+   QVERIFY2(textFileView->textViewFont() == testFont, "Font wasn't set on text view.");
+   QVERIFY2(noTextFileView->textViewFont() != testFont, "Font was set on nont text view.");
 }
 
 QTEST_MAIN(TailEngineTest)

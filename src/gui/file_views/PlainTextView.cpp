@@ -77,3 +77,8 @@ void PlainTextView::setHighlightingRules(const QList<HighlightingRule> &lineRule
 {
    m_syntaxHighlighter->setHighlightingRules(lineRules, wordRules);
 }
+
+void PlainTextView::setTextViewFont(const QFont &font)
+{
+   m_textDocument->setDefaultFont(font);
+}
