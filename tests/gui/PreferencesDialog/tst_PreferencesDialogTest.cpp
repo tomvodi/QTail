@@ -75,7 +75,14 @@ void PreferencesDialogTest::testTextViewSettingsChange()
 
 void PreferencesDialogTest::testSetSettings()
 {
+   // Force dialog to use other settings
+   QCoreApplication::setOrganizationName(QUuid::createUuid().toString());
+   QCoreApplication::setApplicationName(QUuid::createUuid().toString());
    PreferencesDialog dialog;
+
+   // Set right settings name for this test
+   QCoreApplication::setOrganizationName("testSetSettings");
+   QCoreApplication::setApplicationName("testSetSettings");
    ApplicationSettings settings(new Settings);
 
    // Set dialog ui to other values than stored in settings
