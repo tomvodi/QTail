@@ -31,6 +31,9 @@ public:
 
    void setTextDocument(QTextDocument *document);
 
+   bool lineWrapOn() const;
+   void setLineWrapOn(bool lineWrapOn);
+
 protected:
    void changeEvent(QEvent *e);
 

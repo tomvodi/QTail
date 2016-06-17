@@ -33,6 +33,7 @@ private Q_SLOTS:
    void testRecentlyOpenedFiles();
    void testSetHighlightingRules();
    void testTextViewFont();
+   void testTextViewLineWrap();
 };
 
 SettingsTest::SettingsTest()
@@ -129,6 +130,19 @@ void SettingsTest::testTextViewFont()
    QFont testFont = TestCommon::testFont();
    settings.setTextViewFont(testFont);
    QVERIFY2(settings.textViewFont() == testFont, "Failed setting/getting text view font");
+}
+
+void SettingsTest::testTextViewLineWrap()
+{
+   Settings settings;
+   bool lineWrapOn = true;
+
+   QVERIFY2(settings.textViewLineWrap() == lineWrapOn, "The wrong default text view line wrap value was returned.");
+
+   lineWrapOn = !lineWrapOn;
+
+   settings.setTextViewLineWrap(lineWrapOn);
+   QVERIFY2(settings.textViewLineWrap() == lineWrapOn, "Failed setting/getting text view line wrap");
 }
 
 QTEST_MAIN(SettingsTest)

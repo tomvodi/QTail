@@ -33,6 +33,16 @@ TextViewSettings &TextViewSettings::operator=(const TextViewSettings &rhs)
    return *this;
 }
 
+bool TextViewSettings::operator==(const TextViewSettings &other)
+{
+   return (data == other.data);
+}
+
+bool TextViewSettings::operator!=(const TextViewSettings &other)
+{
+   return !((*this) == other);
+}
+
 TextViewSettings::~TextViewSettings()
 {
 }
@@ -47,14 +57,14 @@ void TextViewSettings::setFont(const QFont &value)
    data->font = value;
 }
 
-bool TextViewSettings::lineWrap() const
+bool TextViewSettings::lineWrapOn() const
 {
    return data->lineWrap;
 }
 
-void TextViewSettings::setLineWrap(bool value)
+void TextViewSettings::setLineWrapOn(bool on)
 {
-   data->lineWrap = value;
+   data->lineWrap = on;
 }
 
 quint32 TextViewSettings::updateInterval() const

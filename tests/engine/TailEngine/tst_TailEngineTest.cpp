@@ -35,7 +35,7 @@ private Q_SLOTS:
    void testLinesViewHasNoTextFeature();
    void testSetFileActive();
    void testRemoveFile();
-   void testSetTextViewFont();
+   void testSetTextViewSettings();
 };
 
 TailEngineTest::TailEngineTest()
@@ -281,7 +281,7 @@ void TailEngineTest::testRemoveFile()
    QVERIFY2(engine.m_fileContexts.isEmpty(), "File context wasn't removed for file");
 }
 
-void TailEngineTest::testSetTextViewFont()
+void TailEngineTest::testSetTextViewSettings()
 {
    QString textFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontTextView.log"));
    QString noTextFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontNoTextView.log"));
@@ -298,25 +298,26 @@ void TailEngineTest::testSetTextViewFont()
    engine.addFile(QFileInfo(textFilePath), sharedTextFileView);
    engine.addFile(QFileInfo(noTextFilePath), sharedFileView);
 
-   QFont testFont = TestCommon::testFont();
-   Q_ASSERT(testFont != textFileView->textViewSettings().font());
-   Q_ASSERT(testFont != noTextFileView->textViewSettings().font());
-
    TextViewSettings settings;
-   settings.setFont(testFont);
+   settings.setFont(TestCommon::testFont());
+   settings.setLineWrapOn(!textFileView->textViewSettings().lineWrapOn());
+
+   Q_ASSERT(settings.font() != textFileView->textViewSettings().font());
+   Q_ASSERT(settings.font() != noTextFileView->textViewSettings().font());
+
    engine.setTextViewSettings(settings);
 
-   QVERIFY2(textFileView->textViewSettings().font() == testFont, "Font wasn't set on text view.");
-   QVERIFY2(noTextFileView->textViewSettings().font() != testFont, "Font was set on nont text view.");
+   QVERIFY2(textFileView->textViewSettings() == settings, "Text view settins wasn't set on text view.");
+   QVERIFY2(noTextFileView->textViewSettings() != settings, "Text view settings were set on nont text view.");
 
-   // Now test if a newly added text view gets the font
+   // Now test if a newly added text view gets the settings
    textFileView = new MocFileView(this);
    textFileView->setViewFeatures(FileViewInterface::HasTextView);
    sharedTextFileView = FileView(textFileView);
    textFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontTextViewNew.log"));
 
    engine.addFile(QFileInfo(textFilePath), textFileView);
-   QVERIFY2(textFileView->textViewSettings().font() == testFont, "Font wasn't set on text view that was added after the font was set to engine.");
+   QVERIFY2(textFileView->textViewSettings() == settings, "Text view settings weren't set on text view that was added after the settings were set to engine.");
 }
 
 QTEST_MAIN(TailEngineTest)

@@ -39,7 +39,7 @@ private slots:
    void on_actionAbout_triggered();
    void on_actionHighlighting_triggered();
    void on_actionPreferences_triggered();
-   void settingsValueHasChanged(Settings::SettingValue valueType);
+   void settingsValueHasChanged(Settings::SettingCategory valueType);
 
 protected:
    void dragEnterEvent(QDragEnterEvent *event);

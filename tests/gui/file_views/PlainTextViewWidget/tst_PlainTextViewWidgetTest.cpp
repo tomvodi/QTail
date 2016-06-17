@@ -29,6 +29,7 @@ private Q_SLOTS:
    void testAppendPlainText();
    void testToPlainText();
    void testClear();
+   void testLineWrap();
 
 private:
    void appendLinesToTextViewWidget(PlainTextViewWidget &widget, int lineCount);
@@ -75,6 +76,20 @@ void PlainTextViewWidgetTest::testClear()
    viewWidget.ui->plainTextEdit->appendPlainText(testText);
    viewWidget.clear();
    QVERIFY2(viewWidget.ui->plainTextEdit->toPlainText().isEmpty(), "Text wasn't cleared.");
+}
+
+void PlainTextViewWidgetTest::testLineWrap()
+{
+   bool lineWrapOn = false;
+   PlainTextViewWidget viewWidget;
+   viewWidget.setLineWrapOn(lineWrapOn);
+   QVERIFY2(viewWidget.lineWrapOn() == lineWrapOn, "Wrong line wrap value returned");
+   QVERIFY2(viewWidget.ui->plainTextEdit->lineWrapMode() == QTextEdit::NoWrap, "Failed settings line wrap on text edit");
+
+   lineWrapOn = true;
+   viewWidget.setLineWrapOn(lineWrapOn);
+   QVERIFY2(viewWidget.lineWrapOn() == lineWrapOn, "Wrong toggled line wrap value returned");
+   QVERIFY2(viewWidget.ui->plainTextEdit->lineWrapMode() == QTextEdit::WidgetWidth, "Failed settings toggled line wrap on text edit");
 }
 
 void PlainTextViewWidgetTest::appendLinesToTextViewWidget(PlainTextViewWidget &widget, int lineCount)

@@ -31,7 +31,7 @@ private Q_SLOTS:
    void testAppendLines();
    void testClear();
    void testReadCompleteUntil();
-   void testSetTextViewFont();
+   void testSetTextViewSettings();
 };
 
 PlainTextViewTest::PlainTextViewTest()
@@ -113,16 +113,18 @@ void PlainTextViewTest::testReadCompleteUntil()
    QVERIFY2(textViewText == testFileContent, "Too much or too less text was loaded into text view");
 }
 
-void PlainTextViewTest::testSetTextViewFont()
+void PlainTextViewTest::testSetTextViewSettings()
 {
    QFont testFont = TestCommon::testFont();
 
    PlainTextView textView;
    TextViewSettings settings;
    settings.setFont(testFont);
+   settings.setLineWrapOn(!textView.m_textEdit->lineWrapOn());
    textView.setTextViewSettings(settings);
 
    QVERIFY2(textView.m_textDocument->defaultFont() == testFont, "Default font wasn't set.");
+   QVERIFY2(textView.m_textEdit->lineWrapOn() == settings.lineWrapOn(), "Failed setting line wrap");
 }
 
 QTEST_MAIN(PlainTextViewTest)

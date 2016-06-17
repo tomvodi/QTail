@@ -43,9 +43,23 @@ void PlainTextViewWidget::changeEvent(QEvent *e)
    }
 }
 
+bool PlainTextViewWidget::lineWrapOn() const
+{
+   return (ui->plainTextEdit->lineWrapMode() == QPlainTextEdit::WidgetWidth);
+}
+
+void PlainTextViewWidget::setLineWrapOn(bool lineWrapOn)
+{
+   if (lineWrapOn) {
+      ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+   } else {
+      ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
+   }
+}
+
 void PlainTextViewWidget::appendPlainText(const QString &text)
 {
-   ui->plainTextEdit->appendPlainText(text);
+    ui->plainTextEdit->appendPlainText(text);
 }
 
 QString PlainTextViewWidget::toPlainText() const

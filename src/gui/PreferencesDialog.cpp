@@ -27,6 +27,12 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
       m_settings->setTextViewFont(font);
       emit settingsHaveChanged(Settings::TextViewSettings);
    });
+
+   connect(ui->lineWrapCheckBox, &QCheckBox::toggled,
+           [this] (bool checked) {
+      m_settings->setTextViewLineWrap(checked);
+      emit settingsHaveChanged(Settings::TextViewSettings);
+   });
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -42,4 +48,11 @@ ApplicationSettings PreferencesDialog::settings() const
 void PreferencesDialog::setSettings(const ApplicationSettings &settings)
 {
    m_settings = settings;
+
+   blockSignals(true);
+
+   ui->textViewFontPicker->setCurrentFont(settings->textViewFont());
+   ui->lineWrapCheckBox->setChecked(settings->textViewLineWrap());
+
+   blockSignals(false);
 }

@@ -26,15 +26,16 @@ public:
 private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
-   void testTextViewFontChange();
+   void testTextViewSettingsChange();
+   void testSetSettings();
 
 private:
-   Settings::SettingValue valueTypeFromSignal(const QVariantList &signal);
+   Settings::SettingCategory valueTypeFromSignal(const QVariantList &signal);
 };
 
 PreferencesDialogTest::PreferencesDialogTest()
 {
-   qRegisterMetaType<Settings::SettingValue>("Settings::SettingValue");
+   qRegisterMetaType<Settings::SettingCategory>("Settings::SettingCategory");
 }
 
 void PreferencesDialogTest::initTestCase()
@@ -47,31 +48,61 @@ void PreferencesDialogTest::cleanupTestCase()
 {
 }
 
-void PreferencesDialogTest::testTextViewFontChange()
+void PreferencesDialogTest::testTextViewSettingsChange()
 {
    PreferencesDialog dialog;
    ApplicationSettings settings(new Settings);
    dialog.setSettings(settings);
 
-   QSignalSpy spy(&dialog, SIGNAL(settingsHaveChanged(Settings::SettingValue)));
+   QSignalSpy spy(&dialog, SIGNAL(settingsHaveChanged(Settings::SettingCategory)));
 
    QFont testFont = TestCommon::testFont();
    dialog.ui->textViewFontPicker->currentFontChanged(testFont);
 
    QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
-   Settings::SettingValue parameterValue = valueTypeFromSignal(spy.first());
+   Settings::SettingCategory parameterValue = valueTypeFromSignal(spy.first());
    QVERIFY2(parameterValue == Settings::TextViewSettings, "Wrong value type returned.");
    QVERIFY2(settings->textViewFont() == testFont, "Font wasn't set in settings.");
+
+   spy.clear();
+   bool lineWrapOn = !dialog.ui->lineWrapCheckBox->isChecked();
+   dialog.ui->lineWrapCheckBox->setChecked(lineWrapOn);
+   QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
+   parameterValue = valueTypeFromSignal(spy.first());
+   QVERIFY2(parameterValue == Settings::TextViewSettings, "Wrong value type returned.");
+   QVERIFY2(settings->textViewLineWrap() == lineWrapOn, "Line wrap value wasn't set in settings.");
 }
 
-Settings::SettingValue PreferencesDialogTest::valueTypeFromSignal(const QVariantList &signal)
+void PreferencesDialogTest::testSetSettings()
+{
+   PreferencesDialog dialog;
+   ApplicationSettings settings(new Settings);
+
+   // Set dialog ui to other values than stored in settings
+   QFont testFont = settings->textViewFont();
+   testFont.setPointSize(testFont.pointSize() + 4);
+   testFont.setBold(!testFont.bold());
+   dialog.ui->textViewFontPicker->setCurrentFont(testFont);
+
+   bool lineWrapOn = !settings->textViewLineWrap();
+   dialog.ui->lineWrapCheckBox->setChecked(lineWrapOn);
+
+   dialog.setSettings(settings);
+
+   QVERIFY2(dialog.ui->textViewFontPicker->currentFont() == settings->textViewFont(),
+            "Font wasn't set from settings");
+   QVERIFY2(dialog.ui->lineWrapCheckBox->isChecked() == settings->textViewLineWrap(),
+            "Text wrap wasn't set from settings");
+}
+
+Settings::SettingCategory PreferencesDialogTest::valueTypeFromSignal(const QVariantList &signal)
 {
    if (!signal.count()) {
       qCritical() << "No parameter in signal";
       return Settings::NoValue;
    }
 
-   Settings::SettingValue value = signal.first().value<Settings::SettingValue>();
+   Settings::SettingCategory value = signal.first().value<Settings::SettingCategory>();
 
    return value;
 }

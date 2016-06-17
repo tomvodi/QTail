@@ -32,7 +32,7 @@ public:
    void setSettings(const ApplicationSettings &settings);
 
 signals:
-   void settingsHaveChanged(Settings::SettingValue valueType);
+   void settingsHaveChanged(Settings::SettingCategory valueType);
 
 private:
    Ui::PreferencesDialog *ui;

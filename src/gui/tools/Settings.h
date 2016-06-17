@@ -20,7 +20,7 @@ class Settings
 {
    friend class SettingsTest;
 public:
-   enum SettingValue {
+   enum SettingCategory {
       NoValue = 0,
       TextViewSettings = 1
    };
@@ -45,6 +45,9 @@ public:
    QFont textViewFont() const;
    void setTextViewFont(const QFont &font);
 
+   bool textViewLineWrap() const;
+   void setTextViewLineWrap(bool wrapOn);
+
    QByteArray mainWindowGeometry() const;
    void setMainWindowGeometry(const QByteArray &geometry);
 
@@ -57,7 +60,7 @@ private:
    QSettings m_settings;
 };
 
-Q_DECLARE_METATYPE(Settings::SettingValue)
+Q_DECLARE_METATYPE(Settings::SettingCategory)
 
 typedef QSharedPointer<Settings> ApplicationSettings;
 

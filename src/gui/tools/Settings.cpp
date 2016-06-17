@@ -19,13 +19,14 @@ static const QString LastOpenedFilesValueName("last open files");
 static const QString RecentlyOpenedFilesValueName("recent files");
 static const QString WordHighlightingRulesValueName("word rules");
 static const QString LineHighlightingRulesValueName("line rules");
-static const QString TextViewFontValueName("text view font");
+static const QString TextViewFontValueName("textview/font");
+static const QString TextViewLineWrapValueName("textview/linewrap");
 static const QString MainWindowGeometryValueName("main window geometry");
 static const QString MainWindowStateValueName("main window state");
 
 Settings::Settings()
 {
-   qRegisterMetaType<Settings::SettingValue>("Settings::SettingValue");
+   qRegisterMetaType<Settings::SettingCategory>("Settings::SettingCategory");
 }
 
 void Settings::setLastOpenDir(const QDir &dir)
@@ -94,6 +95,16 @@ QFont Settings::textViewFont() const
 void Settings::setTextViewFont(const QFont &font)
 {
    m_settings.setValue(TextViewFontValueName, font.toString());
+}
+
+bool Settings::textViewLineWrap() const
+{
+   return m_settings.value(TextViewLineWrapValueName, true).toBool();
+}
+
+void Settings::setTextViewLineWrap(bool wrapOn)
+{
+   m_settings.setValue(TextViewLineWrapValueName, wrapOn);
 }
 
 QByteArray Settings::mainWindowGeometry() const

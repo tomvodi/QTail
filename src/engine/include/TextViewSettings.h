@@ -20,13 +20,15 @@ public:
    TextViewSettings();
    TextViewSettings(const TextViewSettings &);
    TextViewSettings &operator=(const TextViewSettings &);
+   bool operator==(const TextViewSettings &other);
+   bool operator!=(const TextViewSettings &other);
    ~TextViewSettings();
 
    QFont font() const;
    void setFont(const QFont &value);
 
-   bool lineWrap() const;
-   void setLineWrap(bool value);
+   bool lineWrapOn() const;
+   void setLineWrapOn(bool on);
 
    quint32 updateInterval() const;
    void setUpdateInterval(const quint32 &value);

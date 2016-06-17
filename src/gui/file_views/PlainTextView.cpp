@@ -83,4 +83,5 @@ void PlainTextView::setHighlightingRules(const QList<HighlightingRule> &lineRule
 void PlainTextView::setTextViewSettings(const TextViewSettings &settings)
 {
    m_textDocument->setDefaultFont(settings.font());
+   m_textEdit->setLineWrapOn(settings.lineWrapOn());
 }

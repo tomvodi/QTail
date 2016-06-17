@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
    m_tailEngine = new TailEngine(this);
    TextViewSettings textViewSettings;
    textViewSettings.setFont(m_settings->textViewFont());
+   textViewSettings.setLineWrapOn(m_settings->textViewLineWrap());
    m_tailEngine->setTextViewSettings(textViewSettings);
 
    createConnections();
@@ -96,7 +97,7 @@ void MainWindow::on_actionPreferences_triggered()
    m_preferencesDialog->show();
 }
 
-void MainWindow::settingsValueHasChanged(Settings::SettingValue valueType)
+void MainWindow::settingsValueHasChanged(Settings::SettingCategory valueType)
 {
    switch (valueType) {
    case Settings::NoValue:
@@ -104,6 +105,7 @@ void MainWindow::settingsValueHasChanged(Settings::SettingValue valueType)
    case Settings::TextViewSettings:
       TextViewSettings textViewSettings;
       textViewSettings.setFont(m_settings->textViewFont());
+      textViewSettings.setLineWrapOn(m_settings->textViewLineWrap());
 
       foreach (const FileViewItems &fileView, m_fileViewItems) {
          if (fileView.listWidget()) {
