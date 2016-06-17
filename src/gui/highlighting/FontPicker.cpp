@@ -46,18 +46,10 @@ FontPicker::~FontPicker()
 QFont FontPicker::currentFont() const
 {
    QFont font(ui->fontComboBox->currentFont());
-   if (ui->boldButton->isChecked()) {
-      font.setBold(true);
-   }
-   if (ui->italicButton->isChecked()) {
-      font.setItalic(true);
-   }
-   if (ui->underlineButton->isChecked()) {
-      font.setUnderline(true);
-   }
-   if (ui->strikeoutButton->isChecked()) {
-      font.setStrikeOut(true);
-   }
+   font.setBold(ui->boldButton->isChecked());
+   font.setItalic(ui->italicButton->isChecked());
+   font.setUnderline(ui->underlineButton->isChecked());
+   font.setStrikeOut(ui->strikeoutButton->isChecked());
    font.setPointSize(ui->fontSizeSpinBox->value());
    return font;
 }

@@ -89,6 +89,32 @@ void FontPickerTest::testSetGetFontWithModifiers()
    QVERIFY2(fontPicker.ui->strikeoutButton->isChecked() == font.strikeOut(), "Strike out button wasn't set checked.");
 
    QVERIFY2(fontPicker.currentFont() == font, "Returned font isn't the same as the one that was set.");
+
+   // Uncheck font modifiers tool buttons after setting a font with all states set
+   // should result in a returned current font that has also all states unset
+   font.setPointSize(fontPointSize);
+   font.setBold(true);
+   font.setItalic(true);
+   font.setUnderline(true);
+   font.setStrikeOut(true);
+
+   fontPicker.setCurrentFont(font);
+
+   int testSize = fontPointSize + 4;
+   fontPicker.ui->fontSizeSpinBox->setValue(testSize);
+   QVERIFY2(fontPicker.currentFont().pointSize() == testSize, "Point size wasn't set for current font");
+
+   fontPicker.ui->boldButton->setChecked(false);
+   QVERIFY2(fontPicker.currentFont().bold() == false, "Bold state wasn't removed from current font");
+
+   fontPicker.ui->italicButton->setChecked(false);
+   QVERIFY2(fontPicker.currentFont().italic() == false, "Italic state wasn't removed from current font");
+
+   fontPicker.ui->underlineButton->setChecked(false);
+   QVERIFY2(fontPicker.currentFont().underline() == false, "Underline state wasn't removed from current font");
+
+   fontPicker.ui->strikeoutButton->setChecked(false);
+   QVERIFY2(fontPicker.currentFont().strikeOut() == false, "Strike out state wasn't removed from current font");
 }
 
 void FontPickerTest::testCurrentFontChangedSignal()
