@@ -34,6 +34,7 @@ private Q_SLOTS:
    void testSetHighlightingRules();
    void testTextViewFont();
    void testTextViewLineWrap();
+   void testTextViewUpdateInterval();
 };
 
 SettingsTest::SettingsTest()
@@ -143,6 +144,19 @@ void SettingsTest::testTextViewLineWrap()
 
    settings.setTextViewLineWrap(lineWrapOn);
    QVERIFY2(settings.textViewLineWrap() == lineWrapOn, "Failed setting/getting text view line wrap");
+}
+
+void SettingsTest::testTextViewUpdateInterval()
+{
+   Settings settings;
+
+   int updateInterval = 250;
+
+   QVERIFY2(settings.textViewUpdateIntervalMs() == updateInterval, "Wrong default update interval");
+
+   updateInterval = 45342;
+   settings.setTextViewUpdateIntervalMs(updateInterval);
+   QVERIFY2(settings.textViewUpdateIntervalMs() == updateInterval, "Failed settings update interval");
 }
 
 QTEST_MAIN(SettingsTest)

@@ -71,6 +71,21 @@ void PreferencesDialogTest::testTextViewSettingsChange()
    parameterValue = valueTypeFromSignal(spy.first());
    QVERIFY2(parameterValue == Settings::TextViewSettings, "Wrong value type returned.");
    QVERIFY2(settings->textViewLineWrap() == lineWrapOn, "Line wrap value wasn't set in settings.");
+
+   spy.clear();
+   int currentUpdateIntervalIndex = dialog.ui->updateIntervalComboBox->currentIndex();
+   if (currentUpdateIntervalIndex == 0) {
+      currentUpdateIntervalIndex = 1;
+   } else {
+      currentUpdateIntervalIndex = 0;
+   }
+
+   dialog.ui->updateIntervalComboBox->setCurrentIndex(currentUpdateIntervalIndex);
+   int currentSelectedIntervalData = dialog.ui->updateIntervalComboBox->currentData().toInt();
+   QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
+   parameterValue = valueTypeFromSignal(spy.first());
+   QVERIFY2(parameterValue == Settings::TextViewSettings, "Wrong value type returned.");
+   QVERIFY2(settings->textViewUpdateIntervalMs() == currentSelectedIntervalData, "Update interval value wasn't set in settings.");
 }
 
 void PreferencesDialogTest::testSetSettings()

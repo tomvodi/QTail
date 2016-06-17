@@ -19,8 +19,11 @@ static const QString LastOpenedFilesValueName("last open files");
 static const QString RecentlyOpenedFilesValueName("recent files");
 static const QString WordHighlightingRulesValueName("word rules");
 static const QString LineHighlightingRulesValueName("line rules");
+
 static const QString TextViewFontValueName("textview/font");
 static const QString TextViewLineWrapValueName("textview/linewrap");
+static const QString TextViewUpdateIntervalValueName("textview/updateinterval");
+
 static const QString MainWindowGeometryValueName("main window geometry");
 static const QString MainWindowStateValueName("main window state");
 
@@ -105,6 +108,21 @@ bool Settings::textViewLineWrap() const
 void Settings::setTextViewLineWrap(bool wrapOn)
 {
    m_settings.setValue(TextViewLineWrapValueName, wrapOn);
+}
+
+/*!
+ * \brief Settings::textViewUpdateIntervalMs
+ * The update interval of text views in milliseconds.
+ * \return
+ */
+int Settings::textViewUpdateIntervalMs() const
+{
+   return m_settings.value(TextViewUpdateIntervalValueName, 250).toInt();
+}
+
+void Settings::setTextViewUpdateIntervalMs(int interval)
+{
+   m_settings.setValue(TextViewUpdateIntervalValueName, interval);
 }
 
 QByteArray Settings::mainWindowGeometry() const

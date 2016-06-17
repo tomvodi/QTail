@@ -48,6 +48,9 @@ public:
    bool textViewLineWrap() const;
    void setTextViewLineWrap(bool wrapOn);
 
+   int textViewUpdateIntervalMs() const;
+   void setTextViewUpdateIntervalMs(int interval);
+
    QByteArray mainWindowGeometry() const;
    void setMainWindowGeometry(const QByteArray &geometry);
 

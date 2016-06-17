@@ -35,6 +35,7 @@ signals:
    void settingsHaveChanged(Settings::SettingCategory valueType);
 
 private:
+   void initUpdateIntervalComboBox();
    Ui::PreferencesDialog *ui;
    ApplicationSettings m_settings;
 };
