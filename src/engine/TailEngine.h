@@ -16,6 +16,8 @@
 #include <QSharedPointer>
 #include <QFont>
 
+#include <include/TextViewSettings.h>
+
 class FileReadLogic;
 class FileViewInterface;
 class FileWatcher;
@@ -41,6 +43,7 @@ public:
    void addFile(const QFileInfo &file, const FileView &view);
    void removeFile(const QFileInfo &file);
    void setFileActive(const QFileInfo &file, bool active);
+   void setTextViewSettings(const TextViewSettings &settings);
    void setTextViewFont(const QFont &font);
 
 private:
@@ -73,6 +76,7 @@ private:
    FileContext fileContextOfFile(const QFileInfo &file);
    QHash<QFileInfo, FileContext> m_fileContexts;
    QFont m_textViewFont;
+   TextViewSettings m_textViewSettings;
    void setFileContextOfFile(const QFileInfo &file, FileContext context);
    void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
    void handleRemovedFile(const QFileInfo &file);

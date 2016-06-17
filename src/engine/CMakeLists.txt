@@ -12,6 +12,7 @@ set(Project_Sources
   TailEngine.cpp
   FileReadLogic.cpp
   HighlightingRule.cpp
+  TextViewSettings.cpp
 
   FileViewInterface.cpp
   FileWatcherInterface.cpp

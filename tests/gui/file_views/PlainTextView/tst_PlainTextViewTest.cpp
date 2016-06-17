@@ -14,6 +14,7 @@
 #include <gui/file_views/PlainTextView.h>
 #include <gui/file_views/PlainTextViewWidget.h>
 #include <TestCommon.h>
+#include <include/TextViewSettings.h>
 
 class PlainTextViewTest : public QObject
 {
@@ -117,7 +118,9 @@ void PlainTextViewTest::testSetTextViewFont()
    QFont testFont = TestCommon::testFont();
 
    PlainTextView textView;
-   textView.setTextViewFont(testFont);
+   TextViewSettings settings;
+   settings.setFont(testFont);
+   textView.setTextViewSettings(settings);
 
    QVERIFY2(textView.m_textDocument->defaultFont() == testFont, "Default font wasn't set.");
 }

@@ -31,7 +31,8 @@ public:
    void clearTextView() override;
    void readCompleteFileUntil(qint64 maxLength) override;
    QPointer<QWidget> widget() const override;
-   void setTextViewFont(const QFont &font) override;
+//   void setTextViewFont(const QFont &font) override;
+   void setTextViewSettings(const TextViewSettings &settings) override;
 
 public slots:
    void setHighlightingRules(const QList<HighlightingRule> &lineRules,

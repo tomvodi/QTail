@@ -22,7 +22,7 @@ class Settings
 public:
    enum SettingValue {
       NoValue = 0,
-      TextViewFont = 1
+      TextViewSettings = 1
    };
 
    Settings();

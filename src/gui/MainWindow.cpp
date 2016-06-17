@@ -46,7 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
                                               m_settings->wordHighlightingRules());
 
    m_tailEngine = new TailEngine(this);
-   m_tailEngine->setTextViewFont(m_settings->textViewFont());
+   TextViewSettings textViewSettings;
+   textViewSettings.setFont(m_settings->textViewFont());
+   m_tailEngine->setTextViewSettings(textViewSettings);
 
    createConnections();
    openLastOpenedFiles();
@@ -99,10 +101,13 @@ void MainWindow::settingsValueHasChanged(Settings::SettingValue valueType)
    switch (valueType) {
    case Settings::NoValue:
       break;
-   case Settings::TextViewFont:
+   case Settings::TextViewSettings:
+      TextViewSettings textViewSettings;
+      textViewSettings.setFont(m_settings->textViewFont());
+
       foreach (const FileViewItems &fileView, m_fileViewItems) {
          if (fileView.listWidget()) {
-            m_tailEngine->setTextViewFont(m_settings->textViewFont());
+            m_tailEngine->setTextViewSettings(textViewSettings);
          }
       }
       break;

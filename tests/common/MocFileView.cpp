@@ -64,9 +64,14 @@ void MocFileView::setTextViewLines(const QStringList &textViewLines)
    m_textViewLines = textViewLines;
 }
 
-QFont MocFileView::textViewFont() const
+TextViewSettings MocFileView::textViewSettings() const
 {
-   return m_textViewFont;
+   return m_textViewSettings;
+}
+
+void MocFileView::setTextViewSettings(const TextViewSettings &textViewSettings)
+{
+   m_textViewSettings = textViewSettings;
 }
 
 bool MocFileView::fileActive() const
@@ -76,7 +81,7 @@ bool MocFileView::fileActive() const
 
 qint64 MocFileView::readUntilMaxLength() const
 {
-    return m_readUntilMaxLength;
+   return m_readUntilMaxLength;
 }
 
 QFileInfo MocFileView::fileInfo() const
@@ -97,9 +102,4 @@ FileState MocFileView::fileState() const
 void MocFileView::setViewFeatures(const FileViewInterface::Features &viewFeatures)
 {
    m_viewFeatures = viewFeatures;
-}
-
-void MocFileView::setTextViewFont(const QFont &font)
-{
-   m_textViewFont = font;
 }

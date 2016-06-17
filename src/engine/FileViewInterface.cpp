@@ -75,6 +75,11 @@ void FileViewInterface::setTextViewFont(const QFont &font)
    Q_UNUSED(font)
 }
 
+void FileViewInterface::setTextViewSettings(const TextViewSettings &settings)
+{
+   Q_UNUSED(settings)
+}
+
 /*!
  * \brief FileViewInterface::setHighlightingRules
  * Set the highlightin rules for this view. As line rules have to be applied first before

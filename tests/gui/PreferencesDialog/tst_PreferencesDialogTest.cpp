@@ -60,7 +60,7 @@ void PreferencesDialogTest::testTextViewFontChange()
 
    QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
    Settings::SettingValue parameterValue = valueTypeFromSignal(spy.first());
-   QVERIFY2(parameterValue == Settings::TextViewFont, "Wrong value type returned.");
+   QVERIFY2(parameterValue == Settings::TextViewSettings, "Wrong value type returned.");
    QVERIFY2(settings->textViewFont() == testFont, "Font wasn't set in settings.");
 }
 

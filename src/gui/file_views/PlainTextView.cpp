@@ -9,6 +9,8 @@
 #include <QTextDocument>
 #include <QPlainTextDocumentLayout>
 
+#include <include/TextViewSettings.h>
+
 #include "PlainTextViewWidget.h"
 #include "PlainTextView.h"
 #include "SyntaxHighlighter.h"
@@ -78,7 +80,7 @@ void PlainTextView::setHighlightingRules(const QList<HighlightingRule> &lineRule
    m_syntaxHighlighter->setHighlightingRules(lineRules, wordRules);
 }
 
-void PlainTextView::setTextViewFont(const QFont &font)
+void PlainTextView::setTextViewSettings(const TextViewSettings &settings)
 {
-   m_textDocument->setDefaultFont(font);
+   m_textDocument->setDefaultFont(settings.font());
 }

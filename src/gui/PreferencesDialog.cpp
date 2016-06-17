@@ -25,7 +25,7 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
    connect(ui->textViewFontPicker, &FontPicker::currentFontChanged,
            [this] (const QFont &font){
       m_settings->setTextViewFont(font);
-      emit settingsHaveChanged(Settings::TextViewFont);
+      emit settingsHaveChanged(Settings::TextViewSettings);
    });
 }
 
@@ -41,5 +41,5 @@ ApplicationSettings PreferencesDialog::settings() const
 
 void PreferencesDialog::setSettings(const ApplicationSettings &settings)
 {
-    m_settings = settings;
+   m_settings = settings;
 }

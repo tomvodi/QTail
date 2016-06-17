@@ -11,6 +11,8 @@
 
 #include <QDialog>
 
+#include <include/TextViewSettings.h>
+
 #include "tools/Settings.h"
 
 namespace Ui {

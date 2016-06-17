@@ -24,6 +24,7 @@ enum class FileState {
    FileHasChanged  //! File has new unread lines
 };
 
+class TextViewSettings;
 class FileViewInterfacePrivate;
 
 /*!
@@ -59,7 +60,9 @@ public slots:
    virtual void appendLines(const QStringList &lines);
    virtual void readCompleteFileUntil(qint64 maxLength);
    virtual void clearTextView();
+
    virtual void setTextViewFont(const QFont &font);
+   virtual void setTextViewSettings(const TextViewSettings &settings);
 
    // Highlighing
    virtual void setHighlightingRules(const QList<HighlightingRule> &lineRules,
