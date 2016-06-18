@@ -21,27 +21,32 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 
    ui->textViewFontPicker->setFontFilters(QFontComboBox::MonospacedFonts);
 
-   connect(ui->textViewFontPicker, &FontPicker::currentFontChanged,
-           [this] (const QFont &font){
-      m_settings->setTextViewFont(font);
-      emit settingsHaveChanged(Settings::TextViewSettings);
-   });
+   connect(this, &PreferencesDialog::accepted,
+           this, &PreferencesDialog::dialogAccepted);
+   connect(this, &PreferencesDialog::rejected,
+           this, &PreferencesDialog::dialogRejected);
 
-   connect(ui->lineWrapCheckBox, &QCheckBox::toggled,
-           [this] (bool checked) {
-      m_settings->setTextViewLineWrap(checked);
-      emit settingsHaveChanged(Settings::TextViewSettings);
-   });
-   connect(ui->updateIntervalComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-           [this] {
-      int currentMilliseconds = ui->updateIntervalComboBox->currentData().toInt();
-      if (currentMilliseconds == 0) {
-         return;
-      }
+//   connect(ui->textViewFontPicker, &FontPicker::currentFontChanged,
+//           [this] (const QFont &font){
+//      m_settings->setTextViewFont(font);
+//      emit settingsHaveChanged(Settings::TextViewSettings);
+//   });
 
-      m_settings->setTextViewUpdateIntervalMs(currentMilliseconds);
-      emit settingsHaveChanged(Settings::TextViewSettings);
-   });
+//   connect(ui->lineWrapCheckBox, &QCheckBox::toggled,
+//           [this] (bool checked) {
+//      m_settings->setTextViewLineWrap(checked);
+//      emit settingsHaveChanged(Settings::TextViewSettings);
+//   });
+//   connect(ui->updateIntervalComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+//           [this] {
+//      int currentMilliseconds = ui->updateIntervalComboBox->currentData().toInt();
+//      if (currentMilliseconds == 0) {
+//         return;
+//      }
+
+//      m_settings->setTextViewUpdateIntervalMs(currentMilliseconds);
+//      emit settingsHaveChanged(Settings::TextViewSettings);
+//   });
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -70,6 +75,26 @@ void PreferencesDialog::setSettings(const ApplicationSettings &settings)
    ui->updateIntervalComboBox->setCurrentIndex(intervalIndex);
 
    blockSignals(false);
+}
+
+void PreferencesDialog::dialogAccepted()
+{
+   if (textViewSettingsHaveBeenModified()) {
+      writeTextViewSettings();
+      emit settingsHaveChanged(Settings::TextViewSettings);
+   }
+}
+
+void PreferencesDialog::dialogRejected()
+{
+   setSettings(m_settings);
+}
+
+void PreferencesDialog::on_buttonBox_clicked(QAbstractButton *button)
+{
+   if (ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole) {
+      dialogAccepted();
+   }
 }
 
 void PreferencesDialog::initUpdateIntervalComboBox()
@@ -133,4 +158,31 @@ void PreferencesDialog::initUpdateIntervalComboBox()
    // 10 min
    minutes = 10;
    ui->updateIntervalComboBox->addItem(minutesTemplate.arg(minutes), minutes * 60 * 1000);
+}
+
+/*!
+ * \brief PreferencesDialog::textViewSettingsHaveBeenModified
+ * Check if the textview settings in the ui have been changed in comparison to the stored settings.
+ * \return
+ */
+bool PreferencesDialog::textViewSettingsHaveBeenModified() const
+{
+   if (ui->textViewFontPicker->currentFont() != m_settings->textViewFont()) {
+      return true;
+   }
+   if (ui->lineWrapCheckBox->isChecked() != m_settings->textViewLineWrap()) {
+      return true;
+   }
+   if (ui->updateIntervalComboBox->currentData().toInt() != m_settings->textViewUpdateIntervalMs()) {
+      return true;
+   }
+
+   return false;
+}
+
+void PreferencesDialog::writeTextViewSettings()
+{
+   m_settings->setTextViewFont(ui->textViewFontPicker->currentFont());
+   m_settings->setTextViewLineWrap(ui->lineWrapCheckBox->isChecked());
+   m_settings->setTextViewUpdateIntervalMs(ui->updateIntervalComboBox->currentData().toInt());
 }

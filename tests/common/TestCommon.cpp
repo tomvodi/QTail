@@ -70,10 +70,14 @@ QFont TestCommon::testFont()
 
    QFont font;
 
+   int counter = 1;
    foreach (const QString &fontString, fonts) {
-      if (database.isFixedPitch(fontString)) {
+      if (database.isFixedPitch(fontString) &&
+          counter == 2) {
          font = QFont(fontString);
+         break;
       }
+      counter++;
    }
 
    font.setPointSize(8); // Set integer value for pointsize that is selectable in the gui

@@ -18,6 +18,7 @@
 namespace Ui {
 class PreferencesDialog;
 }
+class QAbstractButton;
 
 class PreferencesDialog : public QDialog
 {
@@ -34,8 +35,15 @@ public:
 signals:
    void settingsHaveChanged(Settings::SettingCategory valueType);
 
+private slots:
+   void on_buttonBox_clicked(QAbstractButton *button);
+   void dialogAccepted();
+   void dialogRejected();
+
 private:
    void initUpdateIntervalComboBox();
+   bool textViewSettingsHaveBeenModified() const;
+   void writeTextViewSettings();
    Ui::PreferencesDialog *ui;
    ApplicationSettings m_settings;
 };

@@ -52,12 +52,15 @@ void PreferencesDialogTest::testTextViewSettingsChange()
 {
    PreferencesDialog dialog;
    ApplicationSettings settings(new Settings);
+   settings->setTextViewFont(QFont());
    dialog.setSettings(settings);
 
    QSignalSpy spy(&dialog, SIGNAL(settingsHaveChanged(Settings::SettingCategory)));
 
    QFont testFont = TestCommon::testFont();
-   dialog.ui->textViewFontPicker->currentFontChanged(testFont);
+   Q_ASSERT(settings->textViewFont() != dialog.ui->textViewFontPicker->currentFont());
+   dialog.ui->textViewFontPicker->setCurrentFont(testFont);
+   dialog.dialogAccepted();
 
    QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
    Settings::SettingCategory parameterValue = valueTypeFromSignal(spy.first());
@@ -67,6 +70,7 @@ void PreferencesDialogTest::testTextViewSettingsChange()
    spy.clear();
    bool lineWrapOn = !dialog.ui->lineWrapCheckBox->isChecked();
    dialog.ui->lineWrapCheckBox->setChecked(lineWrapOn);
+   dialog.dialogAccepted();
    QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
    parameterValue = valueTypeFromSignal(spy.first());
    QVERIFY2(parameterValue == Settings::TextViewSettings, "Wrong value type returned.");
@@ -81,6 +85,7 @@ void PreferencesDialogTest::testTextViewSettingsChange()
    }
 
    dialog.ui->updateIntervalComboBox->setCurrentIndex(currentUpdateIntervalIndex);
+   dialog.dialogAccepted();
    int currentSelectedIntervalData = dialog.ui->updateIntervalComboBox->currentData().toInt();
    QVERIFY2(spy.count(), "Setting changed signal wasn't emitted");
    parameterValue = valueTypeFromSignal(spy.first());
