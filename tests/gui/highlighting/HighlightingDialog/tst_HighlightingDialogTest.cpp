@@ -92,6 +92,8 @@ void HighlightingDialogTest::testAddHighlightingRuleToListWidget()
    QVERIFY2(listItem->background() == rule.backgroundColor(), "Background color wasn't set in list item");
    QVERIFY2(listItem->foreground() == rule.foregroundColor(), "Foreground color wasn't set in list item");
    QVERIFY2(listItem->text() == rule.text(), "Text wasn't set in list item");
+   qDebug() << "List item font: " << listItem->font();
+   qDebug() << "rule font     : " << rule.font();
    QVERIFY2(listItem->font() == rule.font(), "Font wasn't set in list item");
 
    QVERIFY2(listItem->data(HighlightingDialog::HighlightRuleDataRole).canConvert<HighlightingRule>(),
