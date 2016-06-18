@@ -45,6 +45,7 @@ void FileListItemWidget::setLineCount(quint64 lineCount)
    if (lineCount > 0) {
       lineCountText = QString::number(lineCount);
    }
+   ui->lineCountLabel->setVisible(lineCount > 0);
 
    ui->lineCountLabel->setText(lineCountText);
 }
@@ -59,6 +60,8 @@ void FileListItemWidget::setFileState(FileState state)
 {
    m_fileState = state;
 
+   ui->emblemLabel->setVisible(true);
+
    switch (state) {
    case FileState::FileError:
       ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-important.png"));
@@ -67,6 +70,7 @@ void FileListItemWidget::setFileState(FileState state)
       ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-generic.png"));
       break;
    case FileState::FileInSync:
+      ui->emblemLabel->setVisible(false);
       ui->emblemLabel->setPixmap(QStringLiteral("://resources/icons/emblems/emblem-placeholder.png"));
       break;
    }
