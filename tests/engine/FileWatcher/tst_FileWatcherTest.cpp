@@ -27,6 +27,7 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testBaseImplementation();
+   void testSetUpdateInterval();
    void testAddEmptyPath();
    void testSetGetFilePath();
    void testSizeChanged();
@@ -50,6 +51,13 @@ void FileWatcherTest::testBaseImplementation()
    FileWatcher watcher;
    watcher.setFilePath("kdkdkdkd");
    QVERIFY2(!watcher.filePath().isEmpty(), "Base implementation of setFilePath wasn't called");
+}
+
+void FileWatcherTest::testSetUpdateInterval()
+{
+   FileWatcher watcher;
+   watcher.setUpdateInterval(34215);
+   QVERIFY2(watcher.updateInterval() == 34215, "Failed setting update interval. Maybe parent implementation not called.");
 }
 
 void FileWatcherTest::testAddEmptyPath()
@@ -115,6 +123,24 @@ void FileWatcherTest::testFileCheckTimer()
    spy.wait(5000);
 
    QVERIFY2(spy.count() == 1, "Signal for changed size wasn't emitted by timer event.");
+
+   // Test after setting update interval explicitly. First kill timer to check if it is
+   // started with setUpdateInterval.
+   fileWatcher->killTimer(fileWatcher->m_timerId);
+   fileWatcher->m_timerId = 0;
+   spy.clear();
+
+   fileWatcher->setUpdateInterval(100);
+
+   QVERIFY(outFile.open(QIODevice::WriteOnly));
+   testLine = QStringLiteral("This is the second line");
+   stream << testLine;
+   stream.flush();
+   outFile.close();
+
+   spy.wait(5000);
+
+   QVERIFY2(spy.count() == 1, "Signal wasn't emitted, after setting update interval explicitly.");
 }
 
 QTEST_MAIN(FileWatcherTest)

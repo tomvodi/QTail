@@ -22,3 +22,13 @@ QString FileWatcherInterface::filePath() const
 {
    return m_filePath;
 }
+
+int FileWatcherInterface::updateInterval() const
+{
+    return m_updateIntervalMs;
+}
+
+void FileWatcherInterface::setUpdateInterval(int updateInterval)
+{
+    m_updateIntervalMs = updateInterval;
+}

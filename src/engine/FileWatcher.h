@@ -23,7 +23,8 @@ public:
    explicit FileWatcher(QObject *parent = 0);
    ~FileWatcher();
 
-   void setFilePath(const QString &filePath);
+   void setFilePath(const QString &filePath) override;
+   void setUpdateInterval(int updateInterval) override;
 
 protected:
    void timerEvent(QTimerEvent *event);

@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
    TextViewSettings textViewSettings;
    textViewSettings.setFont(m_settings->textViewFont());
    textViewSettings.setLineWrapOn(m_settings->textViewLineWrap());
+   textViewSettings.setUpdateInterval(m_settings->textViewUpdateIntervalMs());
    m_tailEngine->setTextViewSettings(textViewSettings);
 
    createConnections();
@@ -106,6 +107,7 @@ void MainWindow::settingsValueHasChanged(Settings::SettingCategory valueType)
       TextViewSettings textViewSettings;
       textViewSettings.setFont(m_settings->textViewFont());
       textViewSettings.setLineWrapOn(m_settings->textViewLineWrap());
+      textViewSettings.setUpdateInterval(m_settings->textViewUpdateIntervalMs());
 
       foreach (const FileViewItems &fileView, m_fileViewItems) {
          if (fileView.listWidget()) {

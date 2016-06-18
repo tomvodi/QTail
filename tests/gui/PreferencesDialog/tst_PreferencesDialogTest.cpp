@@ -109,12 +109,17 @@ void PreferencesDialogTest::testSetSettings()
    bool lineWrapOn = !settings->textViewLineWrap();
    dialog.ui->lineWrapCheckBox->setChecked(lineWrapOn);
 
+   int testUpdateInterval = 500;
+   settings->setTextViewUpdateIntervalMs(testUpdateInterval);
+
    dialog.setSettings(settings);
 
    QVERIFY2(dialog.ui->textViewFontPicker->currentFont() == settings->textViewFont(),
             "Font wasn't set from settings");
    QVERIFY2(dialog.ui->lineWrapCheckBox->isChecked() == settings->textViewLineWrap(),
             "Text wrap wasn't set from settings");
+   QVERIFY2(dialog.ui->updateIntervalComboBox->currentData().toInt() == settings->textViewUpdateIntervalMs(),
+            "Update interval wasn't set from settings");
 }
 
 Settings::SettingCategory PreferencesDialogTest::valueTypeFromSignal(const QVariantList &signal)

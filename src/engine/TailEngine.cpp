@@ -33,6 +33,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
 
    FileWatcher *fileWatcher = new FileWatcher(this);
    fileWatcher->setFilePath(file.absoluteFilePath());
+   fileWatcher->setUpdateInterval(m_textViewSettings.updateInterval());
 
    FileReadLogic *fileReadLogic = new FileReadLogic(this);
    if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
@@ -95,6 +96,10 @@ void TailEngine::setTextViewSettings(const TextViewSettings &settings)
    m_textViewSettings = settings;
 
    foreach (const FileContext &fileContext, m_fileContexts) {
+      if (fileContext.fileWatcher()) {
+         fileContext.fileWatcher()->setUpdateInterval(settings.updateInterval());
+      }
+
       foreach (const FileView &view, fileContext.fileViews()) {
          if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
             view->setTextViewSettings(settings);

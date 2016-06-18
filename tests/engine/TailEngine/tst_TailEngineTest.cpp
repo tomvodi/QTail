@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
+#include <FileWatcher.h>
 
 #include <engine/TailEngine.h>
 
@@ -298,9 +299,11 @@ void TailEngineTest::testSetTextViewSettings()
    engine.addFile(QFileInfo(textFilePath), sharedTextFileView);
    engine.addFile(QFileInfo(noTextFilePath), sharedFileView);
 
+   int testUpdateInterval = 1234;
    TextViewSettings settings;
    settings.setFont(TestCommon::testFont());
    settings.setLineWrapOn(!textFileView->textViewSettings().lineWrapOn());
+   settings.setUpdateInterval(testUpdateInterval);
 
    Q_ASSERT(settings.font() != textFileView->textViewSettings().font());
    Q_ASSERT(settings.font() != noTextFileView->textViewSettings().font());
@@ -310,14 +313,27 @@ void TailEngineTest::testSetTextViewSettings()
    QVERIFY2(textFileView->textViewSettings() == settings, "Text view settins wasn't set on text view.");
    QVERIFY2(noTextFileView->textViewSettings() != settings, "Text view settings were set on nont text view.");
 
+   TailEngine::FileContext textFileContext = engine.fileContextOfFile(textFilePath);
+   FileWatcher *textFileWatcher = textFileContext.fileWatcher();
+   Q_ASSERT(textFileWatcher);
+   QVERIFY2(textFileWatcher->updateInterval() == testUpdateInterval, "Update interval wasn't set on filewatcher of file");
+
    // Now test if a newly added text view gets the settings
    textFileView = new MocFileView(this);
    textFileView->setViewFeatures(FileViewInterface::HasTextView);
    sharedTextFileView = FileView(textFileView);
    textFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetTextViewFontTextViewNew.log"));
 
+   // Set new update interval to check if it will be set.
    engine.addFile(QFileInfo(textFilePath), textFileView);
    QVERIFY2(textFileView->textViewSettings() == settings, "Text view settings weren't set on text view that was added after the settings were set to engine.");
+
+   // Get the context of the new file
+   textFileContext = engine.fileContextOfFile(textFilePath);
+   textFileWatcher = textFileContext.fileWatcher();
+   Q_ASSERT(textFileWatcher);
+
+   QVERIFY2(textFileWatcher->updateInterval() == testUpdateInterval, "Update interval wasn't set on filewatcher of new added file");
 }
 
 QTEST_MAIN(TailEngineTest)

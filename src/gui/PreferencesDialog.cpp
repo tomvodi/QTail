@@ -21,10 +21,6 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 
    ui->textViewFontPicker->setFontFilters(QFontComboBox::MonospacedFonts);
 
-   Settings settings;
-
-   ui->textViewFontPicker->setCurrentFont(settings.textViewFont());
-
    connect(ui->textViewFontPicker, &FontPicker::currentFontChanged,
            [this] (const QFont &font){
       m_settings->setTextViewFont(font);
@@ -66,6 +62,12 @@ void PreferencesDialog::setSettings(const ApplicationSettings &settings)
 
    ui->textViewFontPicker->setCurrentFont(settings->textViewFont());
    ui->lineWrapCheckBox->setChecked(settings->textViewLineWrap());
+
+   int intervalIndex = ui->updateIntervalComboBox->findData(settings->textViewUpdateIntervalMs());
+   if (intervalIndex == -1) {
+      intervalIndex = 0;
+   }
+   ui->updateIntervalComboBox->setCurrentIndex(intervalIndex);
 
    blockSignals(false);
 }
