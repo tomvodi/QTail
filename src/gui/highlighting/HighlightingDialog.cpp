@@ -18,6 +18,8 @@ HighlightingDialog::HighlightingDialog(QWidget *parent) :
 {
    ui->setupUi(this);
 
+   ui->fontPicker->setFontFilters(QFontComboBox::MonospacedFonts);
+
    ui->wordRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
    ui->lineRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
 

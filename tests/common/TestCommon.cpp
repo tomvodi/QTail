@@ -69,8 +69,11 @@ QFont TestCommon::testFont()
    QStringList fonts = database.families();
 
    QFont font;
-   if (fonts.count() > 3) {
-      font = QFont(fonts.at(2));
+
+   foreach (const QString &fontString, fonts) {
+      if (database.isFixedPitch(fontString)) {
+         font = QFont(fontString);
+      }
    }
 
    font.setPointSize(8); // Set integer value for pointsize that is selectable in the gui
