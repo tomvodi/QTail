@@ -84,12 +84,12 @@ void PlainTextViewWidgetTest::testLineWrap()
    PlainTextViewWidget viewWidget;
    viewWidget.setLineWrapOn(lineWrapOn);
    QVERIFY2(viewWidget.lineWrapOn() == lineWrapOn, "Wrong line wrap value returned");
-   QVERIFY2(viewWidget.ui->plainTextEdit->lineWrapMode() == QTextEdit::NoWrap, "Failed settings line wrap on text edit");
+   QVERIFY2(viewWidget.ui->plainTextEdit->lineWrapMode() == QPlainTextEdit::NoWrap, "Failed settings line wrap on text edit");
 
    lineWrapOn = true;
    viewWidget.setLineWrapOn(lineWrapOn);
    QVERIFY2(viewWidget.lineWrapOn() == lineWrapOn, "Wrong toggled line wrap value returned");
-   QVERIFY2(viewWidget.ui->plainTextEdit->lineWrapMode() == QTextEdit::WidgetWidth, "Failed settings toggled line wrap on text edit");
+   QVERIFY2(viewWidget.ui->plainTextEdit->lineWrapMode() == QPlainTextEdit::WidgetWidth, "Failed settings toggled line wrap on text edit");
 }
 
 void PlainTextViewWidgetTest::appendLinesToTextViewWidget(PlainTextViewWidget &widget, int lineCount)
