@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QCoreApplication>
 #include <QFontDatabase>
+#include <QFontComboBox>
 
 #include "TestCommon.h"
 
@@ -65,19 +66,16 @@ void TestCommon::waitMsecs(quint32 mSecs)
 
 QFont TestCommon::testFont()
 {
-   QFontDatabase database;
-   QStringList fonts = database.families();
+   // Using a monospaced font from the QFontCombobox
+   // because a QFontComboBox is always used to select a font and the testFont must
+   // return a font that is selectable in a QFontComboBox with only monospaced fonts
+   QFontComboBox comboBox;
+   comboBox.setFontFilters(QFontComboBox::MonospacedFonts);
 
    QFont font;
-
-   int counter = 1;
-   foreach (const QString &fontString, fonts) {
-      if (database.isFixedPitch(fontString) &&
-          counter == 2) {
-         font = QFont(fontString);
-         break;
-      }
-      counter++;
+   if (comboBox.count() > 3) {
+      comboBox.setCurrentIndex(1);
+      font = comboBox.currentFont();
    }
 
    font.setPointSize(8); // Set integer value for pointsize that is selectable in the gui

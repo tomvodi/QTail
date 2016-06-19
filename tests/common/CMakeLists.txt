@@ -1,7 +1,6 @@
 project( TestCommon )
 
-find_package( Qt5Core REQUIRED )
-find_package( Qt5Gui REQUIRED )
+find_package( Qt5Widgets REQUIRED )
 
 set( Project_Sources
   TestCommon.cpp
@@ -11,4 +10,4 @@ set( Project_Sources
 
 add_library( ${PROJECT_NAME} ${Project_Sources} )
 
-qt5_use_modules( ${PROJECT_NAME} Core Gui)
+qt5_use_modules( ${PROJECT_NAME} Widgets)
