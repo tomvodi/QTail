@@ -13,6 +13,8 @@ set(Project_Sources
   FileReadLogic.cpp
   HighlightingRule.cpp
   TextViewSettings.cpp
+  FilterRule.cpp
+  FilterGroup.cpp
 
   FileViewInterface.cpp
   FileWatcherInterface.cpp
@@ -20,6 +22,8 @@ set(Project_Sources
   include/FileViewInterface.h
   include/FileWatcherInterface.h
   include/HighlightingRule.h
+  include/FilterRule.h
+  include/FilterGroup.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})
