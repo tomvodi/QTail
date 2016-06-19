@@ -42,5 +42,7 @@
         <file>resources/icons/actions/format-text-strikethrough.png</file>
         <file>resources/icons/actions/format-text-underline.png</file>
         <file>resources/icons/categories/preferences-other.png</file>
+        <file>resources/icons/apps/alacarte.png</file>
+        <file>resources/icons/actions/dialog-filters.png</file>
     </qresource>
 </RCC>

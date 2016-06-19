@@ -27,6 +27,8 @@ set(Project_Sources
   highlighting/ColorPicker.cpp
   highlighting/FontPicker.cpp
   highlighting/HighlightListItemDelegate.cpp
+
+  filter/FilterDialog.cpp
 )
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
@@ -44,6 +46,8 @@ qt5_wrap_ui(Project_Sources
   highlighting/HighlightingDialog.ui
   highlighting/ColorPicker.ui
   highlighting/FontPicker.ui
+
+  filter/FilterDialog.ui
 )
 
 qt5_add_resources(Project_Sources

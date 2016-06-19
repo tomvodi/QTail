@@ -24,6 +24,7 @@ class FileListItemWidget;
 class QListWidgetItem;
 class HighlightingDialog;
 class PreferencesDialog;
+class FilterDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -39,6 +40,7 @@ private slots:
    void on_actionAbout_triggered();
    void on_actionHighlighting_triggered();
    void on_actionPreferences_triggered();
+   void on_actionFilter_triggered();
    void settingsValueHasChanged(Settings::SettingCategory valueType);
 
 protected:
@@ -86,6 +88,7 @@ private:
    QHash<QString, FileViewItems> m_fileViewItems;  // Hash for absolute file path -> FileViewItems
    HighlightingDialog *m_highlightingDialog;
    PreferencesDialog *m_preferencesDialog;
+   FilterDialog *m_filterDialog;
 };
 
 #endif // MAINWINDOW_H

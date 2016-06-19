@@ -71,6 +71,7 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionPreferences"/>
+    <addaction name="actionFilter"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -90,6 +91,7 @@
    <addaction name="actionOpen"/>
    <addaction name="actionHighlighting"/>
    <addaction name="actionPreferences"/>
+   <addaction name="actionFilter"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="fileDockWidget">
@@ -181,6 +183,15 @@
    </property>
    <property name="text">
     <string>&amp;Preferences</string>
+   </property>
+  </action>
+  <action name="actionFilter">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resources/icons/actions/dialog-filters.png</normaloff>:/resources/icons/actions/dialog-filters.png</iconset>
+   </property>
+   <property name="text">
+    <string>Filter</string>
    </property>
   </action>
  </widget>

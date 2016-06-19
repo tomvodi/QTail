@@ -27,6 +27,7 @@
 #include "highlighting/HighlightingDialog.h"
 
 #include "PreferencesDialog.h"
+#include "filter/FilterDialog.h"
 #include "AboutDialog.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -36,7 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
    ui(new Ui::MainWindow),
    m_settings(new Settings),
    m_highlightingDialog(new HighlightingDialog(this)),
-   m_preferencesDialog(new PreferencesDialog(this))
+   m_preferencesDialog(new PreferencesDialog(this)),
+   m_filterDialog(new FilterDialog(this))
 {
    ui->setupUi(this);
 
@@ -96,6 +98,11 @@ void MainWindow::on_actionHighlighting_triggered()
 void MainWindow::on_actionPreferences_triggered()
 {
    m_preferencesDialog->show();
+}
+
+void MainWindow::on_actionFilter_triggered()
+{
+   m_filterDialog->show();
 }
 
 void MainWindow::settingsValueHasChanged(Settings::SettingCategory valueType)
