@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>695</width>
-    <height>507</height>
+    <width>568</width>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,10 +33,19 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string notr="true">&lt;h1&gt;QTail&lt;/h1&gt;</string>
+      <string notr="true"/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/resources/logo/QTail_logo.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="margin">
+      <number>30</number>
      </property>
     </widget>
    </item>
@@ -68,7 +77,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string notr="true">QTail</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/resources/logo/QTail_icon.png</normaloff>:/resources/logo/QTail_icon.png</iconset>
+  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
