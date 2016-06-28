@@ -11,12 +11,18 @@
 class FilterRuleData : public QSharedData
 {
 public:
-
+   QString filter;
 };
 
 FilterRule::FilterRule() : data(new FilterRuleData)
 {
 
+}
+
+FilterRule::FilterRule(const QString &regEx)
+   : data(new FilterRuleData)
+{
+   setFilter(regEx);
 }
 
 FilterRule::FilterRule(const FilterRule &rhs) : data(rhs.data)
@@ -31,7 +37,25 @@ FilterRule &FilterRule::operator=(const FilterRule &rhs)
    return *this;
 }
 
+bool FilterRule::operator==(const FilterRule &other)
+{
+   if (this->data == other.data) {
+      return true;
+   }
+
+   return false;
+}
+
 FilterRule::~FilterRule()
 {
+}
 
+QString FilterRule::filter() const
+{
+   return data->filter;
+}
+
+void FilterRule::setFilter(const QString &regEx)
+{
+   data->filter = regEx;
 }

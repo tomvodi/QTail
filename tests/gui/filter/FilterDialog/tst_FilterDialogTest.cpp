@@ -29,6 +29,7 @@ private Q_SLOTS:
    void testFilterGroups();
    void testSetCurrentGroupName();
    void testAddGroupWithName();
+   void testAddFilter();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -99,6 +100,13 @@ void FilterDialogTest::testAddGroupWithName()
     // Check if it is possible to add groups with the same name
     dialog.addGroupWithName(newGroupName);
     QVERIFY2(dialog.ui->filterGroupComboBox->count() == 4, "Duplicate group wasn't added.");
+}
+
+void FilterDialogTest::testAddFilter()
+{
+   FilterDialog dialog;
+
+
 }
 
 QTEST_MAIN(FilterDialogTest)

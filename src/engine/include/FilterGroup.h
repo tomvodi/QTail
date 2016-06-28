@@ -9,7 +9,10 @@
 #ifndef FILTERGROUP_H
 #define FILTERGROUP_H
 
+#include <QList>
 #include <QSharedDataPointer>
+
+#include "FilterRule.h"
 
 class FilterGroupData;
 
@@ -24,6 +27,10 @@ public:
 
    QString name() const;
    void setName(const QString &name);
+
+   QList<FilterRule> filterRules() const;
+   void setFilterRules(const QList<FilterRule> &rules);
+   void addFilterRule(const FilterRule &rule);
 
 private:
    QSharedDataPointer<FilterGroupData> data;

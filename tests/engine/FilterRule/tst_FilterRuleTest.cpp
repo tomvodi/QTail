@@ -10,6 +10,8 @@
 #include <QtTest>
 #include <QCoreApplication>
 
+#include <include/FilterRule.h>
+
 class FilterRuleTest : public QObject
 {
    Q_OBJECT
@@ -20,7 +22,8 @@ public:
 private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
-   void testCase1();
+   void testConstructor();
+   void testSetGetFilter();
 };
 
 FilterRuleTest::FilterRuleTest()
@@ -35,9 +38,20 @@ void FilterRuleTest::cleanupTestCase()
 {
 }
 
-void FilterRuleTest::testCase1()
+void FilterRuleTest::testConstructor()
 {
-   QVERIFY2(true, "Failure");
+   QString filter("blablabla");
+   FilterRule rule(filter);
+
+   QVERIFY2(rule.filter() == filter, "Failed set filter with constructor");
+}
+
+void FilterRuleTest::testSetGetFilter()
+{
+   QString filter("blablabla");
+   FilterRule rule;
+   rule.setFilter(filter);
+   QVERIFY2(rule.filter() == filter, "Failed set/get filter");
 }
 
 QTEST_MAIN(FilterRuleTest)

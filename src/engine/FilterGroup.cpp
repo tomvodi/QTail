@@ -12,6 +12,7 @@ class FilterGroupData : public QSharedData
 {
 public:
    QString name;
+   QList<FilterRule> rules;
 };
 
 FilterGroup::FilterGroup()
@@ -49,4 +50,19 @@ QString FilterGroup::name() const
 void FilterGroup::setName(const QString &name)
 {
    data->name = name;
+}
+
+QList<FilterRule> FilterGroup::filterRules() const
+{
+   return data->rules;
+}
+
+void FilterGroup::setFilterRules(const QList<FilterRule> &rules)
+{
+   data->rules = rules;
+}
+
+void FilterGroup::addFilterRule(const FilterRule &rule)
+{
+   data->rules.append(rule);
 }

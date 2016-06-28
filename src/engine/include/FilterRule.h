@@ -9,6 +9,7 @@
 #ifndef FILTERRULE_H
 #define FILTERRULE_H
 
+#include <QString>
 #include <QSharedDataPointer>
 
 class FilterRuleData;
@@ -17,9 +18,14 @@ class FilterRule
 {
 public:
    FilterRule();
+   FilterRule(const QString &regEx);
    FilterRule(const FilterRule &);
    FilterRule &operator=(const FilterRule &);
+   bool operator==(const FilterRule &other);
    ~FilterRule();
+
+   QString filter() const;
+   void setFilter(const QString &regEx);
 
 private:
    QSharedDataPointer<FilterRuleData> data;
