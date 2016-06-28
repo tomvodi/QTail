@@ -38,7 +38,7 @@ void FilterDialog::setFilterGroups(const QList<FilterGroup> &filterGrops)
 void FilterDialog::on_renameGroupButton_clicked()
 {
    bool ok;
-   QString newText = QInputDialog::getText(this, tr("Rename current rules"), tr("New name"),
+   QString newText = QInputDialog::getText(this, tr("Rename current group"), tr("New name"),
                                            QLineEdit::Normal, ui->filterGroupComboBox->currentText(),
                                            &ok);
 
@@ -57,4 +57,24 @@ void FilterDialog::setCurrentGroupName(const QString &newName)
    }
 
    ui->filterGroupComboBox->setItemData(currentIndex, newName, Qt::DisplayRole);
+}
+
+void FilterDialog::on_addGroupButton_clicked()
+{
+   bool ok;
+   QString groupName = QInputDialog::getText(this, tr("Add new group"), tr("Group name"),
+                                           QLineEdit::Normal, "",
+                                           &ok);
+
+   if (!ok || groupName.isEmpty()) {
+      return;
+   }
+
+   addGroupWithName(groupName);
+}
+
+void FilterDialog::addGroupWithName(const QString &groupName)
+{
+   ui->filterGroupComboBox->addItem(groupName);
+   ui->filterGroupComboBox->setCurrentText(groupName);
 }

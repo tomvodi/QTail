@@ -30,9 +30,11 @@ public:
 
 private slots:
    void on_renameGroupButton_clicked();
+   void on_addGroupButton_clicked();
 
 private:
    void setCurrentGroupName(const QString &newName);
+   void addGroupWithName(const QString &groupName);
    Ui::FilterDialog *ui;
 };
 

@@ -28,6 +28,7 @@ private Q_SLOTS:
    void testDefaultDialog();
    void testFilterGroups();
    void testSetCurrentGroupName();
+   void testAddGroupWithName();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -77,6 +78,27 @@ void FilterDialogTest::testSetCurrentGroupName()
    dialog.setCurrentGroupName("Test name");
    QVERIFY2(dialog.ui->filterGroupComboBox->currentText() == "Test name",
             "Current group name wasn't changed");
+}
+
+void FilterDialogTest::testAddGroupWithName()
+{
+   QList<FilterGroup> filterGroups;
+   filterGroups.append(FilterGroup("Filter group 1"));
+   filterGroups.append(FilterGroup("Filter groups 2"));
+
+    FilterDialog dialog;
+    dialog.setFilterGroups(filterGroups);
+
+    QString newGroupName("New filter group");
+    dialog.addGroupWithName(newGroupName);
+
+    QVERIFY2(dialog.ui->filterGroupComboBox->count() == 3, "New group wasn't added.");
+    QVERIFY2(dialog.ui->filterGroupComboBox->currentText() == newGroupName,
+             "New group isn't current item");
+
+    // Check if it is possible to add groups with the same name
+    dialog.addGroupWithName(newGroupName);
+    QVERIFY2(dialog.ui->filterGroupComboBox->count() == 4, "Duplicate group wasn't added.");
 }
 
 QTEST_MAIN(FilterDialogTest)
