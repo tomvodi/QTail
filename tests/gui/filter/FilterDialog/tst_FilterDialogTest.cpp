@@ -27,6 +27,7 @@ private Q_SLOTS:
    void cleanupTestCase();
    void testDefaultDialog();
    void testFilterGroups();
+   void testSetCurrentGroupName();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -60,6 +61,22 @@ void FilterDialogTest::testFilterGroups()
 
    QVERIFY2(dialog.ui->filterGroupComboBox->count() == filterGroups.count(),
             "Not all filter groups were added to list");
+   QVERIFY2(dialog.ui->filterGroupComboBox->currentText() == "Filter group 1",
+            "Wrong selected filter group");
+}
+
+void FilterDialogTest::testSetCurrentGroupName()
+{
+   QList<FilterGroup> filterGroups;
+   filterGroups.append(FilterGroup("Filter group 1"));
+   filterGroups.append(FilterGroup("Filter groups 2"));
+
+   FilterDialog dialog;
+   dialog.setFilterGroups(filterGroups);
+
+   dialog.setCurrentGroupName("Test name");
+   QVERIFY2(dialog.ui->filterGroupComboBox->currentText() == "Test name",
+            "Current group name wasn't changed");
 }
 
 QTEST_MAIN(FilterDialogTest)

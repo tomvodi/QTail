@@ -28,7 +28,11 @@ public:
 
    void setFilterGroups(const QList<FilterGroup> &filterGrops);
 
+private slots:
+   void on_renameGroupButton_clicked();
+
 private:
+   void setCurrentGroupName(const QString &newName);
    Ui::FilterDialog *ui;
 };
 

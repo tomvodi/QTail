@@ -8,6 +8,8 @@
 
 #include <include/FilterGroup.h>
 
+#include <QInputDialog>
+
 #include "FilterDialog.h"
 #include "ui_FilterDialog.h"
 
@@ -31,4 +33,28 @@ void FilterDialog::setFilterGroups(const QList<FilterGroup> &filterGrops)
    foreach (const FilterGroup &group, filterGrops) {
       ui->filterGroupComboBox->addItem(group.name());
    }
+}
+
+void FilterDialog::on_renameGroupButton_clicked()
+{
+   bool ok;
+   QString newText = QInputDialog::getText(this, tr("Rename current rules"), tr("New name"),
+                                           QLineEdit::Normal, ui->filterGroupComboBox->currentText(),
+                                           &ok);
+
+   if (!ok || newText.isEmpty()) {
+      return;
+   }
+
+   setCurrentGroupName(newText);
+}
+
+void FilterDialog::setCurrentGroupName(const QString &newName)
+{
+   int currentIndex = ui->filterGroupComboBox->currentIndex();
+   if (currentIndex == -1) {
+      return;
+   }
+
+   ui->filterGroupComboBox->setItemData(currentIndex, newName, Qt::DisplayRole);
 }
