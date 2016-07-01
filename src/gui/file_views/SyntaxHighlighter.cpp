@@ -28,6 +28,10 @@ void SyntaxHighlighter::highlightBlock(const QString &text)
 {
    // Highlight lines in descending priority. If a rule matches, no other rules will be checked.
    foreach (const HighlightingRule &rule, m_lineRules) {
+      if (rule.text().isEmpty()) {
+         continue;
+      }
+
       QRegExp expression(rule.text(), rule.caseSensitivity());
       int index = expression.indexIn(text);
       if (index >= 0) {
@@ -48,6 +52,10 @@ void SyntaxHighlighter::highlightBlock(const QString &text)
    while (it != m_wordRules.constBegin()) {
       --it;
       const HighlightingRule rule(*it);
+      if (rule.text().isEmpty()) {
+         continue;
+      }
+
       QRegExp expression(rule.text(), rule.caseSensitivity());
       int index = expression.indexIn(text);
       while (index >= 0) {
