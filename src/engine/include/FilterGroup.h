@@ -10,6 +10,7 @@
 #define FILTERGROUP_H
 
 #include <QList>
+#include <QMetaType>
 #include <QSharedDataPointer>
 
 #include "FilterRule.h"
@@ -35,5 +36,7 @@ public:
 private:
    QSharedDataPointer<FilterGroupData> data;
 };
+
+Q_DECLARE_METATYPE(FilterGroup)
 
 #endif // FILTERGROUP_H

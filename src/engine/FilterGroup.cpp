@@ -18,11 +18,13 @@ public:
 FilterGroup::FilterGroup()
    : data(new FilterGroupData)
 {
+   qRegisterMetaType<FilterGroup>("FilterGroup");
 }
 
 FilterGroup::FilterGroup(const QString &name)
    : data(new FilterGroupData)
 {
+   qRegisterMetaType<FilterGroup>("FilterGroup");
    setName(name);
 }
 

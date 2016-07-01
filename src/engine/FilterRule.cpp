@@ -12,6 +12,7 @@ class FilterRuleData : public QSharedData
 {
 public:
    QString filter;
+   Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive;
 };
 
 FilterRule::FilterRule() : data(new FilterRuleData)
@@ -58,4 +59,14 @@ QString FilterRule::filter() const
 void FilterRule::setFilter(const QString &regEx)
 {
    data->filter = regEx;
+}
+
+Qt::CaseSensitivity FilterRule::caseSensitivity() const
+{
+   return data->caseSensitivity;
+}
+
+void FilterRule::setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity)
+{
+   data->caseSensitivity = caseSensitivity;
 }

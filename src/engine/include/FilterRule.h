@@ -27,6 +27,9 @@ public:
    QString filter() const;
    void setFilter(const QString &regEx);
 
+   Qt::CaseSensitivity caseSensitivity() const;
+   void setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity);
+
 private:
    QSharedDataPointer<FilterRuleData> data;
 };
