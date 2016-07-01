@@ -30,6 +30,7 @@ private Q_SLOTS:
    void testSetCurrentGroupName();
    void testAddGroupWithName();
    void testAddFilter();
+   void testEditCurrentItem();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -105,8 +106,50 @@ void FilterDialogTest::testAddGroupWithName()
 void FilterDialogTest::testAddFilter()
 {
    FilterDialog dialog;
+   QString testText("test text");
+   dialog.ui->regexLineEdit->setText(testText);
+   dialog.ui->caseSensitiveCheckBox->setChecked(true);
 
+   dialog.ui->addFilterButton->click();
+   QVERIFY2(dialog.ui->filtersListWidget->count() == 1, "No filter was added with add button");
+   QVERIFY2(dialog.ui->filtersListWidget->item(0)->text() == testText, "Added filter hasn't right text");
+   QVERIFY2(dialog.ui->filtersListWidget->currentRow() == 0, "Added filter isn't current item");
+   QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
+   Q_ASSERT(currentItem);
 
+   bool currentItemCaseSensitive = currentItem->data(FilterDialog::CaseSensitiveRole).toBool();
+   QVERIFY2(currentItemCaseSensitive == true, "Case sensitive data wasn't set from checbox.");
+   QVERIFY2(currentItem->flags().testFlag(Qt::ItemIsEditable), "New item isn't editable");
+}
+
+void FilterDialogTest::testEditCurrentItem()
+{
+   FilterDialog dialog;
+   dialog.ui->regexLineEdit->setText("default text");
+   dialog.ui->caseSensitiveCheckBox->setChecked(true);
+
+   dialog.on_addFilterButton_clicked();
+
+   // Changing the current item through line edit and checkbox
+   Q_ASSERT(dialog.ui->filtersListWidget->currentItem());
+   QString testText("test text");
+   bool newCaseValue = !dialog.ui->caseSensitiveCheckBox->isChecked();
+   dialog.ui->regexLineEdit->setText(testText);
+   dialog.ui->caseSensitiveCheckBox->setChecked(newCaseValue);
+
+   QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
+   Q_ASSERT(currentItem);
+
+   QVERIFY2(currentItem->text() == testText, "Text wasn't set from line edit to list item");
+
+   bool currentItemCaseSensitive = currentItem->data(FilterDialog::CaseSensitiveRole).toBool();
+   QVERIFY2(currentItemCaseSensitive == newCaseValue, "Case sensitive wasn't set in list item");
+
+   // Edit the item text directly should result in changing the text in regex line edit
+   QString newText("new new new");
+   currentItem->setText(newText);
+   QVERIFY2(dialog.ui->regexLineEdit->text() == newText,
+            "Editing item text doesn't change regex line edit text");
 }
 
 QTEST_MAIN(FilterDialogTest)

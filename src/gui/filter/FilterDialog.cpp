@@ -73,6 +73,43 @@ void FilterDialog::on_addGroupButton_clicked()
    addGroupWithName(groupName);
 }
 
+void FilterDialog::on_addFilterButton_clicked()
+{
+   QListWidgetItem *newItem = new QListWidgetItem(ui->regexLineEdit->text());
+   newItem->setData(CaseSensitiveRole, ui->caseSensitiveCheckBox->isChecked());
+   newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
+
+   ui->filtersListWidget->addItem(newItem);
+   ui->filtersListWidget->setCurrentItem(newItem);
+}
+
+void FilterDialog::on_regexLineEdit_textChanged(const QString &text)
+{
+   QListWidgetItem *currentItem = ui->filtersListWidget->currentItem();
+   if (!currentItem) {
+      return;
+   }
+
+   currentItem->setText(text);
+}
+
+void FilterDialog::on_caseSensitiveCheckBox_toggled(bool checked)
+{
+   QListWidgetItem *currentItem = ui->filtersListWidget->currentItem();
+   if (!currentItem) {
+      return;
+   }
+
+   currentItem->setData(CaseSensitiveRole, checked);
+}
+
+void FilterDialog::on_filtersListWidget_itemChanged(QListWidgetItem *item)
+{
+   if (item == ui->filtersListWidget->currentItem()) {
+      ui->regexLineEdit->setText(item->text());
+   }
+}
+
 void FilterDialog::addGroupWithName(const QString &groupName)
 {
    ui->filterGroupComboBox->addItem(groupName);
