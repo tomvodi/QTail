@@ -21,7 +21,7 @@ public:
    FilterRule(const QString &regEx);
    FilterRule(const FilterRule &);
    FilterRule &operator=(const FilterRule &);
-   bool operator==(const FilterRule &other);
+   bool operator==(const FilterRule &other) const;
    ~FilterRule();
 
    QString filter() const;

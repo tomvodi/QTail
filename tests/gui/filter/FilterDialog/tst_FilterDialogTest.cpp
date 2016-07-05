@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
+#include <TestCommon.h>
 
 #include <filter/FilterDialog.h>
 #include <include/FilterGroup.h>
@@ -32,6 +33,8 @@ private Q_SLOTS:
    void testAddFilter();
    void testEditCurrentItem();
    void testFilterListWhenChangingGroup();
+   void testAddFilterRuleItem();
+   void teston_addFilterButton_clicked();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -71,7 +74,9 @@ void FilterDialogTest::testSetFilterGroups()
             "Not all filter groups were added to list");
    QVERIFY2(dialog.ui->filterGroupComboBox->currentText() == "Filter group 1",
             "Wrong selected filter group");
-   QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "No filters of the current group visible");
+   QVERIFY2(dialog.ui->filtersListWidget->count(), "No filters of the current group visible");
+   QVERIFY2(dialog.ui->filtersListWidget->count() == 2,
+            "Not exactly two filters of the current group visible");
    QVERIFY2(dialog.ui->filtersListWidget->item(0)->text() == filterRule1.filter(),
             "Filter rules were added in wrong order");
 }
@@ -190,6 +195,74 @@ void FilterDialogTest::testFilterListWhenChangingGroup()
             "Wrong text of first filter rule after changing group");
    QVERIFY2(dialog.ui->filtersListWidget->item(1)->text() == filterRule4.filter(),
             "Wrong text of second filter rule after changing group");
+
+   dialog.ui->filterGroupComboBox->setCurrentIndex(0);
+
+   QVERIFY2(dialog.ui->filterGroupComboBox->currentText() == filterGroup1.name(), "Group wasn't changed");
+   QVERIFY2(dialog.ui->filtersListWidget->count(), "No item count after changing filter group");
+   QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "Wrong item count after changing filter group");
+   QVERIFY2(dialog.ui->filtersListWidget->item(0)->text() == filterRule1.filter(),
+            "Wrong text of first filter rule after changing group");
+   QVERIFY2(dialog.ui->filtersListWidget->item(1)->text() == filterRule2.filter(),
+            "Wrong text of second filter rule after changing group");
+}
+
+void FilterDialogTest::testAddFilterRuleItem()
+{
+   QList<FilterGroup> filterGroups;
+   FilterGroup filterGroup1("Filter group 1");
+   FilterRule filterRule1("FilterRule 1");
+   filterGroup1.setFilterRules({filterRule1});
+   filterGroups << filterGroup1;
+
+   FilterDialog dialog;
+   dialog.setFilterGroups(filterGroups);
+   Q_ASSERT(dialog.ui->filterGroupComboBox->currentText() == filterGroup1.name());
+   Q_ASSERT(dialog.ui->filtersListWidget->count() == 1);
+
+   FilterRule testRule;
+   testRule.setFilter("test test test");
+
+   dialog.addFilterRuleItem(testRule);
+   QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "Rule wasn't added to filter list widget");
+   QVERIFY2(dialog.ui->filtersListWidget->currentItem()->text() == testRule.filter(),
+            "New rule isn't set as current item");
+}
+
+void FilterDialogTest::teston_addFilterButton_clicked()
+{
+   QList<FilterGroup> filterGroups;
+   FilterGroup filterGroup1("Filter group 1");
+   FilterRule filterRule1("FilterRule 1");
+   filterGroup1.setFilterRules({filterRule1});
+   filterGroups << filterGroup1;
+
+   FilterDialog dialog;
+   dialog.setFilterGroups(filterGroups);
+
+   Q_ASSERT(dialog.ui->filterGroupComboBox->currentText() == filterGroup1.name());
+   Q_ASSERT(dialog.ui->filtersListWidget->count() == 1);
+
+   FilterRule testRule;
+   testRule.setFilter("test test test");
+
+   dialog.ui->regexLineEdit->setText(testRule.filter());
+   dialog.on_addFilterButton_clicked();
+
+   QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "New rule item wasn't added.");
+
+   QVariant filterGroupData = dialog.ui->filterGroupComboBox->currentData();
+   Q_ASSERT(filterGroupData.canConvert<FilterGroup>());
+   FilterGroup groupFromCombobox = filterGroupData.value<FilterGroup>();
+   QVERIFY2(groupFromCombobox.name() == filterGroup1.name(), "Wrong filter group from combobox");
+
+   QVERIFY2(groupFromCombobox.filterRules().count(), "Filter group from combo box has no filter rules");
+   QVERIFY2(groupFromCombobox.filterRules().count() == 2,
+            "New filter rule wasn't added to group from combo box");
+
+   filterGroup1.setFilterRules({filterRule1, testRule});
+   QVERIFY2(groupFromCombobox.filterRules() == filterGroup1.filterRules(),
+            "Filter rules don't match between group from combo box and test group");
 }
 
 QTEST_MAIN(FilterDialogTest)

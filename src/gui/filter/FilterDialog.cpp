@@ -84,7 +84,8 @@ void FilterDialog::on_addFilterButton_clicked()
    filterRule.setCaseSensitivity(ui->caseSensitiveCheckBox->isChecked() ?
                                     Qt::CaseSensitive : Qt::CaseInsensitive);
 
-   addFilterRule(filterRule);
+   addFilterRuleItem(filterRule);
+   setFilterRulesInGroupDataFromFilterRuleList();
 }
 
 void FilterDialog::on_regexLineEdit_editingFinished()
@@ -133,11 +134,11 @@ void FilterDialog::setFilterRules(const QList<FilterRule> &filters)
    ui->filtersListWidget->clear();
 
    foreach (const FilterRule &filterRule, filters) {
-      addFilterRule(filterRule);
+      addFilterRuleItem(filterRule);
    }
 }
 
-void FilterDialog::addFilterRule(const FilterRule &filterRule)
+void FilterDialog::addFilterRuleItem(const FilterRule &filterRule)
 {
    QListWidgetItem *newItem = new QListWidgetItem(filterRule.filter());
    newItem->setData(CaseSensitiveDataRole, (filterRule.caseSensitivity() == Qt::CaseSensitive));
@@ -145,4 +146,31 @@ void FilterDialog::addFilterRule(const FilterRule &filterRule)
 
    ui->filtersListWidget->addItem(newItem);
    ui->filtersListWidget->setCurrentItem(newItem);
+}
+
+void FilterDialog::setFilterRulesInGroupDataFromFilterRuleList()
+{
+   QList<FilterRule> filterRules;
+   for (int i = 0; i < ui->filtersListWidget->count(); ++i) {
+      QListWidgetItem *item = ui->filtersListWidget->item(i);
+      if (!item) {
+         continue;
+      }
+
+      FilterRule rule;
+      bool caseSensitive = item->data(CaseSensitiveDataRole).toBool();
+      rule.setCaseSensitivity(caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+      rule.setFilter(item->text());
+      filterRules << rule;
+   }
+
+   int currentGroupIndex = ui->filterGroupComboBox->currentIndex();
+   if (currentGroupIndex == -1) {
+      return;
+   }
+
+   QVariant groupData = ui->filterGroupComboBox->currentData();
+   FilterGroup filterGroup = groupData.value<FilterGroup>();
+   filterGroup.setFilterRules(filterRules);
+   ui->filterGroupComboBox->setItemData(currentGroupIndex, QVariant::fromValue<FilterGroup>(filterGroup));
 }

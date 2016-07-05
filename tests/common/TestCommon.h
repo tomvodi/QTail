@@ -22,7 +22,8 @@ public:
       ClearFile
    };
 
-   static QString generateExistingFileInPath(const QString &fileName, const QString &path=QCoreApplication::applicationDirPath());
+   static QString generateExistingFileInPath(const QString &fileName,
+                                             const QString &path=QCoreApplication::applicationDirPath());
    static void appendLinesToFile(const QString &fileName, const QStringList &lines,
                                  FileAction fileAction=FileAction::AppendOnly);
    static void waitMsecs(quint32 mSecs);

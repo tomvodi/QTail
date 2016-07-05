@@ -38,13 +38,17 @@ FilterRule &FilterRule::operator=(const FilterRule &rhs)
    return *this;
 }
 
-bool FilterRule::operator==(const FilterRule &other)
+bool FilterRule::operator==(const FilterRule &other) const
 {
-   if (this->data == other.data) {
-      return true;
+   if (data->caseSensitivity != other.data->caseSensitivity) {
+      return false;
    }
 
-   return false;
+   if (data->filter != other.data->filter) {
+      return false;
+   }
+
+   return true;
 }
 
 FilterRule::~FilterRule()

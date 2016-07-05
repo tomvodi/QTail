@@ -41,11 +41,11 @@ private slots:
 
 private:
    static const int CaseSensitiveDataRole = Qt::UserRole + 1;
-   static const int FilterGroupDataRole   = Qt::UserRole + 2;
    void setCurrentGroupName(const QString &newName);
    void addGroup(const FilterGroup &group);
    void setFilterRules(const QList<FilterRule> &filters);
-   void addFilterRule(const FilterRule &filterRule);
+   void addFilterRuleItem(const FilterRule &filterRule);
+   void setFilterRulesInGroupDataFromFilterRuleList();
    Ui::FilterDialog *ui;
 };
 
