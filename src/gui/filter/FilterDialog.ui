@@ -56,6 +56,9 @@
         <property name="lineWidth">
          <number>0</number>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+        </property>
         <property name="dragEnabled">
          <bool>true</bool>
         </property>
