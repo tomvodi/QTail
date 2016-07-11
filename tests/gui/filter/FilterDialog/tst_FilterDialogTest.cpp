@@ -31,7 +31,8 @@ private Q_SLOTS:
    void testSetCurrentGroupName();
    void testAddGroupWithName();
    void testAddFilter();
-   void testEditCurrentItem();
+   void testEditCurrentFilterItem();
+   void testCurrentItemChanged();
    void testFilterListWhenChangingGroup();
    void testAddFilterRuleItem();
    void teston_addFilterButton_clicked();
@@ -135,7 +136,11 @@ void FilterDialogTest::testAddFilter()
    QVERIFY2(currentItem->flags().testFlag(Qt::ItemIsEditable), "New item isn't editable");
 }
 
-void FilterDialogTest::testEditCurrentItem()
+/*!
+ * \brief FilterDialogTest::testEditCurrentFilterItem
+ * Change the current filter item through the edit widgets below filter list widget.
+ */
+void FilterDialogTest::testEditCurrentFilterItem()
 {
    FilterDialog dialog;
    dialog.ui->regexLineEdit->setText("default text");
@@ -164,6 +169,45 @@ void FilterDialogTest::testEditCurrentItem()
    currentItem->setText(newText);
    QVERIFY2(dialog.ui->regexLineEdit->text() == newText,
             "Editing item text doesn't change regex line edit text");
+}
+
+/*!
+ * \brief FilterDialogTest::testCurrentItemChanged
+ * Test edit current item in list widget. The changed data should be represented in the
+ * edit widgets below the filters list widget and in the FilterGroup data of the current filter group.
+ */
+void FilterDialogTest::testCurrentItemChanged()
+{
+   FilterDialog dialog;
+   dialog.ui->regexLineEdit->setText("default text");
+   dialog.ui->caseSensitiveCheckBox->setChecked(true);
+   Q_ASSERT(dialog.ui->filtersListWidget->count() == 0);
+
+   dialog.on_addFilterButton_clicked();
+
+   // Changing the current item through line edit and checkbox
+   Q_ASSERT(dialog.ui->filtersListWidget->currentItem());
+   QString testText("test text");
+   QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
+   Q_ASSERT(currentItem);
+
+   Q_ASSERT(currentItem->checkState() != Qt::Unchecked); // Default filters are active
+   currentItem->setCheckState(Qt::Unchecked);
+   currentItem->setText(testText);
+
+   QVERIFY2(dialog.ui->regexLineEdit->text() == testText, "Text wasn't set from line edit to list item");
+
+   // Check if new filters were set in group.
+   QVariant filterGroupData = dialog.ui->filterGroupComboBox->currentData();
+   Q_ASSERT(filterGroupData.canConvert<FilterGroup>());
+   FilterGroup groupFromCombobox = filterGroupData.value<FilterGroup>();
+
+   QVERIFY2(groupFromCombobox.filterRules().count() == 1,
+            "Filters data weren't set to current selected group");
+   FilterRule filterRuleFromData = groupFromCombobox.filterRules().at(0);
+   QVERIFY2(filterRuleFromData.filter() == testText, "Wrong filter text in rule");
+   // Checked state (active) should be false because checked state was set to Qt::Unchecked
+   QVERIFY2(filterRuleFromData.active() == false, "Wrong active state in rule");
 }
 
 /*!
@@ -222,11 +266,15 @@ void FilterDialogTest::testAddFilterRuleItem()
 
    FilterRule testRule;
    testRule.setFilter("test test test");
+   Q_ASSERT(testRule.active());
+
+   Qt::CheckState checkedState = testRule.active() ? Qt::Checked : Qt::Unchecked;
 
    dialog.addFilterRuleItem(testRule);
    QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "Rule wasn't added to filter list widget");
-   QVERIFY2(dialog.ui->filtersListWidget->currentItem()->text() == testRule.filter(),
-            "New rule isn't set as current item");
+   QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
+   QVERIFY2(currentItem->text() == testRule.filter(), "New rule isn't set as current item");
+   QVERIFY2(currentItem->checkState() == checkedState, "Wrong checked state of item");
 }
 
 void FilterDialogTest::teston_addFilterButton_clicked()

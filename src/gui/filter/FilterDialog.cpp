@@ -113,6 +113,7 @@ void FilterDialog::on_filtersListWidget_itemChanged(QListWidgetItem *item)
    if (item == ui->filtersListWidget->currentItem()) {
       ui->regexLineEdit->setText(item->text());
    }
+   setFilterRulesInGroupDataFromFilterRuleList();
 }
 
 void FilterDialog::on_filterGroupComboBox_currentIndexChanged(int index)
@@ -142,7 +143,8 @@ void FilterDialog::addFilterRuleItem(const FilterRule &filterRule)
 {
    QListWidgetItem *newItem = new QListWidgetItem(filterRule.filter());
    newItem->setData(CaseSensitiveDataRole, (filterRule.caseSensitivity() == Qt::CaseSensitive));
-   newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
+   newItem->setFlags(newItem->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+   newItem->setCheckState(filterRule.active() ? Qt::Checked : Qt::Unchecked);
 
    ui->filtersListWidget->addItem(newItem);
    ui->filtersListWidget->setCurrentItem(newItem);
@@ -161,6 +163,7 @@ void FilterDialog::setFilterRulesInGroupDataFromFilterRuleList()
       bool caseSensitive = item->data(CaseSensitiveDataRole).toBool();
       rule.setCaseSensitivity(caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
       rule.setFilter(item->text());
+      rule.setActive(item->checkState() == Qt::Checked ? true : false);
       filterRules << rule;
    }
 

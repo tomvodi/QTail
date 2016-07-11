@@ -30,6 +30,9 @@ public:
    Qt::CaseSensitivity caseSensitivity() const;
    void setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity);
 
+   bool active() const;
+   void setActive(bool active);
+
 private:
    QSharedDataPointer<FilterRuleData> data;
 };

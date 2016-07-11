@@ -25,6 +25,7 @@ private Q_SLOTS:
    void testConstructor();
    void testSetGetFilter();
    void testSetGetCaseSensitivity();
+   void testActive();
 };
 
 FilterRuleTest::FilterRuleTest()
@@ -63,6 +64,15 @@ void FilterRuleTest::testSetGetCaseSensitivity()
 
    rule.setCaseSensitivity(Qt::CaseSensitive);
    QVERIFY2(rule.caseSensitivity() == Qt::CaseSensitive, "Failed set/get case sensitivity");
+}
+
+void FilterRuleTest::testActive()
+{
+   FilterRule rule;
+   QVERIFY2(rule.active(), "Default rule isn't active");
+
+   rule.setActive(false);
+   QVERIFY2(rule.active() == false, "Failed set/get rule active");
 }
 
 QTEST_MAIN(FilterRuleTest)

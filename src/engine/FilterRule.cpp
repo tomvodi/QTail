@@ -13,6 +13,7 @@ class FilterRuleData : public QSharedData
 public:
    QString filter;
    Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive;
+   bool active = true;
 };
 
 FilterRule::FilterRule() : data(new FilterRuleData)
@@ -40,11 +41,15 @@ FilterRule &FilterRule::operator=(const FilterRule &rhs)
 
 bool FilterRule::operator==(const FilterRule &other) const
 {
-   if (data->caseSensitivity != other.data->caseSensitivity) {
+   if (data->caseSensitivity != other.caseSensitivity()) {
       return false;
    }
 
-   if (data->filter != other.data->filter) {
+   if (data->filter != other.filter()) {
+      return false;
+   }
+
+   if (data->active != other.active()) {
       return false;
    }
 
@@ -73,4 +78,14 @@ Qt::CaseSensitivity FilterRule::caseSensitivity() const
 void FilterRule::setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity)
 {
    data->caseSensitivity = caseSensitivity;
+}
+
+bool FilterRule::active() const
+{
+   return data->active;
+}
+
+void FilterRule::setActive(bool active)
+{
+   data->active = active;
 }
