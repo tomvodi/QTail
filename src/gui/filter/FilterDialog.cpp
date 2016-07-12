@@ -133,6 +133,32 @@ void FilterDialog::on_deleteFilterButton_clicked()
    delete item;
 }
 
+void FilterDialog::on_buttonBox_clicked(QAbstractButton *button)
+{
+   QDialogButtonBox::StandardButton standardButton = ui->buttonBox->standardButton(button);
+   if (standardButton == QDialogButtonBox::Apply ||
+       standardButton == QDialogButtonBox::Ok) {
+      emit filterGroupsChanged(filterGroups());
+   }
+}
+
+QList<FilterGroup> FilterDialog::filterGroups() const
+{
+   QList<FilterGroup> groups;
+
+   for (int i = 0; i < ui->filterGroupComboBox->count(); ++i) {
+      QVariant groupData = ui->filterGroupComboBox->itemData(i);
+      if (!groupData.canConvert<FilterGroup>()) {
+         continue;
+      }
+
+      FilterGroup group = groupData.value<FilterGroup>();
+      groups << group;
+   }
+
+   return groups;
+}
+
 void FilterDialog::addGroup(const FilterGroup &group)
 {
    QVariant groupData = QVariant::fromValue<FilterGroup>(group);

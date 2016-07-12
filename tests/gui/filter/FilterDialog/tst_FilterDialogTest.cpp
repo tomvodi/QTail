@@ -37,6 +37,7 @@ private Q_SLOTS:
    void testAddFilterRuleItem();
    void teston_addFilterButton_clicked();
    void testDeleteFilter();
+   void testGetFilterGroups();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -326,6 +327,28 @@ void FilterDialogTest::testDeleteFilter()
 
    dialog.on_deleteFilterButton_clicked();
    QVERIFY2(dialog.ui->filtersListWidget->count() == 0, "Filter rule wasn't deleted");
+}
+
+/*!
+ * \brief FilterDialogTest::testGetFilterGroups
+ * Test if the filtGroups method returns the groups that were set before.
+ */
+void FilterDialogTest::testGetFilterGroups()
+{
+   QList<FilterGroup> filterGroups;
+   FilterGroup filterGroup1("Filter group 1");
+   FilterRule filterRule1("FilterRule 1");
+   FilterRule filterRule2("FilterRule 2");
+   filterGroup1.setFilterRules({filterRule1, filterRule2});
+   FilterGroup filterGroup2("Filter groups 2");
+   filterGroups << filterGroup1 << filterGroup2;
+
+   FilterDialog dialog;
+   dialog.setFilterGroups(filterGroups);
+
+   QList<FilterGroup> dialogFilterGroups = dialog.filterGroups();
+
+   QVERIFY2(dialogFilterGroups == filterGroups, "Failed getting the filter groups that were set before.");
 }
 
 QTEST_MAIN(FilterDialogTest)

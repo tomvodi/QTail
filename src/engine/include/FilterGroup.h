@@ -24,6 +24,7 @@ public:
    FilterGroup(const QString &name);
    FilterGroup(const FilterGroup &);
    FilterGroup &operator=(const FilterGroup &);
+   bool operator==(const FilterGroup &other) const;
    ~FilterGroup();
 
    QString name() const;

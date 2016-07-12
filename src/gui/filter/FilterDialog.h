@@ -18,6 +18,7 @@ class FilterDialog;
 class FilterGroup;
 class FilterRule;
 class QListWidgetItem;
+class QAbstractButton;
 
 class FilterDialog : public QDialog
 {
@@ -30,6 +31,9 @@ public:
 
    void setFilterGroups(const QList<FilterGroup> &filterGrops);
 
+signals:
+   void filterGroupsChanged(const QList<FilterGroup> &filterGrops);
+
 private slots:
    void on_renameGroupButton_clicked();
    void on_addGroupButton_clicked();
@@ -39,6 +43,7 @@ private slots:
    void on_filtersListWidget_itemChanged(QListWidgetItem *item);
    void on_filterGroupComboBox_currentIndexChanged(int index);
    void on_deleteFilterButton_clicked();
+   void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
    static const int CaseSensitiveDataRole = Qt::UserRole + 1;
@@ -47,6 +52,7 @@ private:
    void setFilterRules(const QList<FilterRule> &filters);
    void addFilterRuleItem(const FilterRule &filterRule);
    void setFilterRulesInGroupDataFromFilterRuleList();
+   QList<FilterGroup> filterGroups() const;
    Ui::FilterDialog *ui;
 };
 

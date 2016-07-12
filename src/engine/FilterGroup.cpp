@@ -40,6 +40,19 @@ FilterGroup &FilterGroup::operator=(const FilterGroup &rhs)
    return *this;
 }
 
+bool FilterGroup::operator==(const FilterGroup &other) const
+{
+   if (name() != other.name()) {
+      return false;
+   }
+
+//   if (filterRules() != other.filterRules()) {
+//      return false;
+//   }
+
+   return true;
+}
+
 FilterGroup::~FilterGroup()
 {
 }
