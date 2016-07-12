@@ -38,6 +38,7 @@ private slots:
    void on_caseSensitiveCheckBox_toggled(bool checked);
    void on_filtersListWidget_itemChanged(QListWidgetItem *item);
    void on_filterGroupComboBox_currentIndexChanged(int index);
+   void on_deleteFilterButton_clicked();
 
 private:
    static const int CaseSensitiveDataRole = Qt::UserRole + 1;

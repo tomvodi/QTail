@@ -123,6 +123,16 @@ void FilterDialog::on_filterGroupComboBox_currentIndexChanged(int index)
    setFilterRules(group.filterRules());
 }
 
+void FilterDialog::on_deleteFilterButton_clicked()
+{
+   QListWidgetItem *item = ui->filtersListWidget->currentItem();
+   if (!item) {
+      return;
+   }
+
+   delete item;
+}
+
 void FilterDialog::addGroup(const FilterGroup &group)
 {
    QVariant groupData = QVariant::fromValue<FilterGroup>(group);

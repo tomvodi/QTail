@@ -36,6 +36,7 @@ private Q_SLOTS:
    void testFilterListWhenChangingGroup();
    void testAddFilterRuleItem();
    void teston_addFilterButton_clicked();
+   void testDeleteFilter();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -311,6 +312,20 @@ void FilterDialogTest::teston_addFilterButton_clicked()
    filterGroup1.setFilterRules({filterRule1, testRule});
    QVERIFY2(groupFromCombobox.filterRules() == filterGroup1.filterRules(),
             "Filter rules don't match between group from combo box and test group");
+}
+
+void FilterDialogTest::testDeleteFilter()
+{
+   FilterDialog dialog;
+
+   FilterRule testRule;
+   testRule.setFilter("test test test");
+
+   dialog.addFilterRuleItem(testRule);
+   Q_ASSERT(dialog.ui->filtersListWidget->count() == 1);
+
+   dialog.on_deleteFilterButton_clicked();
+   QVERIFY2(dialog.ui->filtersListWidget->count() == 0, "Filter rule wasn't deleted");
 }
 
 QTEST_MAIN(FilterDialogTest)
