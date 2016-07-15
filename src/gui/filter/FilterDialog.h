@@ -29,7 +29,7 @@ public:
    explicit FilterDialog(QWidget *parent = 0);
    ~FilterDialog();
 
-   void setFilterGroups(const QList<FilterGroup> &filterGrops);
+   void setFilterGroups(const QList<FilterGroup> &groups);
 
 signals:
    void filterGroupsChanged(const QList<FilterGroup> &filterGrops);
@@ -47,11 +47,12 @@ private slots:
 
 private:
    static const int CaseSensitiveDataRole = Qt::UserRole + 1;
+   void addDefaultGroup();
    void setCurrentGroupName(const QString &newName);
    void addGroup(const FilterGroup &group);
    void setFilterRules(const QList<FilterRule> &filters);
    void addFilterRuleItem(const FilterRule &filterRule);
-   void setFilterRulesInGroupDataFromFilterRuleList();
+   void setCurrentFilterGroupDataFromGui();
    QList<FilterGroup> filterGroups() const;
    Ui::FilterDialog *ui;
 };

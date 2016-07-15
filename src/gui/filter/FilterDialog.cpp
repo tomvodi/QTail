@@ -20,7 +20,7 @@ FilterDialog::FilterDialog(QWidget *parent) :
 {
    ui->setupUi(this);
 
-   addGroup(FilterGroup(tr("Default group")));
+   addDefaultGroup();
 }
 
 FilterDialog::~FilterDialog()
@@ -28,10 +28,18 @@ FilterDialog::~FilterDialog()
    delete ui;
 }
 
-void FilterDialog::setFilterGroups(const QList<FilterGroup> &filterGrops)
+void FilterDialog::setFilterGroups(const QList<FilterGroup> &groups)
 {
    ui->filterGroupComboBox->clear();
-   foreach (const FilterGroup &group, filterGrops) {
+
+   // Initially add at least a default group
+   if (groups.isEmpty()) {
+      addDefaultGroup();
+      emit filterGroupsChanged(filterGroups());
+      return;
+   }
+
+   foreach (const FilterGroup &group, groups) {
       addGroup(group);
    }
 
@@ -62,6 +70,7 @@ void FilterDialog::setCurrentGroupName(const QString &newName)
    }
 
    ui->filterGroupComboBox->setItemData(currentIndex, newName, Qt::DisplayRole);
+   setCurrentFilterGroupDataFromGui();
 }
 
 void FilterDialog::on_addGroupButton_clicked()
@@ -85,7 +94,7 @@ void FilterDialog::on_addFilterButton_clicked()
                                     Qt::CaseSensitive : Qt::CaseInsensitive);
 
    addFilterRuleItem(filterRule);
-   setFilterRulesInGroupDataFromFilterRuleList();
+   setCurrentFilterGroupDataFromGui();
 }
 
 void FilterDialog::on_regexLineEdit_editingFinished()
@@ -113,7 +122,7 @@ void FilterDialog::on_filtersListWidget_itemChanged(QListWidgetItem *item)
    if (item == ui->filtersListWidget->currentItem()) {
       ui->regexLineEdit->setText(item->text());
    }
-   setFilterRulesInGroupDataFromFilterRuleList();
+   setCurrentFilterGroupDataFromGui();
 }
 
 void FilterDialog::on_filterGroupComboBox_currentIndexChanged(int index)
@@ -140,6 +149,11 @@ void FilterDialog::on_buttonBox_clicked(QAbstractButton *button)
        standardButton == QDialogButtonBox::Ok) {
       emit filterGroupsChanged(filterGroups());
    }
+}
+
+void FilterDialog::addDefaultGroup()
+{
+   addGroup(FilterGroup(tr("Default group")));
 }
 
 QList<FilterGroup> FilterDialog::filterGroups() const
@@ -186,7 +200,12 @@ void FilterDialog::addFilterRuleItem(const FilterRule &filterRule)
    ui->filtersListWidget->setCurrentItem(newItem);
 }
 
-void FilterDialog::setFilterRulesInGroupDataFromFilterRuleList()
+/*!
+ * \brief FilterDialog::setCurrentFilterGroupDataFromGui
+ * Takes the current group data from gui (group name, filter rules list) and
+ * stores into the current group list item as data.
+ */
+void FilterDialog::setCurrentFilterGroupDataFromGui()
 {
    QList<FilterRule> filterRules;
    for (int i = 0; i < ui->filtersListWidget->count(); ++i) {
@@ -210,6 +229,7 @@ void FilterDialog::setFilterRulesInGroupDataFromFilterRuleList()
 
    QVariant groupData = ui->filterGroupComboBox->currentData();
    FilterGroup filterGroup = groupData.value<FilterGroup>();
+   filterGroup.setName(ui->filterGroupComboBox->currentText());
    filterGroup.setFilterRules(filterRules);
    ui->filterGroupComboBox->setItemData(currentGroupIndex, QVariant::fromValue<FilterGroup>(filterGroup));
 }

@@ -19,6 +19,7 @@
 
 #include <QTail_version.h>
 #include <TailEngine.h>
+#include <include/FilterGroup.h>
 
 #include "file_views/PlainTextView.h"
 #include "file_views/FileListItemView.h"
@@ -43,9 +44,9 @@ MainWindow::MainWindow(QWidget *parent) :
    ui->setupUi(this);
 
    m_preferencesDialog->setSettings(m_settings);
-
    m_highlightingDialog->setHighlightingRules(m_settings->lineHighlightingRules(),
                                               m_settings->wordHighlightingRules());
+   m_filterDialog->setFilterGroups(m_settings->filterGroups());
 
    m_tailEngine = new TailEngine(this);
    TextViewSettings textViewSettings;
@@ -189,6 +190,10 @@ void MainWindow::createConnections()
 
    connect(m_preferencesDialog, &PreferencesDialog::settingsHaveChanged,
            this, &MainWindow::settingsValueHasChanged);
+   connect(m_filterDialog, &FilterDialog::filterGroupsChanged,
+           [this] (const QList<FilterGroup> &filterGroups) {
+      m_settings->setFilterGroups(filterGroups);
+   });
 }
 
 /*!

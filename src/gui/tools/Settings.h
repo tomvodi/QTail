@@ -59,7 +59,7 @@ public:
    void setMainWindowState(const QByteArray &state);
 
    QList<FilterGroup> filterGroups() const;
-   void setFilterGroups(QList<FilterGroup> &filterGroups);
+   void setFilterGroups(const QList<FilterGroup> &filterGroups);
 
 private:
    QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;

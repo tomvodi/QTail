@@ -38,6 +38,7 @@ private Q_SLOTS:
    void teston_addFilterButton_clicked();
    void testDeleteFilter();
    void testGetFilterGroups();
+   void testGetFilterGroupsWithRenamedGroup();
 };
 
 FilterDialogTest::FilterDialogTest()
@@ -349,6 +350,16 @@ void FilterDialogTest::testGetFilterGroups()
    QList<FilterGroup> dialogFilterGroups = dialog.filterGroups();
 
    QVERIFY2(dialogFilterGroups == filterGroups, "Failed getting the filter groups that were set before.");
+}
+
+void FilterDialogTest::testGetFilterGroupsWithRenamedGroup()
+{
+   FilterDialog dialog;
+   dialog.setCurrentGroupName("New group name");
+
+   QList<FilterGroup> dialogFilterGroups = dialog.filterGroups();
+   QVERIFY2(dialogFilterGroups.count(), "No filter groups returned");
+   QVERIFY2(dialogFilterGroups.first().name() == "New group name", "Returned group has wrong name");
 }
 
 QTEST_MAIN(FilterDialogTest)

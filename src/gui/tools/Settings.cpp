@@ -154,7 +154,7 @@ QList<FilterGroup> Settings::filterGroups() const
    return filterGroupListFromStringList(groupList);
 }
 
-void Settings::setFilterGroups(QList<FilterGroup> &filterGroups)
+void Settings::setFilterGroups(const QList<FilterGroup> &filterGroups)
 {
    QStringList groupList = filterGroupListToStringList(filterGroups);
    m_settings.setValue(FilterGroupsValueName, groupList);
