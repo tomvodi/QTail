@@ -11,6 +11,7 @@
 
 #include <QList>
 #include <QMetaType>
+#include <QJsonObject>
 #include <QSharedDataPointer>
 
 #include "FilterRule.h"
@@ -33,6 +34,9 @@ public:
    QList<FilterRule> filterRules() const;
    void setFilterRules(const QList<FilterRule> &rules);
    void addFilterRule(const FilterRule &rule);
+
+   QJsonObject toJson() const;
+   void fromJson(const QJsonObject &json);
 
 private:
    QSharedDataPointer<FilterGroupData> data;

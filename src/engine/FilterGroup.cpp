@@ -8,6 +8,11 @@
 
 #include "include/FilterGroup.h"
 
+#include <QJsonArray>
+
+const QString NameValueName("name");
+const QString RulesValueName("rules");
+
 class FilterGroupData : public QSharedData
 {
 public:
@@ -46,9 +51,9 @@ bool FilterGroup::operator==(const FilterGroup &other) const
       return false;
    }
 
-//   if (filterRules() != other.filterRules()) {
-//      return false;
-//   }
+   if (filterRules() != other.filterRules()) {
+      return false;
+   }
 
    return true;
 }
@@ -80,4 +85,37 @@ void FilterGroup::setFilterRules(const QList<FilterRule> &rules)
 void FilterGroup::addFilterRule(const FilterRule &rule)
 {
    data->rules.append(rule);
+}
+
+QJsonObject FilterGroup::toJson() const
+{
+   QJsonObject json;
+   json.insert(NameValueName, data->name);
+
+   QJsonArray filterArray;
+   foreach (const FilterRule &rule, data->rules) {
+      filterArray.append(rule.toJson());
+   }
+   json.insert(RulesValueName, filterArray);
+
+   return json;
+}
+
+void FilterGroup::fromJson(const QJsonObject &json)
+{
+   data->name = json.value(NameValueName).toString();
+
+   data->rules.clear();
+   QJsonArray filterArray = json.value(RulesValueName).toArray();
+   foreach (const QJsonValue &value, filterArray) {
+      QJsonObject json = value.toObject();
+      if (json.isEmpty()) {
+         continue;
+      }
+
+      FilterRule rule;
+      rule.fromJson(json);
+
+      data->rules.append(rule);
+   }
 }

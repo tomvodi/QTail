@@ -26,6 +26,7 @@ private Q_SLOTS:
    void testSetGetFilter();
    void testSetGetCaseSensitivity();
    void testActive();
+   void testToAndFromJson();
 };
 
 FilterRuleTest::FilterRuleTest()
@@ -69,10 +70,25 @@ void FilterRuleTest::testSetGetCaseSensitivity()
 void FilterRuleTest::testActive()
 {
    FilterRule rule;
-   QVERIFY2(rule.active(), "Default rule isn't active");
+   QVERIFY2(rule.isActive(), "Default rule isn't active");
 
    rule.setActive(false);
-   QVERIFY2(rule.active() == false, "Failed set/get rule active");
+   QVERIFY2(rule.isActive() == false, "Failed set/get rule active");
+}
+
+void FilterRuleTest::testToAndFromJson()
+{
+   FilterRule rule("Rule 1");
+   rule.setActive(!rule.isActive());
+   rule.setCaseSensitivity(rule.caseSensitivity() == Qt::CaseInsensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+
+   QJsonObject ruleJson = rule.toJson();
+
+   QVERIFY2(! ruleJson.isEmpty(), "Empty json returned");
+   FilterRule rule2;
+   rule2.fromJson(ruleJson);
+
+   QVERIFY2(rule == rule2, "Failed convert to and from json");
 }
 
 QTEST_MAIN(FilterRuleTest)

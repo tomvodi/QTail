@@ -145,6 +145,16 @@ void Settings::setMainWindowState(const QByteArray &state)
    m_settings.setValue(MainWindowStateValueName, state);
 }
 
+QList<FilterGroup> Settings::filterGroups() const
+{
+
+}
+
+void Settings::setFilterGroups(QList<FilterGroup> &filterGroups)
+{
+
+}
+
 QStringList Settings::highlightingListToStringList(const QList<HighlightingRule> &rules) const
 {
    QStringList stringList;

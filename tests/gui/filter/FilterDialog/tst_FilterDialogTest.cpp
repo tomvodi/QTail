@@ -209,7 +209,7 @@ void FilterDialogTest::testCurrentItemChanged()
    FilterRule filterRuleFromData = groupFromCombobox.filterRules().at(0);
    QVERIFY2(filterRuleFromData.filter() == testText, "Wrong filter text in rule");
    // Checked state (active) should be false because checked state was set to Qt::Unchecked
-   QVERIFY2(filterRuleFromData.active() == false, "Wrong active state in rule");
+   QVERIFY2(filterRuleFromData.isActive() == false, "Wrong active state in rule");
 }
 
 /*!
@@ -268,9 +268,9 @@ void FilterDialogTest::testAddFilterRuleItem()
 
    FilterRule testRule;
    testRule.setFilter("test test test");
-   Q_ASSERT(testRule.active());
+   Q_ASSERT(testRule.isActive());
 
-   Qt::CheckState checkedState = testRule.active() ? Qt::Checked : Qt::Unchecked;
+   Qt::CheckState checkedState = testRule.isActive() ? Qt::Checked : Qt::Unchecked;
 
    dialog.addFilterRuleItem(testRule);
    QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "Rule wasn't added to filter list widget");

@@ -26,6 +26,7 @@ private Q_SLOTS:
    void testSetGetName();
    void testSetGetFilterRules();
    void testAppendFilterRule();
+   void testToAndFromJson();
 };
 
 FilterGroupTest::FilterGroupTest()
@@ -76,6 +77,22 @@ void FilterGroupTest::testAppendFilterRule()
    FilterGroup group;
    group.addFilterRule(rule);
    QVERIFY2(group.filterRules().contains(rule), "Failed add rule");
+}
+
+void FilterGroupTest::testToAndFromJson()
+{
+   FilterRule rule("Rule 1");
+
+   FilterGroup group;
+   group.setName("Test group");
+   group.addFilterRule(rule);
+   QJsonObject groupJson = group.toJson();
+
+   QVERIFY2(! groupJson.isEmpty(), "Empty json returned");
+   FilterGroup group2;
+   group2.fromJson(groupJson);
+
+   QVERIFY2(group == group2, "Failed convert to and from json");
 }
 
 QTEST_MAIN(FilterGroupTest)

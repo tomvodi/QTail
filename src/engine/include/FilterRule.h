@@ -10,6 +10,7 @@
 #define FILTERRULE_H
 
 #include <QString>
+#include <QJsonObject>
 #include <QSharedDataPointer>
 
 class FilterRuleData;
@@ -30,8 +31,11 @@ public:
    Qt::CaseSensitivity caseSensitivity() const;
    void setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity);
 
-   bool active() const;
-   void setActive(bool active);
+   bool isActive() const;
+   void setActive(bool isActive);
+
+   QJsonObject toJson() const;
+   void fromJson(const QJsonObject &json);
 
 private:
    QSharedDataPointer<FilterRuleData> data;

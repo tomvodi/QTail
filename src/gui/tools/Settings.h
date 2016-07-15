@@ -15,6 +15,7 @@
 #include <QMetaType>
 
 class HighlightingRule;
+class FilterGroup;
 
 class Settings
 {
@@ -56,6 +57,9 @@ public:
 
    QByteArray mainWindowState() const;
    void setMainWindowState(const QByteArray &state);
+
+   QList<FilterGroup> filterGroups() const;
+   void setFilterGroups(QList<FilterGroup> &filterGroups);
 
 private:
    QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;

@@ -180,7 +180,7 @@ void FilterDialog::addFilterRuleItem(const FilterRule &filterRule)
    QListWidgetItem *newItem = new QListWidgetItem(filterRule.filter());
    newItem->setData(CaseSensitiveDataRole, (filterRule.caseSensitivity() == Qt::CaseSensitive));
    newItem->setFlags(newItem->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
-   newItem->setCheckState(filterRule.active() ? Qt::Checked : Qt::Unchecked);
+   newItem->setCheckState(filterRule.isActive() ? Qt::Checked : Qt::Unchecked);
 
    ui->filtersListWidget->addItem(newItem);
    ui->filtersListWidget->setCurrentItem(newItem);

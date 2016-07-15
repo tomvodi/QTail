@@ -8,6 +8,10 @@
 
 #include "include/FilterRule.h"
 
+const QString FilterValueName("filter");
+const QString CaseSensitivityValueName("case");
+const QString ActiveValueName("active");
+
 class FilterRuleData : public QSharedData
 {
 public:
@@ -49,7 +53,7 @@ bool FilterRule::operator==(const FilterRule &other) const
       return false;
    }
 
-   if (data->active != other.active()) {
+   if (data->active != other.isActive()) {
       return false;
    }
 
@@ -80,7 +84,7 @@ void FilterRule::setCaseSensitivity(const Qt::CaseSensitivity &caseSensitivity)
    data->caseSensitivity = caseSensitivity;
 }
 
-bool FilterRule::active() const
+bool FilterRule::isActive() const
 {
    return data->active;
 }
@@ -88,4 +92,22 @@ bool FilterRule::active() const
 void FilterRule::setActive(bool active)
 {
    data->active = active;
+}
+
+QJsonObject FilterRule::toJson() const
+{
+   QJsonObject json;
+
+   json.insert(FilterValueName, data->filter);
+   json.insert(ActiveValueName, data->active);
+   json.insert(CaseSensitivityValueName, static_cast<int>(data->caseSensitivity));
+
+   return json;
+}
+
+void FilterRule::fromJson(const QJsonObject &json)
+{
+   data->filter = json.value(FilterValueName).toString();
+   data->active = json.value(ActiveValueName).toBool();
+   data->caseSensitivity = static_cast<Qt::CaseSensitivity>(json.value(CaseSensitivityValueName).toInt());
 }
