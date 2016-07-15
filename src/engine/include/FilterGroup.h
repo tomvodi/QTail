@@ -13,6 +13,7 @@
 #include <QMetaType>
 #include <QJsonObject>
 #include <QSharedDataPointer>
+#include <QUuid>
 
 #include "FilterRule.h"
 
@@ -27,6 +28,9 @@ public:
    FilterGroup &operator=(const FilterGroup &);
    bool operator==(const FilterGroup &other) const;
    ~FilterGroup();
+
+   QUuid id() const;
+   void setid(const QUuid &id);
 
    QString name() const;
    void setName(const QString &name);

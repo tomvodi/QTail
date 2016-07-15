@@ -10,26 +10,34 @@
 
 #include <QJsonArray>
 
+const QString IdValueName("id");
 const QString NameValueName("name");
 const QString RulesValueName("rules");
 
 class FilterGroupData : public QSharedData
 {
 public:
+   QUuid id;
    QString name;
    QList<FilterRule> rules;
+
+   void init();
 };
 
 FilterGroup::FilterGroup()
    : data(new FilterGroupData)
 {
    qRegisterMetaType<FilterGroup>("FilterGroup");
+
+   data->init();
 }
 
 FilterGroup::FilterGroup(const QString &name)
    : data(new FilterGroupData)
 {
    qRegisterMetaType<FilterGroup>("FilterGroup");
+   data->init();
+
    setName(name);
 }
 
@@ -55,11 +63,25 @@ bool FilterGroup::operator==(const FilterGroup &other) const
       return false;
    }
 
+   if (id() != other.id()) {
+      return false;
+   }
+
    return true;
 }
 
 FilterGroup::~FilterGroup()
 {
+}
+
+QUuid FilterGroup::id() const
+{
+   return data->id;
+}
+
+void FilterGroup::setid(const QUuid &id)
+{
+   data->id = id;
 }
 
 QString FilterGroup::name() const
@@ -91,6 +113,7 @@ QJsonObject FilterGroup::toJson() const
 {
    QJsonObject json;
    json.insert(NameValueName, data->name);
+   json.insert(IdValueName, data->id.toString());
 
    QJsonArray filterArray;
    foreach (const FilterRule &rule, data->rules) {
@@ -104,6 +127,7 @@ QJsonObject FilterGroup::toJson() const
 void FilterGroup::fromJson(const QJsonObject &json)
 {
    data->name = json.value(NameValueName).toString();
+   data->id = QUuid(json.value(IdValueName).toString());
 
    data->rules.clear();
    QJsonArray filterArray = json.value(RulesValueName).toArray();
@@ -118,4 +142,9 @@ void FilterGroup::fromJson(const QJsonObject &json)
 
       data->rules.append(rule);
    }
+}
+
+void FilterGroupData::init()
+{
+   id = QUuid::createUuid();
 }
