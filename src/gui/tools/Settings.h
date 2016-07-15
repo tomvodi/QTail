@@ -63,7 +63,9 @@ public:
 
 private:
    QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;
-   QList<HighlightingRule> highlightingStringListToList(const QStringList &array) const;
+   QList<HighlightingRule> highlightingStringListToList(const QStringList &list) const;
+   QStringList filterGroupListToStringList(const QList<FilterGroup> &groups) const;
+   QList<FilterGroup> filterGroupListFromStringList(const QStringList &list) const;
    QSettings m_settings;
 };
 

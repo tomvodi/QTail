@@ -12,6 +12,7 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 
+#include <include/FilterGroup.h>
 #include <include/HighlightingRule.h>
 
 static const QString LastOpenDirValueName("last open dir");
@@ -26,6 +27,8 @@ static const QString TextViewUpdateIntervalValueName("textview/updateinterval");
 
 static const QString MainWindowGeometryValueName("main window geometry");
 static const QString MainWindowStateValueName("main window state");
+
+static const QString FilterGroupsValueName("filter groups");
 
 Settings::Settings()
 {
@@ -147,12 +150,14 @@ void Settings::setMainWindowState(const QByteArray &state)
 
 QList<FilterGroup> Settings::filterGroups() const
 {
-
+   QStringList groupList = m_settings.value(FilterGroupsValueName).toStringList();
+   return filterGroupListFromStringList(groupList);
 }
 
 void Settings::setFilterGroups(QList<FilterGroup> &filterGroups)
 {
-
+   QStringList groupList = filterGroupListToStringList(filterGroups);
+   m_settings.setValue(FilterGroupsValueName, groupList);
 }
 
 QStringList Settings::highlightingListToStringList(const QList<HighlightingRule> &rules) const
@@ -167,11 +172,11 @@ QStringList Settings::highlightingListToStringList(const QList<HighlightingRule>
    return stringList;
 }
 
-QList<HighlightingRule> Settings::highlightingStringListToList(const QStringList &stringList) const
+QList<HighlightingRule> Settings::highlightingStringListToList(const QStringList &list) const
 {
    QList<HighlightingRule> rules;
 
-   foreach (const QString &value, stringList) {
+   foreach (const QString &value, list) {
       HighlightingRule rule;
       QJsonDocument jsonDoc = QJsonDocument::fromJson(value.toUtf8());
       QJsonObject jsonObject = jsonDoc.object();
@@ -180,5 +185,32 @@ QList<HighlightingRule> Settings::highlightingStringListToList(const QStringList
    }
 
    return rules;
+}
+
+QStringList Settings::filterGroupListToStringList(const QList<FilterGroup> &groups) const
+{
+   QStringList stringList;
+
+   foreach (const FilterGroup &group, groups) {
+      QJsonDocument jsonDoc(group.toJson());
+      stringList.append(QString(jsonDoc.toJson(QJsonDocument::Compact)));
+   }
+
+   return stringList;
+}
+
+QList<FilterGroup> Settings::filterGroupListFromStringList(const QStringList &list) const
+{
+   QList<FilterGroup> groups;
+
+   foreach (const QString &value, list) {
+      FilterGroup group;
+      QJsonDocument jsonDoc = QJsonDocument::fromJson(value.toUtf8());
+      QJsonObject jsonObject = jsonDoc.object();
+      group.fromJson(jsonObject);
+      groups.append(group);
+   }
+
+   return groups;
 }
 

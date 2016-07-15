@@ -14,6 +14,7 @@
 #include <QFontDatabase>
 
 #include <gui/tools/Settings.h>
+#include <include/FilterGroup.h>
 #include <include/HighlightingRule.h>
 #include <TestCommon.h>
 
@@ -35,6 +36,7 @@ private Q_SLOTS:
    void testTextViewFont();
    void testTextViewLineWrap();
    void testTextViewUpdateInterval();
+   void testFilterGroups();
 };
 
 SettingsTest::SettingsTest()
@@ -157,6 +159,21 @@ void SettingsTest::testTextViewUpdateInterval()
    updateInterval = 45342;
    settings.setTextViewUpdateIntervalMs(updateInterval);
    QVERIFY2(settings.textViewUpdateIntervalMs() == updateInterval, "Failed settings update interval");
+}
+
+void SettingsTest::testFilterGroups()
+{
+   QList<FilterGroup> groups;
+   FilterGroup group;
+   group.setName("Test group");
+   FilterRule rule("test rule");
+   group.setFilterRules({rule});
+   groups.append(group);
+
+   Settings settings;
+   settings.setFilterGroups(groups);
+
+   QVERIFY2(settings.filterGroups() == groups, "Failed save/restore filter groups");
 }
 
 QTEST_MAIN(SettingsTest)
