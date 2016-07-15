@@ -119,10 +119,13 @@ void FilterDialog::on_caseSensitiveCheckBox_toggled(bool checked)
 
 void FilterDialog::on_filtersListWidget_itemChanged(QListWidgetItem *item)
 {
-   if (item == ui->filtersListWidget->currentItem()) {
-      ui->regexLineEdit->setText(item->text());
-   }
    setCurrentFilterGroupDataFromGui();
+   setEditWidgetsContentForCurrentFilterItem();
+}
+
+void FilterDialog::on_filtersListWidget_itemClicked(QListWidgetItem *item)
+{
+   setEditWidgetsContentForCurrentFilterItem();
 }
 
 void FilterDialog::on_filterGroupComboBox_currentIndexChanged(int index)
@@ -130,6 +133,8 @@ void FilterDialog::on_filterGroupComboBox_currentIndexChanged(int index)
    FilterGroup group = ui->filterGroupComboBox->currentData().value<FilterGroup>();
 
    setFilterRules(group.filterRules());
+
+   setEditWidgetsContentForCurrentFilterItem();
 }
 
 void FilterDialog::on_deleteFilterButton_clicked()
@@ -232,4 +237,14 @@ void FilterDialog::setCurrentFilterGroupDataFromGui()
    filterGroup.setName(ui->filterGroupComboBox->currentText());
    filterGroup.setFilterRules(filterRules);
    ui->filterGroupComboBox->setItemData(currentGroupIndex, QVariant::fromValue<FilterGroup>(filterGroup));
+}
+
+void FilterDialog::setEditWidgetsContentForCurrentFilterItem()
+{
+   QListWidgetItem *currentItem = ui->filtersListWidget->currentItem();
+   if (!currentItem) {
+      return;
+   }
+
+   ui->regexLineEdit->setText(currentItem->text());
 }

@@ -41,6 +41,7 @@ private slots:
    void on_regexLineEdit_editingFinished();
    void on_caseSensitiveCheckBox_toggled(bool checked);
    void on_filtersListWidget_itemChanged(QListWidgetItem *item);
+   void on_filtersListWidget_itemClicked(QListWidgetItem *item);
    void on_filterGroupComboBox_currentIndexChanged(int index);
    void on_deleteFilterButton_clicked();
    void on_buttonBox_clicked(QAbstractButton *button);
@@ -53,6 +54,7 @@ private:
    void setFilterRules(const QList<FilterRule> &filters);
    void addFilterRuleItem(const FilterRule &filterRule);
    void setCurrentFilterGroupDataFromGui();
+   void setEditWidgetsContentForCurrentFilterItem();
    QList<FilterGroup> filterGroups() const;
    Ui::FilterDialog *ui;
 };
