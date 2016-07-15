@@ -7,6 +7,7 @@
  */
 
 #include <QInputDialog>
+#include <QMessageBox>
 
 #include <include/FilterRule.h>
 #include <include/FilterGroup.h>
@@ -85,6 +86,7 @@ void FilterDialog::on_addGroupButton_clicked()
    }
 
    addGroup(FilterGroup(groupName));
+   checkForEnabledDeleteFilterGroupButton();
 }
 
 void FilterDialog::on_addFilterButton_clicked()
@@ -95,6 +97,24 @@ void FilterDialog::on_addFilterButton_clicked()
 
    addFilterRuleItem(filterRule);
    setCurrentFilterGroupDataFromGui();
+}
+
+void FilterDialog::on_deleteGroupButton_clicked()
+{
+   int currentGroupIndex = ui->filterGroupComboBox->currentIndex();
+   if (currentGroupIndex == -1) {
+      return;
+   }
+
+   QString currentGroupname = ui->filterGroupComboBox->currentText();
+   int result = QMessageBox::question(this, tr("Delete group?"),
+                                      tr("Do you want to delete filter group %1?").arg(currentGroupname),
+                                      QMessageBox::Cancel | QMessageBox::Default, QMessageBox::Ok);
+   if (result == QMessageBox::Ok) {
+      ui->filterGroupComboBox->removeItem(currentGroupIndex);
+      emit filterGroupsChanged(filterGroups());
+      checkForEnabledDeleteFilterGroupButton();
+   }
 }
 
 void FilterDialog::on_regexLineEdit_editingFinished()
@@ -247,4 +267,13 @@ void FilterDialog::setEditWidgetsContentForCurrentFilterItem()
    }
 
    ui->regexLineEdit->setText(currentItem->text());
+}
+
+void FilterDialog::checkForEnabledDeleteFilterGroupButton()
+{
+   if (ui->filterGroupComboBox->count() <= 1) {
+      ui->deleteGroupButton->setEnabled(false);
+   } else {
+      ui->deleteGroupButton->setEnabled(true);
+   }
 }

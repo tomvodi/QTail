@@ -38,6 +38,7 @@ private slots:
    void on_renameGroupButton_clicked();
    void on_addGroupButton_clicked();
    void on_addFilterButton_clicked();
+   void on_deleteGroupButton_clicked();
    void on_regexLineEdit_editingFinished();
    void on_caseSensitiveCheckBox_toggled(bool checked);
    void on_filtersListWidget_itemChanged(QListWidgetItem *item);
@@ -55,6 +56,7 @@ private:
    void addFilterRuleItem(const FilterRule &filterRule);
    void setCurrentFilterGroupDataFromGui();
    void setEditWidgetsContentForCurrentFilterItem();
+   void checkForEnabledDeleteFilterGroupButton();
    QList<FilterGroup> filterGroups() const;
    Ui::FilterDialog *ui;
 };

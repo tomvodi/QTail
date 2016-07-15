@@ -46,5 +46,6 @@
         <file>resources/icons/actions/dialog-filters.png</file>
         <file>resources/logo/QTail_logo.png</file>
         <file>resources/logo/QTail_icon.png</file>
+        <file>resources/icons/actions/document-edit.png</file>
     </qresource>
 </RCC>
