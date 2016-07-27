@@ -7,6 +7,7 @@
  */
 
 #include <include/FileViewInterface.h>
+#include <include/FilterGroup.h>
 
 #include <QTextStream>
 
@@ -119,6 +120,18 @@ void TailEngine::setTextViewFont(const QFont &font)
          }
       }
    }
+}
+
+void TailEngine::setFilterGroupsForFile(const QFileInfo &file, const QList<FilterGroup> &filterGroups)
+{
+   FileContext context = fileContextOfFile(file);
+   foreach (FileView fileView, context.fileViews()) {
+      if (fileView->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
+         fileView->setFilterGroups(filterGroups);
+      }
+   }
+
+   setFileContextOfFile(file, context);
 }
 
 uint qHash(const QFileInfo &fileInfo)

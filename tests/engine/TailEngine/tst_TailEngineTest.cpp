@@ -16,6 +16,8 @@
 #include <MocFileView.h>
 #include <TestCommon.h>
 
+#include <include/FilterGroup.h>
+
 class TailEngineTest : public QObject
 {
    Q_OBJECT
@@ -37,6 +39,7 @@ private Q_SLOTS:
    void testSetFileActive();
    void testRemoveFile();
    void testSetTextViewSettings();
+   void testSetFilterGroups();
 };
 
 TailEngineTest::TailEngineTest()
@@ -334,6 +337,31 @@ void TailEngineTest::testSetTextViewSettings()
    Q_ASSERT(textFileWatcher);
 
    QVERIFY2(textFileWatcher->updateInterval() == testUpdateInterval, "Update interval wasn't set on filewatcher of new added file");
+}
+
+void TailEngineTest::testSetFilterGroups()
+{
+   QString activeRuleLine(QStringLiteral("This is the first text line\n"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesAddedLines.log"));
+   TailEngine engine;
+
+   MocFileView *fileView = new MocFileView(this);
+   fileView->setViewFeatures(FileViewInterface::HasTextView);
+   FileView sharedFileView(fileView);
+
+   engine.addFile(QFileInfo(filePath), {sharedFileView});
+
+   FilterGroup group1("test group");
+   FilterRule activeRule("first text line");
+   activeRule.setActive(true);
+   FilterRule deactivatedRule("second text");
+   deactivatedRule.setActive(false);
+   group1.addFilterRule(activeRule);
+   group1.addFilterRule(deactivatedRule);
+
+   engine.setFilterGroupsForFile(QFileInfo(filePath), {group1});
+
+   QVERIFY2(fileView->filterGroups() == (QList<FilterGroup>() << group1), "FilterGroups weren't set");
 }
 
 QTEST_MAIN(TailEngineTest)

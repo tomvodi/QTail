@@ -80,6 +80,11 @@ void FileViewInterface::setTextViewSettings(const TextViewSettings &settings)
    Q_UNUSED(settings)
 }
 
+void FileViewInterface::setFilterGroups(const QList<FilterGroup> &filterGroups)
+{
+   Q_UNUSED(filterGroups);
+}
+
 /*!
  * \brief FileViewInterface::setHighlightingRules
  * Set the highlightin rules for this view. As line rules have to be applied first before

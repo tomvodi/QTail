@@ -10,6 +10,7 @@
 #define MOCFILEVIEW_H
 
 #include <include/FileViewInterface.h>
+#include <include/FilterGroup.h>
 #include <include/TextViewSettings.h>
 
 class MocFileView : public FileViewInterface
@@ -27,6 +28,7 @@ public:
    void setFileInfo(const QFileInfo &fileInfo) override;
    void setFileActive(bool active) override;
    void setTextViewSettings(const TextViewSettings &textViewSettings);
+   void setFilterGroups(const QList<FilterGroup> &filterGroups) override;
 
    QStringList textViewLines() const;
    void setViewFeatures(const FileViewInterface::Features &viewFeatures);
@@ -37,6 +39,8 @@ public:
    qint64 readUntilMaxLength() const;
    bool fileActive() const;
    TextViewSettings textViewSettings() const;
+
+   QList<FilterGroup> filterGroups() const;
 
 private:
    void setTextViewLines(const QStringList &textViewLines);
@@ -49,6 +53,7 @@ private:
    bool m_fileActive = false;
    QFont m_textViewFont;
    TextViewSettings m_textViewSettings;
+   QList<FilterGroup> m_filterGroups;
 };
 
 #endif // MOCFILEVIEW_H

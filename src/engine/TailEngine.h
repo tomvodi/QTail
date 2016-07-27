@@ -16,6 +16,7 @@
 #include <QSharedPointer>
 #include <QFont>
 
+#include <include/FilterGroup.h>
 #include <include/TextViewSettings.h>
 
 class FileReadLogic;
@@ -45,6 +46,7 @@ public:
    void setFileActive(const QFileInfo &file, bool active);
    void setTextViewSettings(const TextViewSettings &settings);
    void setTextViewFont(const QFont &font);
+   void setFilterGroupsForFile(const QFileInfo &file, const QList<FilterGroup> &filterGroups);
 
 private:
    class FileContext
