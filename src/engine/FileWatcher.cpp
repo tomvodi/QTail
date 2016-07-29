@@ -48,8 +48,8 @@ void FileWatcher::setFilePath(const QString &filePath)
    m_fileSystemWatcher->addPath(filePath);
    m_fileInfo.setFile(filePath);
 
-   // Read a file info value once, so that the file info cache is populated
-   // with the actual informations.
+//   // Read a file info value once, so that the file info cache is populated
+//   // with the actual informations.
    m_fileInfo.size();
 
    connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged,
@@ -79,7 +79,7 @@ void FileWatcher::fileHasChanged()
       return;
    }
 
-   qint64 oldSize = m_fileInfo.size();
+   qint64 offset = sizeOffset();
    m_fileInfo.refresh();
 
    if (!m_fileInfo.exists()) {
@@ -88,8 +88,9 @@ void FileWatcher::fileHasChanged()
    }
 
    qint64 newSize = m_fileInfo.size();
-   if (newSize != oldSize) {
-      emit sizeChanged(oldSize, newSize);
+   if (newSize != offset) {
+      setSizeOffset(newSize);
+      emit sizeChanged(offset, newSize);
    }
 }
 

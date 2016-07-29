@@ -32,6 +32,7 @@ private Q_SLOTS:
    void testSetGetFilePath();
    void testSizeChanged();
    void testFileCheckTimer();
+   void testSizeOffset();
 };
 
 FileWatcherTest::FileWatcherTest()
@@ -141,6 +142,58 @@ void FileWatcherTest::testFileCheckTimer()
    spy.wait(5000);
 
    QVERIFY2(spy.count() == 1, "Signal wasn't emitted, after setting update interval explicitly.");
+}
+
+void FileWatcherTest::testSizeOffset()
+{
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSizeOffset.log"));
+
+   // Create a file with content so there is already an offset
+   QFile outFile(filePath);
+   QVERIFY(outFile.open(QIODevice::WriteOnly));
+   QTextStream stream(&outFile);
+
+   stream << "This is the first line\n" << "This is the second line\n";
+   stream.flush();
+   outFile.close();
+
+   qint64 offsetFileSize = outFile.size();
+   Q_ASSERT(offsetFileSize != 0);
+
+   // Now simmulate that the file gets new content until FileWatcher was initialized
+   QVERIFY(outFile.open(QIODevice::Append | QIODevice::Text));
+
+   stream << "This is the last line";
+   stream.flush();
+   outFile.close();
+   Q_ASSERT(outFile.size() > offsetFileSize);
+
+   QScopedPointer<FileWatcher> fileWatcher(new FileWatcher);
+   fileWatcher->setSizeOffset(offsetFileSize);
+
+   // Block QFileSystemWatcher's signal so the sizeChanged signal of FileWatcher will only be
+   // emitted by the timer event
+   fileWatcher->m_fileSystemWatcher->blockSignals(true);
+
+   QSignalSpy spy(fileWatcher.data(), SIGNAL(sizeChanged(qint64, qint64)));
+   fileWatcher->setFilePath(filePath);
+
+   QVERIFY(outFile.open(QIODevice::Append | QIODevice::Text));
+
+   stream << "This is the last line";
+   stream.flush();
+   outFile.close();
+
+   spy.wait(5000);
+
+   QVERIFY2(spy.count() == 1, "Signal for changed size wasn't emitted by timer event.");
+   QVariantList parameters = spy.at(0);
+   Q_ASSERT(parameters.count() == 2);
+
+   qint64 oldSize = parameters.at(0).toInt();
+   qint64 newSize = parameters.at(1).toInt();
+   QVERIFY2(oldSize == offsetFileSize, "Offset size wasn't used as old size");
+   QVERIFY2(newSize == outFile.size(), "New size isn't file's new size");
 }
 
 QTEST_MAIN(FileWatcherTest)

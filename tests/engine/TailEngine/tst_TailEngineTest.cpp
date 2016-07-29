@@ -14,6 +14,7 @@
 #include <engine/TailEngine.h>
 
 #include <MocFileView.h>
+#include <MocFileWatcher.h>
 #include <TestCommon.h>
 
 #include <include/FilterGroup.h>
@@ -29,6 +30,7 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testFileStateAddedLines();
+   void testAddFileWithFileSizeOffset();
    void testFileStateViewHasNoStateFeature();
    void testFileStateRemovedFile();
    void testFileStateRemovedLines();
@@ -78,6 +80,37 @@ void TailEngineTest::testFileStateAddedLines()
 
    QVERIFY2(fileView->fileStateWasSetByInterfaceMethod() == true, "File state wasn't set by engine.");
    QVERIFY2(fileView->fileState() == FileState::FileHasChanged, "File state wasn't set correctly.");
+}
+
+/*!
+ * \brief TailEngineTest::testAddFileWithFileSizeOffset
+ * Adding a file which has already content should result in setting the offset to the FileWatcher.
+ */
+void TailEngineTest::testAddFileWithFileSizeOffset()
+{
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testAddFileWithFileSizeOffset.log"));
+   TailEngine engine;
+
+   QFile outFile(filePath);
+   outFile.open(QIODevice::WriteOnly);
+   QTextStream stream(&outFile);
+   stream << "Test text";
+   stream.flush();
+   outFile.close();
+   Q_ASSERT(outFile.size());
+
+   TestCommon::waitMsecs(100);
+
+   MocFileView *fileView = new MocFileView(this);
+   fileView->setViewFeatures(FileViewInterface::HasTextView);
+   FileView sharedFileView(fileView);
+
+   engine.addFile(QFileInfo(filePath), {sharedFileView});
+
+   qint64 offsetSize = outFile.size();
+   QVERIFY2(fileView->readUntilMaxLength() == offsetSize, "readUntilMaxLength wasn't called with correct size.");
+   TailEngine::FileContext textFileContext = engine.fileContextOfFile(filePath);
+   QVERIFY2(textFileContext.fileWatcher()->sizeOffset() == offsetSize, "Size offset wasn't set in FileWatcher");
 }
 
 void TailEngineTest::testFileStateViewHasNoStateFeature()
@@ -317,7 +350,7 @@ void TailEngineTest::testSetTextViewSettings()
    QVERIFY2(noTextFileView->textViewSettings() != settings, "Text view settings were set on nont text view.");
 
    TailEngine::FileContext textFileContext = engine.fileContextOfFile(textFilePath);
-   FileWatcher *textFileWatcher = textFileContext.fileWatcher();
+   FileWatcherInterface *textFileWatcher = textFileContext.fileWatcher();
    Q_ASSERT(textFileWatcher);
    QVERIFY2(textFileWatcher->updateInterval() == testUpdateInterval, "Update interval wasn't set on filewatcher of file");
 
@@ -341,15 +374,21 @@ void TailEngineTest::testSetTextViewSettings()
 
 void TailEngineTest::testSetFilterGroups()
 {
-   QString activeRuleLine(QStringLiteral("This is the first text line\n"));
    QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesAddedLines.log"));
+   QFileInfo fileInfo(filePath);
    TailEngine engine;
 
    MocFileView *fileView = new MocFileView(this);
    fileView->setViewFeatures(FileViewInterface::HasTextView);
    FileView sharedFileView(fileView);
 
-   engine.addFile(QFileInfo(filePath), {sharedFileView});
+   engine.addFile(fileInfo, {sharedFileView});
+
+   MocFileWatcher *fileWatcher = new MocFileWatcher(this);
+   TailEngine::FileContext textFileContext = engine.fileContextOfFile(fileInfo);
+   delete textFileContext.fileWatcher();
+   textFileContext.setFileWatcher(fileWatcher);
+   engine.setFileContextOfFile(fileInfo, textFileContext);
 
    FilterGroup group1("test group");
    FilterRule activeRule("first text line");
@@ -359,9 +398,27 @@ void TailEngineTest::testSetFilterGroups()
    group1.addFilterRule(activeRule);
    group1.addFilterRule(deactivatedRule);
 
-   engine.setFilterGroupsForFile(QFileInfo(filePath), {group1});
+   // Reset readComplete state because this must be called in setFilterGroups
+   fileView->readCompleteFileUntil(-1);
 
+   QFile outFile(filePath);
+   outFile.open(QIODevice::WriteOnly);
+   QTextStream stream(&outFile);
+   stream << "Test text";
+   stream.flush();
+   outFile.close();
+   Q_ASSERT(outFile.size());
+
+   TestCommon::waitMsecs(100);
+
+   engine.setFilterGroupsForFile(fileInfo, {group1});
+
+   qint64 offsetSize = outFile.size();
    QVERIFY2(fileView->filterGroups() == (QList<FilterGroup>() << group1), "FilterGroups weren't set");
+   QVERIFY2(fileView->readUntilMaxLength() != -1, "readCompleteFileUntil wasn't called on file");
+   QVERIFY2(fileView->readUntilMaxLength() == offsetSize, "readCompleteFileUntil wasn't called with correct size");
+
+   QVERIFY2(fileWatcher->sizeOffset() == offsetSize, "Size offset wasn't set in FileWatcher");
 }
 
 QTEST_MAIN(TailEngineTest)

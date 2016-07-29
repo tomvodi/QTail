@@ -42,7 +42,11 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
               [view] { view->clearTextView(); });
       connect(fileReadLogic, &FileReadLogic::linesAppended,
               [view] (const QStringList &lines) { view->appendLines(lines); });
-      view->readCompleteFileUntil(file.size());
+      qint64 offsetSize = file.size();
+
+      view->readCompleteFileUntil(offsetSize);
+      fileWatcher->setSizeOffset(offsetSize);
+
       view->setTextViewSettings(m_textViewSettings);
    }
    fileReadLogic->setFileWatcher(fileWatcher);
@@ -122,12 +126,26 @@ void TailEngine::setTextViewFont(const QFont &font)
    }
 }
 
+/*!
+ * \brief TailEngine::setFilterGroupsForFile
+ * Set filter groups for a file. This results in:
+ *  - set filter groups in file view
+ *  - trigger a complete read of the file in view
+ * \param file
+ * \param filterGroups
+ */
 void TailEngine::setFilterGroupsForFile(const QFileInfo &file, const QList<FilterGroup> &filterGroups)
 {
    FileContext context = fileContextOfFile(file);
    foreach (FileView fileView, context.fileViews()) {
       if (fileView->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
+         QFileInfo fileInfo = context.fileInfo();
+         fileInfo.refresh();
+         qint64 sizeOffset = fileInfo.size();
+
          fileView->setFilterGroups(filterGroups);
+         fileView->readCompleteFileUntil(sizeOffset);
+         context.fileWatcher()->setSizeOffset(sizeOffset);
       }
    }
 
@@ -190,12 +208,12 @@ void TailEngine::FileContext::setFileInfo(const QFileInfo &fileInfo)
    m_fileInfo = fileInfo;
 }
 
-FileWatcher *TailEngine::FileContext::fileWatcher() const
+FileWatcherInterface *TailEngine::FileContext::fileWatcher() const
 {
    return m_fileWatcher;
 }
 
-void TailEngine::FileContext::setFileWatcher(FileWatcher *fileWatcher)
+void TailEngine::FileContext::setFileWatcher(FileWatcherInterface *fileWatcher)
 {
    m_fileWatcher = fileWatcher;
 }

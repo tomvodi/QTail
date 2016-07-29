@@ -21,7 +21,7 @@
 
 class FileReadLogic;
 class FileViewInterface;
-class FileWatcher;
+class FileWatcherInterface;
 
 typedef QPointer<FileViewInterface> FileView;
 typedef QList<FileView> FileViews;
@@ -58,8 +58,8 @@ private:
       QFileInfo fileInfo() const;
       void setFileInfo(const QFileInfo &fileInfo);
 
-      FileWatcher *fileWatcher() const;
-      void setFileWatcher(FileWatcher *fileWatcher);
+      FileWatcherInterface *fileWatcher() const;
+      void setFileWatcher(FileWatcherInterface *fileWatcher);
 
       FileViews fileViews() const;
       void setFileViews(const FileViews &fileViews);
@@ -71,7 +71,7 @@ private:
    private:
       QFileInfo m_fileInfo;
       FileViews m_fileViews;
-      FileWatcher *m_fileWatcher;
+      FileWatcherInterface *m_fileWatcher;
       FileReadLogic *m_fileReadLogic;
    };
 

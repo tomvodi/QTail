@@ -39,7 +39,6 @@ signals:
 private:
     QPointer<FileWatcherInterface> m_fileWatcher;
     QFile *m_file;
-    qint64 m_oldSize = 0;
 };
 
 #endif // FILEREADLOGIC_H
