@@ -154,6 +154,7 @@ void FilterDialog::on_filterGroupComboBox_currentIndexChanged(int index)
 
    setFilterRules(group.filterRules());
 
+   clearEditWidgetsContent();
    setEditWidgetsContentForCurrentFilterItem();
 }
 
@@ -257,6 +258,12 @@ void FilterDialog::setCurrentFilterGroupDataFromGui()
    ui->filterGroupComboBox->setItemData(currentGroupIndex, QVariant::fromValue<FilterGroup>(filterGroup));
 }
 
+void FilterDialog::clearEditWidgetsContent()
+{
+   ui->caseSensitiveCheckBox->setChecked(false);
+   ui->regexLineEdit->clear();
+}
+
 void FilterDialog::setEditWidgetsContentForCurrentFilterItem()
 {
    QListWidgetItem *currentItem = ui->filtersListWidget->currentItem();
@@ -265,6 +272,7 @@ void FilterDialog::setEditWidgetsContentForCurrentFilterItem()
    }
 
    ui->regexLineEdit->setText(currentItem->text());
+   ui->caseSensitiveCheckBox->setChecked(currentItem->data(CaseSensitiveDataRole).toBool());
 }
 
 void FilterDialog::checkForEnabledDeleteFilterGroupButton()

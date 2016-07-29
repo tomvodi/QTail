@@ -55,6 +55,7 @@ private:
    void setFilterRules(const QList<FilterRule> &filters);
    void addFilterRuleItem(const FilterRule &filterRule);
    void setCurrentFilterGroupDataFromGui();
+   void clearEditWidgetsContent();
    void setEditWidgetsContentForCurrentFilterItem();
    void checkForEnabledDeleteFilterGroupButton();
    QList<FilterGroup> filterGroups() const;
