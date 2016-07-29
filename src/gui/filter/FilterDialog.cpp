@@ -219,7 +219,6 @@ void FilterDialog::addFilterRuleItem(const FilterRule &filterRule)
    QListWidgetItem *newItem = new QListWidgetItem(filterRule.filter());
    newItem->setData(CaseSensitiveDataRole, (filterRule.caseSensitivity() == Qt::CaseSensitive));
    newItem->setFlags(newItem->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
-   newItem->setCheckState(filterRule.isActive() ? Qt::Checked : Qt::Unchecked);
 
    ui->filtersListWidget->addItem(newItem);
    ui->filtersListWidget->setCurrentItem(newItem);
@@ -243,7 +242,6 @@ void FilterDialog::setCurrentFilterGroupDataFromGui()
       bool caseSensitive = item->data(CaseSensitiveDataRole).toBool();
       rule.setCaseSensitivity(caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
       rule.setFilter(item->text());
-      rule.setActive(item->checkState() == Qt::Checked ? true : false);
       filterRules << rule;
    }
 

@@ -194,8 +194,6 @@ void FilterDialogTest::testCurrentItemChanged()
    QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
    Q_ASSERT(currentItem);
 
-   Q_ASSERT(currentItem->checkState() != Qt::Unchecked); // Default filters are active
-   currentItem->setCheckState(Qt::Unchecked);
    currentItem->setText(testText);
 
    QVERIFY2(dialog.ui->regexLineEdit->text() == testText, "Text wasn't set from line edit to list item");
@@ -209,8 +207,6 @@ void FilterDialogTest::testCurrentItemChanged()
             "Filters data weren't set to current selected group");
    FilterRule filterRuleFromData = groupFromCombobox.filterRules().at(0);
    QVERIFY2(filterRuleFromData.filter() == testText, "Wrong filter text in rule");
-   // Checked state (active) should be false because checked state was set to Qt::Unchecked
-   QVERIFY2(filterRuleFromData.isActive() == false, "Wrong active state in rule");
 }
 
 /*!
@@ -277,7 +273,6 @@ void FilterDialogTest::testAddFilterRuleItem()
    QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "Rule wasn't added to filter list widget");
    QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
    QVERIFY2(currentItem->text() == testRule.filter(), "New rule isn't set as current item");
-   QVERIFY2(currentItem->checkState() == checkedState, "Wrong checked state of item");
 }
 
 void FilterDialogTest::teston_addFilterButton_clicked()
