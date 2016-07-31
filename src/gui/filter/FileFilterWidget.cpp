@@ -28,6 +28,81 @@ void FileFilterWidget::setFilterGroups(const QList<FilterGroup> &groups)
    setUiForFilterGroups(groups);
 }
 
+void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column)
+{
+   switch (item->type()) {
+   case FilterGroupType:
+      setCheckedStateOfAllChildItems(item, item->checkState(0));
+      break;
+   case FilterRuleType:
+      setCheckedStateOfParentAccordingToChildItemState(item, item->checkState(0));
+      break;
+   }
+}
+
+void FileFilterWidget::setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem,
+                                                      Qt::CheckState state)
+{
+   if (parentItem->treeWidget()) {
+      parentItem->treeWidget()->blockSignals(true);
+   }
+
+   for (int i = 0; i < parentItem->childCount(); ++i) {
+      QTreeWidgetItem *childItem = parentItem->child(i);
+      if (!childItem) {
+         continue;
+      }
+      childItem->setCheckState(0, state);
+   }
+
+   if (parentItem->treeWidget()) {
+      parentItem->treeWidget()->blockSignals(false);
+   }
+}
+
+void FileFilterWidget::setCheckedStateOfParentAccordingToChildItemState(const QTreeWidgetItem *childItem,
+                                                                        Qt::CheckState state)
+{
+   QTreeWidgetItem *parentItem = childItem->parent();
+   if (!parentItem) {
+      return;
+   }
+
+   Qt::CheckState parentCheckedState = Qt::Unchecked;
+   bool allChildrenChecked = true;
+
+   for (int i = 0; i < parentItem->childCount(); ++i) {
+      QTreeWidgetItem *childItem = parentItem->child(i);
+      if (!childItem) {
+         continue;
+      }
+      switch (childItem->checkState(0)) {
+      case Qt::Unchecked:
+         allChildrenChecked = false;
+         break;
+      case Qt::Checked:
+         parentCheckedState = Qt::PartiallyChecked;
+         break;
+      case Qt::PartiallyChecked:
+         break;
+      }
+   }
+
+   if (allChildrenChecked) {
+      parentCheckedState = Qt::Checked;
+   }
+
+   if (parentItem->treeWidget()) {
+      parentItem->treeWidget()->blockSignals(true);
+   }
+
+   parentItem->setCheckState(0, parentCheckedState);
+
+   if (parentItem->treeWidget()) {
+      parentItem->treeWidget()->blockSignals(false);
+   }
+}
+
 void FileFilterWidget::setUiForFilterGroups(const QList<FilterGroup> &groups)
 {
    ui->treeWidget->clear();

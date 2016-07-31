@@ -16,6 +16,7 @@
 namespace Ui {
 class FileFilterWidget;
 }
+class QTreeWidgetItem;
 
 /*!
  * \brief The FileFilterWidget class
@@ -33,12 +34,18 @@ public:
 
    void setFilterGroups(const QList<FilterGroup> &groups);
 
+private slots:
+   void on_treeWidget_itemChanged(QTreeWidgetItem *item, int column);
+
 private:
    enum TreeItemType {
       FilterGroupType,
       FilterRuleType
    };
    void setUiForFilterGroups(const QList<FilterGroup> &groups);
+   void setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem, Qt::CheckState state);
+   void setCheckedStateOfParentAccordingToChildItemState(const QTreeWidgetItem *childItem,
+                                                         Qt::CheckState state);
    Ui::FileFilterWidget *ui;
    QList<FilterGroup> m_filterGroups;
 };
