@@ -29,6 +29,7 @@
 
 #include "PreferencesDialog.h"
 #include "filter/FilterDialog.h"
+#include "filter/FileFilterWidget.h"
 #include "AboutDialog.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -39,7 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
    m_settings(new Settings),
    m_highlightingDialog(new HighlightingDialog(this)),
    m_preferencesDialog(new PreferencesDialog(this)),
-   m_filterDialog(new FilterDialog(this))
+   m_filterDialog(new FilterDialog(this)),
+   m_fileFilterWidget(new FileFilterWidget(this))
 {
    ui->setupUi(this);
 
@@ -47,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
    m_highlightingDialog->setHighlightingRules(m_settings->lineHighlightingRules(),
                                               m_settings->wordHighlightingRules());
    m_filterDialog->setFilterGroups(m_settings->filterGroups());
+   m_fileFilterWidget->setFilterGroups(m_settings->filterGroups());
+   ui->filterDockWidgetContentLayout->addWidget(m_fileFilterWidget);
 
    m_tailEngine = new TailEngine(this);
    TextViewSettings textViewSettings;
@@ -193,6 +197,7 @@ void MainWindow::createConnections()
    connect(m_filterDialog, &FilterDialog::filterGroupsChanged,
            [this] (const QList<FilterGroup> &filterGroups) {
       m_settings->setFilterGroups(filterGroups);
+      m_fileFilterWidget->setFilterGroups(filterGroups);
    });
 }
 

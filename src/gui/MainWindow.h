@@ -25,6 +25,7 @@ class QListWidgetItem;
 class HighlightingDialog;
 class PreferencesDialog;
 class FilterDialog;
+class FileFilterWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -89,6 +90,7 @@ private:
    HighlightingDialog *m_highlightingDialog;
    PreferencesDialog *m_preferencesDialog;
    FilterDialog *m_filterDialog;
+   FileFilterWidget *m_fileFilterWidget;
 };
 
 #endif // MAINWINDOW_H

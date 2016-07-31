@@ -85,3 +85,8 @@ void PlainTextView::setTextViewSettings(const TextViewSettings &settings)
    m_textDocument->setDefaultFont(settings.font());
    m_textEdit->setLineWrapOn(settings.lineWrapOn());
 }
+
+void PlainTextView::setFilterGroups(const QList<FilterGroup> &filterGroups)
+{
+
+}

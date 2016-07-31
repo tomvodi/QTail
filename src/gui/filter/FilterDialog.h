@@ -20,6 +20,10 @@ class FilterRule;
 class QListWidgetItem;
 class QAbstractButton;
 
+/*!
+ * \brief The FilterDialog class
+ * A dialog to configure all filter groups and their filter rules.
+ */
 class FilterDialog : public QDialog
 {
    Q_OBJECT
