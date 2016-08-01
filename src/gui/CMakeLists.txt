@@ -32,6 +32,10 @@ set(Project_Sources
   filter/FileFilterWidget.cpp
 )
 
+if (WIN32)
+    list(APPEND Project_Sources windows_resources.rc)
+endif()
+
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/QTail_version.h)
 
