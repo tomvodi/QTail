@@ -134,7 +134,9 @@ void FilterDialog::on_caseSensitiveCheckBox_toggled(bool checked)
       return;
    }
 
-   currentItem->setData(CaseSensitiveDataRole, checked);
+   FilterRule itemRule = filterRuleFromItem(currentItem);
+   itemRule.setCaseSensitivity(checked ? Qt::CaseSensitive : Qt::CaseInsensitive);
+   setFilterRuleInItem(currentItem, itemRule);
 }
 
 void FilterDialog::on_filtersListWidget_itemChanged(QListWidgetItem *item)
@@ -218,8 +220,8 @@ void FilterDialog::setFilterRules(const QList<FilterRule> &filters)
 void FilterDialog::addFilterRuleItem(const FilterRule &filterRule)
 {
    QListWidgetItem *newItem = new QListWidgetItem(filterRule.filter());
-   newItem->setData(CaseSensitiveDataRole, (filterRule.caseSensitivity() == Qt::CaseSensitive));
    newItem->setFlags(newItem->flags() | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+   setFilterRuleInItem(newItem, filterRule);
 
    ui->filtersListWidget->addItem(newItem);
    ui->filtersListWidget->setCurrentItem(newItem);
@@ -239,10 +241,7 @@ void FilterDialog::setCurrentFilterGroupDataFromGui()
          continue;
       }
 
-      FilterRule rule;
-      bool caseSensitive = item->data(CaseSensitiveDataRole).toBool();
-      rule.setCaseSensitivity(caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
-      rule.setFilter(item->text());
+      FilterRule rule = filterRuleFromItem(item);
       filterRules << rule;
    }
 
@@ -271,8 +270,9 @@ void FilterDialog::setEditWidgetsContentForCurrentFilterItem()
       return;
    }
 
-   ui->regexLineEdit->setText(currentItem->text());
-   ui->caseSensitiveCheckBox->setChecked(currentItem->data(CaseSensitiveDataRole).toBool());
+   FilterRule currentRule = filterRuleFromItem(currentItem);
+   ui->regexLineEdit->setText(currentRule.filter());
+   ui->caseSensitiveCheckBox->setChecked(currentRule.caseSensitivity() == Qt::CaseSensitive);
 }
 
 void FilterDialog::checkForEnabledDeleteFilterGroupButton()
@@ -282,4 +282,20 @@ void FilterDialog::checkForEnabledDeleteFilterGroupButton()
    } else {
       ui->deleteGroupButton->setEnabled(true);
    }
+}
+
+FilterRule FilterDialog::filterRuleFromItem(QListWidgetItem *item)
+{
+   QVariant ruleData = item->data(FilterRuleDataRole);
+   FilterRule rule = ruleData.value<FilterRule>();
+
+   // If item text was edited, set it in rule
+   rule.setFilter(item->text());
+
+   return rule;
+}
+
+void FilterDialog::setFilterRuleInItem(QListWidgetItem *item, const FilterRule &rule)
+{
+   item->setData(FilterRuleDataRole, QVariant::fromValue<FilterRule>(rule));
 }

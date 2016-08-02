@@ -53,6 +53,7 @@ private slots:
 
 private:
    static const int CaseSensitiveDataRole = Qt::UserRole + 1;
+   static const int FilterRuleDataRole = Qt::UserRole + 2;
    void addDefaultGroup();
    void setCurrentGroupName(const QString &newName);
    void addGroup(const FilterGroup &group);
@@ -62,6 +63,8 @@ private:
    void clearEditWidgetsContent();
    void setEditWidgetsContentForCurrentFilterItem();
    void checkForEnabledDeleteFilterGroupButton();
+   FilterRule filterRuleFromItem(QListWidgetItem *item);
+   void setFilterRuleInItem(QListWidgetItem *item, const FilterRule &rule);
    QList<FilterGroup> filterGroups() const;
    Ui::FilterDialog *ui;
 };

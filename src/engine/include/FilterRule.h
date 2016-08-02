@@ -12,6 +12,8 @@
 #include <QString>
 #include <QJsonObject>
 #include <QSharedDataPointer>
+#include <QUuid>
+#include <QMetaType>
 
 class FilterRuleData;
 
@@ -24,6 +26,9 @@ public:
    FilterRule &operator=(const FilterRule &);
    bool operator==(const FilterRule &other) const;
    ~FilterRule();
+
+   QUuid id() const;
+   void setId(const QUuid &id);
 
    QString filter() const;
    void setFilter(const QString &regEx);
@@ -40,5 +45,7 @@ public:
 private:
    QSharedDataPointer<FilterRuleData> data;
 };
+
+Q_DECLARE_METATYPE(FilterRule)
 
 #endif // FILTERRULE_H

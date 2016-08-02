@@ -134,8 +134,9 @@ void FilterDialogTest::testAddFilter()
    QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();
    Q_ASSERT(currentItem);
 
-   bool currentItemCaseSensitive = currentItem->data(FilterDialog::CaseSensitiveDataRole).toBool();
-   QVERIFY2(currentItemCaseSensitive == true, "Case sensitive data wasn't set from checbox.");
+   FilterRule currentRule = dialog.filterRuleFromItem(currentItem);
+   QVERIFY2(currentRule.caseSensitivity() == Qt::CaseSensitive,
+            "Case sensitive data wasn't set from checbox.");
    QVERIFY2(currentItem->flags().testFlag(Qt::ItemIsEditable), "New item isn't editable");
 }
 
@@ -306,7 +307,13 @@ void FilterDialogTest::teston_addFilterButton_clicked()
    QVERIFY2(groupFromCombobox.filterRules().count() == 2,
             "New filter rule wasn't added to group from combo box");
 
+   // Modify testRule so that it has the same id as the id of the FilterRule that was generated
+   // in the dialog. This makes it possible to compare the filter rule lists
+   FilterRule testRuleFromDialog = dialog.filterRuleFromItem(dialog.ui->filtersListWidget->item(1));
+   testRule.setId(testRuleFromDialog.id());
+
    filterGroup1.setFilterRules({filterRule1, testRule});
+   auto groupBoxRules = groupFromCombobox.filterRules();
    QVERIFY2(groupFromCombobox.filterRules() == filterGroup1.filterRules(),
             "Filter rules don't match between group from combo box and test group");
 }

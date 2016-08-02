@@ -8,6 +8,7 @@
 
 #include "include/FilterRule.h"
 
+const QString IdValueName("id");
 const QString FilterValueName("filter");
 const QString CaseSensitivityValueName("case");
 const QString ActiveValueName("active");
@@ -18,20 +19,26 @@ public:
    QString filter;
    Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive;
    bool active = true;
+   QUuid id;
+
+   void init();
 };
 
-FilterRule::FilterRule() : data(new FilterRuleData)
+FilterRule::FilterRule()
+   : data(new FilterRuleData)
 {
-
+   data->init();
 }
 
 FilterRule::FilterRule(const QString &regEx)
    : data(new FilterRuleData)
 {
+   data->init();
    setFilter(regEx);
 }
 
-FilterRule::FilterRule(const FilterRule &rhs) : data(rhs.data)
+FilterRule::FilterRule(const FilterRule &rhs)
+   : data(rhs.data)
 {
 
 }
@@ -45,6 +52,10 @@ FilterRule &FilterRule::operator=(const FilterRule &rhs)
 
 bool FilterRule::operator==(const FilterRule &other) const
 {
+   if (data->id != other.id()) {
+      return false;
+   }
+
    if (data->caseSensitivity != other.caseSensitivity()) {
       return false;
    }
@@ -62,6 +73,16 @@ bool FilterRule::operator==(const FilterRule &other) const
 
 FilterRule::~FilterRule()
 {
+}
+
+QUuid FilterRule::id() const
+{
+   return data->id;
+}
+
+void FilterRule::setId(const QUuid &id)
+{
+   data->id = id;
 }
 
 QString FilterRule::filter() const
@@ -98,6 +119,7 @@ QJsonObject FilterRule::toJson() const
 {
    QJsonObject json;
 
+   json.insert(IdValueName, data->id.toString());
    json.insert(FilterValueName, data->filter);
    json.insert(ActiveValueName, data->active);
    json.insert(CaseSensitivityValueName, static_cast<int>(data->caseSensitivity));
@@ -107,7 +129,13 @@ QJsonObject FilterRule::toJson() const
 
 void FilterRule::fromJson(const QJsonObject &json)
 {
+   data->id = QUuid(json.value(IdValueName).toString());
    data->filter = json.value(FilterValueName).toString();
    data->active = json.value(ActiveValueName).toBool();
    data->caseSensitivity = static_cast<Qt::CaseSensitivity>(json.value(CaseSensitivityValueName).toInt());
+}
+
+void FilterRuleData::init()
+{
+   id = QUuid::createUuid();
 }
