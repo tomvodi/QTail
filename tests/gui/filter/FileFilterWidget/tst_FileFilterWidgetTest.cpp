@@ -25,7 +25,7 @@ public:
 private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
-   void testSetFilterGroups();
+   void testSetFilterGroupsDefault();
 };
 
 FileFilterWidgetTest::FileFilterWidgetTest()
@@ -40,7 +40,7 @@ void FileFilterWidgetTest::cleanupTestCase()
 {
 }
 
-void FileFilterWidgetTest::testSetFilterGroups()
+void FileFilterWidgetTest::testSetFilterGroupsDefault()
 {
    FileFilterWidget widget;
 

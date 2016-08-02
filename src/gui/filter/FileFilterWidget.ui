@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
-    <height>466</height>
+    <width>333</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,6 +54,13 @@
        <string notr="true">1</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="applyFiltersButton">
+     <property name="text">
+      <string>Apply File Filters</string>
+     </property>
     </widget>
    </item>
   </layout>
