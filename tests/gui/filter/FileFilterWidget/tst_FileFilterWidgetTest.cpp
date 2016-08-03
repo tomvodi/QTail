@@ -28,6 +28,7 @@ private Q_SLOTS:
    void testSetFilterGroupsDefault();
    void testSetActiveFilterIds();
    void testActiveFilterIdsAfterSettingFilterGroups();
+   void testEmitActiveFilterIdsChanged();
 };
 
 FileFilterWidgetTest::FileFilterWidgetTest()
@@ -120,6 +121,40 @@ void FileFilterWidgetTest::testActiveFilterIdsAfterSettingFilterGroups()
    Q_ASSERT(ruleItem.count());
 
    QVERIFY2(ruleItem.at(0)->checkState(0) == Qt::Checked, "Active rule has been unchecked after setting new filter groups");
+}
+
+/*!
+ * \brief FileFilterWidgetTest::testEmitActiveFilterIdsChanged
+ * Adding an active rule view code and activating a rule via gui.
+ * After that, a click on the apply filters button should result in a list with
+ * both ids, the filter id of the previously activated item and the item selected in
+ * the ui.
+ */
+void FileFilterWidgetTest::testEmitActiveFilterIdsChanged()
+{
+   FileFilterWidget widget;
+   QSignalSpy spy(&widget, SIGNAL(activeFilterIdsChanged(QList<QUuid>)));
+
+   FilterGroup group("Test Group");
+   FilterRule rule("Test Rule");
+   FilterRule codeActiveRule("Test Rule 2");
+   FilterRule uiActiveRule("Test Rule UI");
+   group.addFilterRule(rule);
+   group.addFilterRule(codeActiveRule);
+   group.addFilterRule(uiActiveRule);
+
+   widget.setFilterGroups({group});
+   widget.setActiveFilterIds({codeActiveRule.id()});
+
+   QList<QTreeWidgetItem*> ruleItems = widget.ui->treeWidget->findItems(uiActiveRule.filter(), Qt::MatchRecursive);
+   Q_ASSERT(ruleItems.count());
+   ruleItems.at(0)->setCheckState(0, Qt::Checked);
+
+   widget.ui->applyFiltersButton->clicked();
+   QVERIFY2(spy.count() == 1, "active filter ids changed signal wasn't emitted.");
+   QVariantList parameters = spy.at(0);
+   QList<QUuid> activeFilters = parameters.at(0).value<QList<QUuid> >();
+   QVERIFY2(activeFilters.count() == 2, "Not all active filters were in the emitted parameter");
 }
 
 QTEST_MAIN(FileFilterWidgetTest)

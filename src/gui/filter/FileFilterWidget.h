@@ -36,8 +36,12 @@ public:
 
    void setActiveFilterIds(const QList<QUuid> &filterRuleIds);
 
+signals:
+   void activeFilterIdsChanged(const QList<QUuid>  &filterRuleIds);
+
 private slots:
    void on_treeWidget_itemChanged(QTreeWidgetItem *item, int column);
+   void on_applyFiltersButton_clicked();
 
 private:
    enum TreeItemType {

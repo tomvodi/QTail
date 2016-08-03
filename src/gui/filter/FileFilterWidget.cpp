@@ -46,6 +46,40 @@ void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int colu
    }
 }
 
+void FileFilterWidget::on_applyFiltersButton_clicked()
+{
+   QList<QUuid> activeFilterRules;
+
+   QTreeWidgetItemIterator it(ui->treeWidget);
+   while (*it) {
+
+      if ((*it)->type() == FilterGroupType) {
+         ++it;
+         continue;
+      }
+
+      Qt::CheckState checkedState = (*it)->checkState(0);
+      if (checkedState == Qt::Checked) {
+         QUuid itemId = (*it)->data(0, FilterIdDataRole).toUuid();
+         if (itemId.isNull()) {
+            ++it;
+            continue;
+         }
+
+         activeFilterRules.append(itemId);
+      }
+
+      ++it;
+   }
+
+   if (m_activeFilterRules == activeFilterRules) {
+      return;
+   }
+
+   m_activeFilterRules = activeFilterRules;
+   emit activeFilterIdsChanged(m_activeFilterRules);
+}
+
 void FileFilterWidget::setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem,
                                                       Qt::CheckState state)
 {
