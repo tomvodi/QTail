@@ -26,6 +26,7 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testSetFilterGroupsDefault();
+   void testSetActiveFilterIds();
 };
 
 FileFilterWidgetTest::FileFilterWidgetTest()
@@ -52,6 +53,38 @@ void FileFilterWidgetTest::testSetFilterGroupsDefault()
 
    QVERIFY2(widget.ui->treeWidget->topLevelItemCount() == 1, "Group wasn't added to tree widget");
    QVERIFY2(widget.ui->treeWidget->topLevelItem(0)->childCount() == 1, "Rule wasn't added to tree widget");
+
+   QTreeWidgetItemIterator it(widget.ui->treeWidget);
+   bool atLeastOneItemIsChecked = false;
+   while (*it) {
+      if ((*it)->checkState(0) == Qt::Checked) {
+         atLeastOneItemIsChecked = true;
+         break;
+      }
+      ++it;
+   }
+
+   QVERIFY2(!atLeastOneItemIsChecked, "At least one item is checked");
+}
+
+void FileFilterWidgetTest::testSetActiveFilterIds()
+{
+   FileFilterWidget widget;
+
+   FilterGroup group("Test Group");
+   FilterRule rule("Test Rule");
+   FilterRule rule2("Test Rule 2");
+   group.addFilterRule(rule);
+   group.addFilterRule(rule2);
+
+   widget.setFilterGroups({group});
+   widget.setActiveFilterIds({rule2.id()});
+
+   QVERIFY2(widget.ui->treeWidget->topLevelItemCount() == 1, "Group wasn't added to tree widget");
+   QList<QTreeWidgetItem*> ruleItem = widget.ui->treeWidget->findItems(rule2.filter(), Qt::MatchRecursive);
+   Q_ASSERT(ruleItem.count());
+
+   QVERIFY2(ruleItem.at(0)->checkState(0) == Qt::Checked, "Active rule wasn't checked");
 }
 
 QTEST_MAIN(FileFilterWidgetTest)

@@ -34,6 +34,8 @@ public:
 
    void setFilterGroups(const QList<FilterGroup> &groups);
 
+   void setActiveFilterIds(const QList<QUuid> &filterRuleIds);
+
 private slots:
    void on_treeWidget_itemChanged(QTreeWidgetItem *item, int column);
 
@@ -42,6 +44,7 @@ private:
       FilterGroupType,
       FilterRuleType
    };
+   static const int FilterIdDataRole = Qt::UserRole + 1;
    void setUiForFilterGroups(const QList<FilterGroup> &groups);
    void setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem, Qt::CheckState state);
    void setCheckedStateOfParentAccordingToChildItemState(const QTreeWidgetItem *childItem,
