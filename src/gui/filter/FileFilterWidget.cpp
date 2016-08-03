@@ -30,21 +30,8 @@ void FileFilterWidget::setFilterGroups(const QList<FilterGroup> &groups)
 
 void FileFilterWidget::setActiveFilterIds(const QList<QUuid> &filterRuleIds)
 {
-   QTreeWidgetItemIterator it(ui->treeWidget);
-   while (*it) {
-      QUuid itemId = (*it)->data(0, FilterIdDataRole).toUuid();
-      if (itemId.isNull()) {
-         ++it;
-         continue;
-      }
-
-      if (filterRuleIds.contains(itemId)) {
-         (*it)->setCheckState(0, Qt::Checked);
-      } else {
-         (*it)->setCheckState(0, Qt::Unchecked);
-      }
-      ++it;
-   }
+   m_activeFilterRules = filterRuleIds;
+   applyActiveFilterRules();
 }
 
 void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column)
@@ -122,6 +109,30 @@ void FileFilterWidget::setCheckedStateOfParentAccordingToChildItemState(const QT
    }
 }
 
+void FileFilterWidget::applyActiveFilterRules()
+{
+   QTreeWidgetItemIterator it(ui->treeWidget);
+   while (*it) {
+      if ((*it)->type() == FilterGroupType) {
+         ++it;
+         continue;
+      }
+
+      QUuid itemId = (*it)->data(0, FilterIdDataRole).toUuid();
+      if (itemId.isNull()) {
+         ++it;
+         continue;
+      }
+
+      if (m_activeFilterRules.contains(itemId)) {
+         (*it)->setCheckState(0, Qt::Checked);
+      } else {
+         (*it)->setCheckState(0, Qt::Unchecked);
+      }
+      ++it;
+   }
+}
+
 void FileFilterWidget::setUiForFilterGroups(const QList<FilterGroup> &groups)
 {
    ui->treeWidget->clear();
@@ -146,4 +157,6 @@ void FileFilterWidget::setUiForFilterGroups(const QList<FilterGroup> &groups)
    }
 
    ui->treeWidget->insertTopLevelItems(0, groupItems);
+
+   applyActiveFilterRules();
 }

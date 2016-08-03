@@ -268,8 +268,6 @@ void FilterDialogTest::testAddFilterRuleItem()
    testRule.setFilter("test test test");
    Q_ASSERT(testRule.isActive());
 
-   Qt::CheckState checkedState = testRule.isActive() ? Qt::Checked : Qt::Unchecked;
-
    dialog.addFilterRuleItem(testRule);
    QVERIFY2(dialog.ui->filtersListWidget->count() == 2, "Rule wasn't added to filter list widget");
    QListWidgetItem *currentItem = dialog.ui->filtersListWidget->currentItem();

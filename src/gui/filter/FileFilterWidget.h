@@ -49,8 +49,10 @@ private:
    void setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem, Qt::CheckState state);
    void setCheckedStateOfParentAccordingToChildItemState(const QTreeWidgetItem *childItem,
                                                          Qt::CheckState state);
+   void applyActiveFilterRules();
    Ui::FileFilterWidget *ui;
    QList<FilterGroup> m_filterGroups;
+   QList<QUuid> m_activeFilterRules;
 };
 
 #endif // FILEFILTERWIDGET_H

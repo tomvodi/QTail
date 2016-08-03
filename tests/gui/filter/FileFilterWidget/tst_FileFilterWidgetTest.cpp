@@ -27,6 +27,7 @@ private Q_SLOTS:
    void cleanupTestCase();
    void testSetFilterGroupsDefault();
    void testSetActiveFilterIds();
+   void testActiveFilterIdsAfterSettingFilterGroups();
 };
 
 FileFilterWidgetTest::FileFilterWidgetTest()
@@ -85,6 +86,40 @@ void FileFilterWidgetTest::testSetActiveFilterIds()
    Q_ASSERT(ruleItem.count());
 
    QVERIFY2(ruleItem.at(0)->checkState(0) == Qt::Checked, "Active rule wasn't checked");
+}
+
+/*!
+ * \brief FileFilterWidgetTest::testActiveFilterIdsAfterSettingFilterGroups
+ * If this happened:
+ * - FilterGroups were set
+ * - Some filters were activated (checked)
+ * - New FilterGroups were set
+ * The previously activated filter rules with the same id must be still activated.
+ */
+void FileFilterWidgetTest::testActiveFilterIdsAfterSettingFilterGroups()
+{
+   FileFilterWidget widget;
+
+   FilterGroup defaultGroup("Test Group");
+   FilterRule rule1("Test Rule");
+   FilterRule activeRule("Test Rule 2");
+   defaultGroup.addFilterRule(rule1);
+   defaultGroup.addFilterRule(activeRule);
+
+   widget.setFilterGroups({defaultGroup});
+   widget.setActiveFilterIds({activeRule.id()});
+
+   FilterGroup newGroup("Overwrite Group");
+   newGroup.addFilterRule(FilterRule("New first rule"));
+   newGroup.addFilterRule(FilterRule("A new second rule"));
+   newGroup.addFilterRule(activeRule);
+
+   widget.setFilterGroups({newGroup});
+
+   QList<QTreeWidgetItem*> ruleItem = widget.ui->treeWidget->findItems(activeRule.filter(), Qt::MatchRecursive);
+   Q_ASSERT(ruleItem.count());
+
+   QVERIFY2(ruleItem.at(0)->checkState(0) == Qt::Checked, "Active rule has been unchecked after setting new filter groups");
 }
 
 QTEST_MAIN(FileFilterWidgetTest)
