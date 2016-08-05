@@ -22,6 +22,7 @@ set(Project_Sources
   file_views/LineNumberArea.cpp
 
   tools/Settings.cpp
+  tools/OpenFileSettings.cpp
 
   highlighting/HighlightingDialog.cpp
   highlighting/ColorPicker.cpp
