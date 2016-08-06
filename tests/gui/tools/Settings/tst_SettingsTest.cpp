@@ -17,6 +17,7 @@
 #include <include/FilterGroup.h>
 #include <include/HighlightingRule.h>
 #include <TestCommon.h>
+#include <tools/OpenFileSettings.h>
 
 class SettingsTest : public QObject
 {
@@ -37,6 +38,7 @@ private Q_SLOTS:
    void testTextViewLineWrap();
    void testTextViewUpdateInterval();
    void testFilterGroups();
+   void testOpenFileSettings();
 };
 
 SettingsTest::SettingsTest()
@@ -174,6 +176,25 @@ void SettingsTest::testFilterGroups()
    settings.setFilterGroups(groups);
 
    QVERIFY2(settings.filterGroups() == groups, "Failed save/restore filter groups");
+}
+
+void SettingsTest::testOpenFileSettings()
+{
+   QString fileName("file 1");
+   OpenFileSettings fileSettings;
+   fileSettings.setActiveFilterIds({QUuid::createUuid(), QUuid::createUuid()});
+
+   Settings settings;
+   settings.setOpenFileSettingsForFile(fileName, fileSettings);
+
+   OpenFileSettings storedSettings = settings.openFileSettingsForFile(fileName);
+
+   QVERIFY2(storedSettings == fileSettings, "Settings aren't the same as the stored ones");
+
+   // Test remove
+   settings.removeFileSettingsForFile(fileName);
+   storedSettings = settings.openFileSettingsForFile(fileName);
+   QVERIFY2(storedSettings == OpenFileSettings(), "Settings returned non empty file settings for removed settings");
 }
 
 QTEST_MAIN(SettingsTest)

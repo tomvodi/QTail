@@ -9,6 +9,7 @@ set(source_files
    ${source_dir}/gui/PreferencesDialog.cpp
    ${source_dir}/gui/highlighting/FontPicker.cpp
    ${source_dir}/gui/tools/Settings.cpp
+   ${source_dir}/gui/tools/OpenFileSettings.cpp
 )
 
 set(ui_files

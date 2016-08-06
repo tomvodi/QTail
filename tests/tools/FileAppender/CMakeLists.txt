@@ -18,6 +18,7 @@ set(Project_Sources
   views/FileConfigPage.cpp
 
   ${QTail_Source_Dir}/tools/Settings.cpp
+  ${QTail_Source_Dir}/tools/OpenFileSettings.cpp
 )
 
 

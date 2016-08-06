@@ -13,6 +13,7 @@
 #include <QSettings>
 #include <QSharedPointer>
 #include <QMetaType>
+#include "OpenFileSettings.h"
 
 class HighlightingRule;
 class FilterGroup;
@@ -60,6 +61,10 @@ public:
 
    QList<FilterGroup> filterGroups() const;
    void setFilterGroups(const QList<FilterGroup> &filterGroups);
+
+   OpenFileSettings openFileSettingsForFile(const QString &file);
+   void setOpenFileSettingsForFile(const QString &file, const OpenFileSettings &fileSettings);
+   void removeFileSettingsForFile(const QString &file);
 
 private:
    QStringList highlightingListToStringList(const QList<HighlightingRule> &rules) const;

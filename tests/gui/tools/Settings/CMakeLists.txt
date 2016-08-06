@@ -8,6 +8,7 @@ find_package( Qt5Test REQUIRED )
 set( Test_SOURCES
   tst_${testname}.cpp
   ${source_dir}/gui/tools/Settings.cpp
+  ${source_dir}/gui/tools/OpenFileSettings.cpp
 )
 
 add_executable( ${testname} ${Test_SOURCES} )

@@ -160,6 +160,48 @@ void Settings::setFilterGroups(const QList<FilterGroup> &filterGroups)
    m_settings.setValue(FilterGroupsValueName, groupList);
 }
 
+OpenFileSettings Settings::openFileSettingsForFile(const QString &file)
+{
+   OpenFileSettings fileSettings;
+
+   if (file.isEmpty()) {
+      return fileSettings;
+   }
+
+   m_settings.beginGroup("open file settings");
+   if (!m_settings.childKeys().contains(file)) {
+      return fileSettings;
+   }
+
+   QVariant settingsData = m_settings.value(file);
+   fileSettings = settingsData.value<OpenFileSettings>();
+   m_settings.endGroup();
+
+   return fileSettings;
+}
+
+void Settings::setOpenFileSettingsForFile(const QString &file, const OpenFileSettings &fileSettings)
+{
+   if (file.isEmpty()) {
+      return;
+   }
+
+   m_settings.beginGroup("open file settings");
+   m_settings.setValue(file, QVariant::fromValue<OpenFileSettings>(fileSettings));
+   m_settings.endGroup();
+}
+
+void Settings::removeFileSettingsForFile(const QString &file)
+{
+   if (file.isEmpty()) {
+      return;
+   }
+
+   m_settings.beginGroup("open file settings");
+   m_settings.remove(file);
+   m_settings.endGroup();
+}
+
 QStringList Settings::highlightingListToStringList(const QList<HighlightingRule> &rules) const
 {
    QStringList stringList;
