@@ -130,6 +130,44 @@ void MainWindow::settingsValueHasChanged(Settings::SettingCategory valueType)
    }
 }
 
+void MainWindow::changeActiveFileFiltersOfCurrentFile(const QList<QUuid> &filterRuleIds)
+{
+   QListWidgetItem *currentItem = ui->fileListWidget->currentItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QString filePath = currentItem->data(FilePathDataRole).toString();
+   if (filePath.isEmpty()) {
+      return;
+   }
+
+   qDebug() << "Write file settings for file: " << filePath;
+   OpenFileSettings fileSettings = m_settings->openFileSettingsForFile(filePath);
+   fileSettings.setActiveFilterIds(filterRuleIds);
+   m_settings->setOpenFileSettingsForFile(filePath, fileSettings);
+}
+
+void MainWindow::on_fileListWidget_currentItemChanged(QListWidgetItem *currentItem, QListWidgetItem *previousItem)
+{
+   if (!currentItem) {
+      return;
+   }
+
+   QString filePath = currentItem->data(FilePathDataRole).toString();
+   showFile(filePath);
+   m_tailEngine->setFileActive(filePath, true);
+
+   qDebug() << "Load file settings for file: " << filePath;
+   OpenFileSettings fileSettings = m_settings->openFileSettingsForFile(filePath);
+   m_fileFilterWidget->setActiveFilterIds(fileSettings.activeFilterIds());
+
+   if (previousItem) {
+      QString filePath = previousItem->data(FilePathDataRole).toString();
+      m_tailEngine->setFileActive(filePath, false);
+   }
+}
+
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
    if (event->mimeData()->hasUrls()) {
@@ -171,22 +209,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::createConnections()
 {
-   connect(ui->fileListWidget, &QListWidget::currentItemChanged,
-           [this] (QListWidgetItem *currentItem, QListWidgetItem *previousItem) {
-      if (!currentItem) {
-         return;
-      }
-
-      QString filePath = currentItem->data(FilePathDataRole).toString();
-      showFile(filePath);
-      m_tailEngine->setFileActive(filePath, true);
-
-      if (previousItem) {
-         QString filePath = previousItem->data(FilePathDataRole).toString();
-         m_tailEngine->setFileActive(filePath, false);
-      }
-   });
-
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
            [this] (const QList<HighlightingRule> &lineRules, const QList<HighlightingRule> &wordRules) {
       m_settings->setHighlightingRules(lineRules, wordRules);
@@ -199,6 +221,9 @@ void MainWindow::createConnections()
       m_settings->setFilterGroups(filterGroups);
       m_fileFilterWidget->setFilterGroups(filterGroups);
    });
+
+   connect(m_fileFilterWidget, &FileFilterWidget::activeFilterIdsChanged,
+           this, &MainWindow::changeActiveFileFiltersOfCurrentFile);
 }
 
 /*!

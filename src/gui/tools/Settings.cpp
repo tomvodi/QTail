@@ -168,12 +168,13 @@ OpenFileSettings Settings::openFileSettingsForFile(const QString &file)
       return fileSettings;
    }
 
+   QString base64FileName = file.toUtf8().toBase64();
    m_settings.beginGroup("open file settings");
-   if (!m_settings.childKeys().contains(file)) {
+   if (!m_settings.childKeys().contains(base64FileName)) {
       return fileSettings;
    }
 
-   QVariant settingsData = m_settings.value(file);
+   QVariant settingsData = m_settings.value(base64FileName);
    fileSettings = settingsData.value<OpenFileSettings>();
    m_settings.endGroup();
 
@@ -186,8 +187,9 @@ void Settings::setOpenFileSettingsForFile(const QString &file, const OpenFileSet
       return;
    }
 
+   QString base64FileName = file.toUtf8().toBase64();
    m_settings.beginGroup("open file settings");
-   m_settings.setValue(file, QVariant::fromValue<OpenFileSettings>(fileSettings));
+   m_settings.setValue(base64FileName, QVariant::fromValue<OpenFileSettings>(fileSettings));
    m_settings.endGroup();
 }
 
@@ -197,8 +199,9 @@ void Settings::removeFileSettingsForFile(const QString &file)
       return;
    }
 
+   QString base64FileName = file.toUtf8().toBase64();
    m_settings.beginGroup("open file settings");
-   m_settings.remove(file);
+   m_settings.remove(base64FileName);
    m_settings.endGroup();
 }
 

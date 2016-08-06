@@ -180,7 +180,7 @@ void SettingsTest::testFilterGroups()
 
 void SettingsTest::testOpenFileSettings()
 {
-   QString fileName("file 1");
+   QString fileName("/bla/bla/file 1.txt");
    OpenFileSettings fileSettings;
    fileSettings.setActiveFilterIds({QUuid::createUuid(), QUuid::createUuid()});
 
