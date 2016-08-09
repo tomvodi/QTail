@@ -29,6 +29,7 @@ static const QString MainWindowGeometryValueName("main window geometry");
 static const QString MainWindowStateValueName("main window state");
 
 static const QString FilterGroupsValueName("filter groups");
+static const QString OpenFileSettingsGroupKey("open_file_settings");
 
 Settings::Settings()
 {
@@ -169,8 +170,9 @@ OpenFileSettings Settings::openFileSettingsForFile(const QString &file)
    }
 
    QString base64FileName = file.toUtf8().toBase64();
-   m_settings.beginGroup("open file settings");
+   m_settings.beginGroup(OpenFileSettingsGroupKey);
    if (!m_settings.childKeys().contains(base64FileName)) {
+      m_settings.endGroup();
       return fileSettings;
    }
 
@@ -188,7 +190,7 @@ void Settings::setOpenFileSettingsForFile(const QString &file, const OpenFileSet
    }
 
    QString base64FileName = file.toUtf8().toBase64();
-   m_settings.beginGroup("open file settings");
+   m_settings.beginGroup(OpenFileSettingsGroupKey);
    m_settings.setValue(base64FileName, QVariant::fromValue<OpenFileSettings>(fileSettings));
    m_settings.endGroup();
 }
@@ -200,7 +202,7 @@ void Settings::removeFileSettingsForFile(const QString &file)
    }
 
    QString base64FileName = file.toUtf8().toBase64();
-   m_settings.beginGroup("open file settings");
+   m_settings.beginGroup(OpenFileSettingsGroupKey);
    m_settings.remove(base64FileName);
    m_settings.endGroup();
 }

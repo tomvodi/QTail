@@ -34,19 +34,7 @@ void FileFilterWidget::setActiveFilterIds(const QList<QUuid> &filterRuleIds)
    applyActiveFilterRules();
 }
 
-void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column)
-{
-   switch (item->type()) {
-   case FilterGroupType:
-      setCheckedStateOfAllChildItems(item, item->checkState(0));
-      break;
-   case FilterRuleType:
-      setCheckedStateOfParentAccordingToChildItemState(item, item->checkState(0));
-      break;
-   }
-}
-
-void FileFilterWidget::on_applyFiltersButton_clicked()
+QList<QUuid> FileFilterWidget::activeFilterIds() const
 {
    QList<QUuid> activeFilterRules;
 
@@ -71,6 +59,25 @@ void FileFilterWidget::on_applyFiltersButton_clicked()
 
       ++it;
    }
+
+   return activeFilterRules;
+}
+
+void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column)
+{
+   switch (item->type()) {
+   case FilterGroupType:
+      setCheckedStateOfAllChildItems(item, item->checkState(0));
+      break;
+   case FilterRuleType:
+      setCheckedStateOfParentAccordingToChildItemState(item, item->checkState(0));
+      break;
+   }
+}
+
+void FileFilterWidget::on_applyFiltersButton_clicked()
+{
+   QList<QUuid> activeFilterRules = activeFilterIds();
 
    if (m_activeFilterRules == activeFilterRules) {
       return;

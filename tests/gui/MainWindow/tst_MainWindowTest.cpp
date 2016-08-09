@@ -11,9 +11,11 @@
 #include <QCoreApplication>
 
 #include <TestCommon.h>
+#include <filter/FileFilterWidget.h>
 #include <gui/MainWindow.h>
 #include <gui/file_views/FileListItemWidget.h>
 #include <gui/tools/Settings.h>
+#include <include/FilterGroup.h>
 #include <ui_MainWindow.h>
 
 class MainWindowTest : public QObject
@@ -37,6 +39,7 @@ private Q_SLOTS:
    void testOpenLastOpenedFiles();
    void testOpenRecentFilesMenu();
    void testOpenDir();
+   void testSetGetFileFilterSettings();
 
 private:
    void clearLastOpenedFiles();
@@ -279,6 +282,38 @@ void MainWindowTest::testOpenDir()
    QVERIFY2(window->ui->fileListWidget->count() == 2, "File wasn't opened after triggering a recently opened files action");
 
    delete window;
+}
+
+void MainWindowTest::testSetGetFileFilterSettings()
+{
+   QString filePath1 = TestCommon::generateExistingFileInPath("testSetGetFileFilterSettings");
+   QString filePath2 = TestCommon::generateExistingFileInPath("testSetGetFileFilterSettings2");
+   MainWindow window;
+   window.openFile(filePath1);
+   window.openFile(filePath2);
+
+   QListWidget *listWidget = window.ui->fileListWidget;
+   FileFilterWidget *filterWidget = window.m_fileFilterWidget;
+
+   FilterGroup group("Test Group");
+   FilterRule rule("Test Rule");
+   group.addFilterRule(rule);
+
+   filterWidget->setFilterGroups({group});
+   filterWidget->setActiveFilterIds({rule.id()});
+
+   listWidget->setCurrentRow(0);
+
+   QUuid testUuid = rule.id();
+
+   window.changeActiveFileFiltersOfCurrentFile({testUuid});
+
+   listWidget->setCurrentRow(1);
+
+   listWidget->setCurrentRow(0);
+
+   QVERIFY2(filterWidget->activeFilterIds().contains(testUuid),
+            "Filter ids of first file weren't set to file filter widget.");
 }
 
 void MainWindowTest::clearLastOpenedFiles()

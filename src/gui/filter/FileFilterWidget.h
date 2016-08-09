@@ -35,6 +35,7 @@ public:
    void setFilterGroups(const QList<FilterGroup> &groups);
 
    void setActiveFilterIds(const QList<QUuid> &filterRuleIds);
+   QList<QUuid> activeFilterIds() const;
 
 signals:
    void activeFilterIdsChanged(const QList<QUuid>  &filterRuleIds);
