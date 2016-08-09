@@ -14,6 +14,7 @@
 #include <gui/file_views/PlainTextView.h>
 #include <gui/file_views/PlainTextViewWidget.h>
 #include <TestCommon.h>
+#include <include/FilterRule.h>
 #include <include/TextViewSettings.h>
 
 class PlainTextViewTest : public QObject
@@ -32,6 +33,7 @@ private Q_SLOTS:
    void testClear();
    void testReadCompleteUntil();
    void testSetTextViewSettings();
+   void testSetActiveFilterRules();
 };
 
 PlainTextViewTest::PlainTextViewTest()
@@ -125,6 +127,37 @@ void PlainTextViewTest::testSetTextViewSettings()
 
    QVERIFY2(textView.m_textDocument->defaultFont() == testFont, "Default font wasn't set.");
    QVERIFY2(textView.m_textEdit->lineWrapOn() == settings.lineWrapOn(), "Failed setting line wrap");
+}
+
+void PlainTextViewTest::testSetActiveFilterRules()
+{
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadCompleteUntil.log"));
+
+   QString firstVisibleLine("Test line visible");
+   QString secondVisibleLine("Test line visible 2");
+   QString firstLineFilteredOut(">> Filter out line");
+   QString thirdVisibleLine("Test line visible 3");
+
+   QStringList fileLines({firstVisibleLine, secondVisibleLine, firstLineFilteredOut, thirdVisibleLine});
+   QFile outFile(filePath);
+   outFile.open(QIODevice::WriteOnly);
+   outFile.write(fileLines.join('\n').toUtf8());
+   outFile.close();
+
+   TestCommon::waitMsecs(100);
+
+   PlainTextView textView;
+   QFileInfo fileInfo(filePath);
+   textView.setFileInfo(fileInfo);
+
+   FilterRule filter;
+   filter.setFilter(firstLineFilteredOut);
+   textView.setActiveFilters({filter});
+
+   textView.readCompleteFileUntil(fileInfo.size());
+   Q_ASSERT(textView.m_textDocument->blockCount());
+
+   QVERIFY2(textView.m_textDocument->blockCount() == 3, "Line wasn't filtered out.");
 }
 
 QTEST_MAIN(PlainTextViewTest)

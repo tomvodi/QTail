@@ -8,6 +8,7 @@
 
 #include <QTextDocument>
 #include <QPlainTextDocumentLayout>
+#include <QRegularExpression>
 
 #include <include/TextViewSettings.h>
 
@@ -66,7 +67,37 @@ void PlainTextView::readCompleteFileUntil(qint64 maxLength)
 
    clearTextView();
 
-   m_textEdit->appendPlainText(file.read(maxLength));
+   // No filters => read all
+   if (m_activeFilters.isEmpty()) {
+      m_textEdit->appendPlainText(file.read(maxLength));
+      return;
+   }
+
+   // With filters
+   while (!file.atEnd()) {
+      QString line(file.readLine());
+      if (lineHasToBeFilteredOut(line)) {
+         continue;
+      }
+
+      m_textEdit->appendPlainText(line.trimmed());
+   }
+}
+
+bool PlainTextView::lineHasToBeFilteredOut(const QString &line) const
+{
+   foreach (const FilterRule &filter, m_activeFilters) {
+      QRegularExpression regEx(filter.filter());
+      if (filter.caseSensitivity() == Qt::CaseInsensitive) {
+         regEx.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+      }
+      QRegularExpressionMatch match = regEx.match(line);
+      if (match.hasMatch()) {
+         return true;
+      }
+   }
+
+   return false;
 }
 
 QPointer<QWidget> PlainTextView::widget() const
@@ -88,5 +119,5 @@ void PlainTextView::setTextViewSettings(const TextViewSettings &settings)
 
 void PlainTextView::setActiveFilters(const QList<FilterRule> &filters)
 {
-
+   m_activeFilters = filters;
 }
