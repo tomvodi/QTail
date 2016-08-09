@@ -30,13 +30,13 @@ void FileFilterWidget::setFilterGroups(const QList<FilterGroup> &groups)
 
 void FileFilterWidget::setActiveFilterIds(const QList<QUuid> &filterRuleIds)
 {
-   m_activeFilterRules = filterRuleIds;
-   applyActiveFilterRules();
+   m_activeFilterIds = filterRuleIds;
+   applyActiveFilterIdsToTreeView(m_activeFilterIds);
 }
 
 QList<QUuid> FileFilterWidget::activeFilterIds() const
 {
-   QList<QUuid> activeFilterRules;
+   QList<QUuid> filterIds;
 
    QTreeWidgetItemIterator it(ui->treeWidget);
    while (*it) {
@@ -54,10 +54,26 @@ QList<QUuid> FileFilterWidget::activeFilterIds() const
             continue;
          }
 
-         activeFilterRules.append(itemId);
+         filterIds.append(itemId);
       }
 
       ++it;
+   }
+
+   return filterIds;
+}
+
+QList<FilterRule> FileFilterWidget::activeFilterRules() const
+{
+   QList<FilterRule> activeFilterRules;
+   QList<QUuid> filterIds = activeFilterIds();
+
+   foreach (const FilterGroup &filterGroup, m_filterGroups) {
+      foreach (const FilterRule &filterRule, filterGroup.filterRules()) {
+         if (filterIds.contains(filterRule.id())) {
+            activeFilterRules.append(filterRule);
+         }
+      }
    }
 
    return activeFilterRules;
@@ -77,14 +93,15 @@ void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int colu
 
 void FileFilterWidget::on_applyFiltersButton_clicked()
 {
-   QList<QUuid> activeFilterRules = activeFilterIds();
+   QList<QUuid> filterIds = activeFilterIds();
 
-   if (m_activeFilterRules == activeFilterRules) {
+   if (m_activeFilterIds == filterIds) {
       return;
    }
 
-   m_activeFilterRules = activeFilterRules;
-   emit activeFilterIdsChanged(m_activeFilterRules);
+   m_activeFilterIds = filterIds;
+   QList<FilterRule> activeRules = activeFilterRules();
+   emit activeFilterRulesChanged(activeRules);
 }
 
 void FileFilterWidget::setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem,
@@ -150,7 +167,7 @@ void FileFilterWidget::setCheckedStateOfParentAccordingToChildItemState(const QT
    }
 }
 
-void FileFilterWidget::applyActiveFilterRules()
+void FileFilterWidget::applyActiveFilterIdsToTreeView(const QList<QUuid> &filterRuleIds)
 {
    QTreeWidgetItemIterator it(ui->treeWidget);
    while (*it) {
@@ -165,7 +182,7 @@ void FileFilterWidget::applyActiveFilterRules()
          continue;
       }
 
-      if (m_activeFilterRules.contains(itemId)) {
+      if (filterRuleIds.contains(itemId)) {
          (*it)->setCheckState(0, Qt::Checked);
       } else {
          (*it)->setCheckState(0, Qt::Unchecked);
@@ -199,5 +216,5 @@ void FileFilterWidget::setUiForFilterGroups(const QList<FilterGroup> &groups)
 
    ui->treeWidget->insertTopLevelItems(0, groupItems);
 
-   applyActiveFilterRules();
+   applyActiveFilterIdsToTreeView(m_activeFilterIds);
 }

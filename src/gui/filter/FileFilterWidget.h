@@ -36,9 +36,10 @@ public:
 
    void setActiveFilterIds(const QList<QUuid> &filterRuleIds);
    QList<QUuid> activeFilterIds() const;
+   QList<FilterRule> activeFilterRules() const;
 
 signals:
-   void activeFilterIdsChanged(const QList<QUuid>  &filterRuleIds);
+   void activeFilterRulesChanged(const QList<FilterRule>  &filterRules);
 
 private slots:
    void on_treeWidget_itemChanged(QTreeWidgetItem *item, int column);
@@ -54,10 +55,10 @@ private:
    void setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem, Qt::CheckState state);
    void setCheckedStateOfParentAccordingToChildItemState(const QTreeWidgetItem *childItem,
                                                          Qt::CheckState state);
-   void applyActiveFilterRules();
+   void applyActiveFilterIdsToTreeView(const QList<QUuid> &filterRuleIds);
    Ui::FileFilterWidget *ui;
    QList<FilterGroup> m_filterGroups;
-   QList<QUuid> m_activeFilterRules;
+   QList<QUuid> m_activeFilterIds;
 };
 
 #endif // FILEFILTERWIDGET_H

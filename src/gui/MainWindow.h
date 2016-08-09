@@ -14,6 +14,8 @@
 #include <QPointer>
 #include <QMainWindow>
 
+#include <include/FilterRule.h>
+
 #include "tools/Settings.h"
 
 namespace Ui {
@@ -43,7 +45,7 @@ private slots:
    void on_actionPreferences_triggered();
    void on_actionFilter_triggered();
    void settingsValueHasChanged(Settings::SettingCategory valueType);
-   void changeActiveFileFiltersOfCurrentFile(const QList<QUuid>  &filterRuleIds);
+   void changeActiveFileFiltersOfCurrentFile(const QList<FilterRule> &filterRules);
    void on_fileListWidget_currentItemChanged(QListWidgetItem *currentItem, QListWidgetItem *previousItem);
 
 

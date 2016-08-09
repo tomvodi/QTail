@@ -306,7 +306,7 @@ void MainWindowTest::testSetGetFileFilterSettings()
 
    QUuid testUuid = rule.id();
 
-   window.changeActiveFileFiltersOfCurrentFile({testUuid});
+   window.changeActiveFileFiltersOfCurrentFile({rule});
 
    listWidget->setCurrentRow(1);
 

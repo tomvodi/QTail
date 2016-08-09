@@ -133,7 +133,7 @@ void FileFilterWidgetTest::testActiveFilterIdsAfterSettingFilterGroups()
 void FileFilterWidgetTest::testEmitActiveFilterIdsChanged()
 {
    FileFilterWidget widget;
-   QSignalSpy spy(&widget, SIGNAL(activeFilterIdsChanged(QList<QUuid>)));
+   QSignalSpy spy(&widget, SIGNAL(activeFilterRulesChanged(QList<FilterRule>)));
 
    FilterGroup group("Test Group");
    FilterRule rule("Test Rule");
@@ -153,7 +153,7 @@ void FileFilterWidgetTest::testEmitActiveFilterIdsChanged()
    widget.ui->applyFiltersButton->clicked();
    QVERIFY2(spy.count() == 1, "active filter ids changed signal wasn't emitted.");
    QVariantList parameters = spy.at(0);
-   QList<QUuid> activeFilters = parameters.at(0).value<QList<QUuid> >();
+   QList<FilterRule> activeFilters = parameters.at(0).value<QList<FilterRule> >();
    QVERIFY2(activeFilters.count() == 2, "Not all active filters were in the emitted parameter");
 }
 

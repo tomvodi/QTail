@@ -130,7 +130,7 @@ void MainWindow::settingsValueHasChanged(Settings::SettingCategory valueType)
    }
 }
 
-void MainWindow::changeActiveFileFiltersOfCurrentFile(const QList<QUuid> &filterRuleIds)
+void MainWindow::changeActiveFileFiltersOfCurrentFile(const QList<FilterRule> &filterRules)
 {
    QListWidgetItem *currentItem = ui->fileListWidget->currentItem();
    if (!currentItem) {
@@ -143,8 +143,13 @@ void MainWindow::changeActiveFileFiltersOfCurrentFile(const QList<QUuid> &filter
    }
 
    qDebug() << "Write file settings for file: " << filePath;
+   QList<QUuid> filterIds;
+   foreach (const FilterRule &rule, filterRules) {
+      filterIds.append(rule.id());
+   }
+
    OpenFileSettings fileSettings = m_settings->openFileSettingsForFile(filePath);
-   fileSettings.setActiveFilterIds(filterRuleIds);
+   fileSettings.setActiveFilterIds(filterIds);
    m_settings->setOpenFileSettingsForFile(filePath, fileSettings);
 }
 
@@ -222,7 +227,7 @@ void MainWindow::createConnections()
       m_fileFilterWidget->setFilterGroups(filterGroups);
    });
 
-   connect(m_fileFilterWidget, &FileFilterWidget::activeFilterIdsChanged,
+   connect(m_fileFilterWidget, &FileFilterWidget::activeFilterRulesChanged,
            this, &MainWindow::changeActiveFileFiltersOfCurrentFile);
 }
 
