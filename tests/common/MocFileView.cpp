@@ -64,9 +64,9 @@ void MocFileView::setTextViewLines(const QStringList &textViewLines)
    m_textViewLines = textViewLines;
 }
 
-QList<FilterGroup> MocFileView::filterGroups() const
+QList<FilterRule> MocFileView::activeFilterRules() const
 {
-   return m_filterGroups;
+   return m_activeFilterRules;
 }
 
 TextViewSettings MocFileView::textViewSettings() const
@@ -109,7 +109,7 @@ void MocFileView::setViewFeatures(const FileViewInterface::Features &viewFeature
    m_viewFeatures = viewFeatures;
 }
 
-void MocFileView::setFilterGroups(const QList<FilterGroup> &filterGroups)
+void MocFileView::setActiveFilters(const QList<FilterRule> &filters)
 {
-   m_filterGroups = filterGroups;
+   m_activeFilterRules = filters;
 }

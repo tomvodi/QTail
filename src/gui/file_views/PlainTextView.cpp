@@ -86,7 +86,7 @@ void PlainTextView::setTextViewSettings(const TextViewSettings &settings)
    m_textEdit->setLineWrapOn(settings.lineWrapOn());
 }
 
-void PlainTextView::setFilterGroups(const QList<FilterGroup> &filterGroups)
+void PlainTextView::setActiveFilters(const QList<FilterRule> &filters)
 {
 
 }

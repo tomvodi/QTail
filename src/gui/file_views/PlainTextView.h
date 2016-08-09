@@ -32,7 +32,7 @@ public:
    void readCompleteFileUntil(qint64 maxLength) override;
    QPointer<QWidget> widget() const override;
    void setTextViewSettings(const TextViewSettings &settings) override;
-   void setFilterGroups(const QList<FilterGroup> &filterGroups);
+   void setActiveFilters(const QList<FilterRule> &filters);
 
 public slots:
    void setHighlightingRules(const QList<HighlightingRule> &lineRules,

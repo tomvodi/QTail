@@ -80,9 +80,9 @@ void FileViewInterface::setTextViewSettings(const TextViewSettings &settings)
    Q_UNUSED(settings)
 }
 
-void FileViewInterface::setFilterGroups(const QList<FilterGroup> &filterGroups)
+void FileViewInterface::setActiveFilters(const QList<FilterRule> &filters)
 {
-   Q_UNUSED(filterGroups);
+   Q_UNUSED(filters);
 }
 
 /*!

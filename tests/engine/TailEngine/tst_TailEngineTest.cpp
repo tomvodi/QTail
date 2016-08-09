@@ -411,10 +411,11 @@ void TailEngineTest::testSetFilterGroups()
 
    TestCommon::waitMsecs(100);
 
-   engine.setFilterGroupsForFile(fileInfo, {group1});
+   engine.setActiveFiltersForFile(fileInfo, {activeRule, deactivatedRule});
 
    qint64 offsetSize = outFile.size();
-   QVERIFY2(fileView->filterGroups() == (QList<FilterGroup>() << group1), "FilterGroups weren't set");
+   QVERIFY2(fileView->activeFilterRules() == QList<FilterRule>({activeRule, deactivatedRule}),
+            "FilterGroups weren't set");
    QVERIFY2(fileView->readUntilMaxLength() != -1, "readCompleteFileUntil wasn't called on file");
    QVERIFY2(fileView->readUntilMaxLength() == offsetSize, "readCompleteFileUntil wasn't called with correct size");
 

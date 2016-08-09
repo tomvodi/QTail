@@ -134,7 +134,7 @@ void TailEngine::setTextViewFont(const QFont &font)
  * \param file
  * \param filterGroups
  */
-void TailEngine::setFilterGroupsForFile(const QFileInfo &file, const QList<FilterGroup> &filterGroups)
+void TailEngine::setActiveFiltersForFile(const QFileInfo &file, const QList<FilterRule> &filters)
 {
    FileContext context = fileContextOfFile(file);
    foreach (FileView fileView, context.fileViews()) {
@@ -143,7 +143,7 @@ void TailEngine::setFilterGroupsForFile(const QFileInfo &file, const QList<Filte
          fileInfo.refresh();
          qint64 sizeOffset = fileInfo.size();
 
-         fileView->setFilterGroups(filterGroups);
+         fileView->setActiveFilters(filters);
          fileView->readCompleteFileUntil(sizeOffset);
          context.fileWatcher()->setSizeOffset(sizeOffset);
       }

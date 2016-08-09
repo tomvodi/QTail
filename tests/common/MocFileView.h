@@ -28,7 +28,7 @@ public:
    void setFileInfo(const QFileInfo &fileInfo) override;
    void setFileActive(bool active) override;
    void setTextViewSettings(const TextViewSettings &textViewSettings);
-   void setFilterGroups(const QList<FilterGroup> &filterGroups) override;
+   void setActiveFilters(const QList<FilterRule> &filters) override;
 
    QStringList textViewLines() const;
    void setViewFeatures(const FileViewInterface::Features &viewFeatures);
@@ -40,7 +40,7 @@ public:
    bool fileActive() const;
    TextViewSettings textViewSettings() const;
 
-   QList<FilterGroup> filterGroups() const;
+   QList<FilterRule> activeFilterRules() const;
 
 private:
    void setTextViewLines(const QStringList &textViewLines);
@@ -53,7 +53,7 @@ private:
    bool m_fileActive = false;
    QFont m_textViewFont;
    TextViewSettings m_textViewSettings;
-   QList<FilterGroup> m_filterGroups;
+   QList<FilterRule> m_activeFilterRules;
 };
 
 #endif // MOCFILEVIEW_H
