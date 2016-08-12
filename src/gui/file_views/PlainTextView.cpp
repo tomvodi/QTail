@@ -76,15 +76,13 @@ void PlainTextView::readCompleteFileUntil(qint64 maxLength)
    // With filters
    while (!file.atEnd()) {
       QString line(file.readLine());
-      if (lineHasToBeFilteredOut(line)) {
-         continue;
+      if (lineMatchesAtLeastOneFilter(line)) {
+         m_textEdit->appendPlainText(line.trimmed());
       }
-
-      m_textEdit->appendPlainText(line.trimmed());
    }
 }
 
-bool PlainTextView::lineHasToBeFilteredOut(const QString &line) const
+bool PlainTextView::lineMatchesAtLeastOneFilter(const QString &line) const
 {
    foreach (const FilterRule &filter, m_activeFilters) {
       QRegularExpression regEx(filter.filter());

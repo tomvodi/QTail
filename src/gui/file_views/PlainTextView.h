@@ -44,7 +44,7 @@ private:
    QPointer<PlainTextViewWidget> m_textEdit;
    QPointer<SyntaxHighlighter> m_syntaxHighlighter;
    QList<FilterRule> m_activeFilters;
-   inline bool lineHasToBeFilteredOut(const QString &line) const;
+   inline bool lineMatchesAtLeastOneFilter(const QString &line) const;
 };
 
 #endif // PLAINTEXTVIEW_H

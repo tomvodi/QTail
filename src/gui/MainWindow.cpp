@@ -142,7 +142,8 @@ void MainWindow::changeActiveFileFiltersOfCurrentFile(const QList<FilterRule> &f
       return;
    }
 
-   qDebug() << "Write file settings for file: " << filePath;
+   m_tailEngine->setActiveFiltersForFile(filePath, filterRules);
+
    QList<QUuid> filterIds;
    foreach (const FilterRule &rule, filterRules) {
       filterIds.append(rule.id());
@@ -163,7 +164,6 @@ void MainWindow::on_fileListWidget_currentItemChanged(QListWidgetItem *currentIt
    showFile(filePath);
    m_tailEngine->setFileActive(filePath, true);
 
-   qDebug() << "Load file settings for file: " << filePath;
    OpenFileSettings fileSettings = m_settings->openFileSettingsForFile(filePath);
    m_fileFilterWidget->setActiveFilterIds(fileSettings.activeFilterIds());
 
