@@ -65,18 +65,8 @@ QList<QUuid> FileFilterWidget::activeFilterIds() const
 
 QList<FilterRule> FileFilterWidget::activeFilterRules() const
 {
-   QList<FilterRule> activeFilterRules;
    QList<QUuid> filterIds = activeFilterIds();
-
-   foreach (const FilterGroup &filterGroup, m_filterGroups) {
-      foreach (const FilterRule &filterRule, filterGroup.filterRules()) {
-         if (filterIds.contains(filterRule.id())) {
-            activeFilterRules.append(filterRule);
-         }
-      }
-   }
-
-   return activeFilterRules;
+   return FilterGroup::activeRulesForIds(m_filterGroups, filterIds);
 }
 
 void FileFilterWidget::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column)

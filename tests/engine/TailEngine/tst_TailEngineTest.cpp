@@ -41,7 +41,8 @@ private Q_SLOTS:
    void testSetFileActive();
    void testRemoveFile();
    void testSetTextViewSettings();
-   void testSetFilterGroups();
+   void testSetActiveFilters();
+   void testSetActiveFiltersBeforeOpenFile();
 };
 
 TailEngineTest::TailEngineTest()
@@ -372,9 +373,14 @@ void TailEngineTest::testSetTextViewSettings()
    QVERIFY2(textFileWatcher->updateInterval() == testUpdateInterval, "Update interval wasn't set on filewatcher of new added file");
 }
 
-void TailEngineTest::testSetFilterGroups()
+/*!
+ * \brief TailEngineTest::testSetActiveFilters
+ * Setting active filters for an already added file should result in setting the filters in the view
+ * and then a complete reread.
+ */
+void TailEngineTest::testSetActiveFilters()
 {
-   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testLinesAddedLines.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetActiveFilters.log"));
    QFileInfo fileInfo(filePath);
    TailEngine engine;
 
@@ -390,15 +396,12 @@ void TailEngineTest::testSetFilterGroups()
    textFileContext.setFileWatcher(fileWatcher);
    engine.setFileContextOfFile(fileInfo, textFileContext);
 
-   FilterGroup group1("test group");
    FilterRule activeRule("first text line");
    activeRule.setActive(true);
    FilterRule deactivatedRule("second text");
    deactivatedRule.setActive(false);
-   group1.addFilterRule(activeRule);
-   group1.addFilterRule(deactivatedRule);
 
-   // Reset readComplete state because this must be called in setFilterGroups
+   // Reset readComplete state because this must be called in setActiveFiltersForFile
    fileView->readCompleteFileUntil(-1);
 
    QFile outFile(filePath);
@@ -420,6 +423,33 @@ void TailEngineTest::testSetFilterGroups()
    QVERIFY2(fileView->readUntilMaxLength() == offsetSize, "readCompleteFileUntil wasn't called with correct size");
 
    QVERIFY2(fileWatcher->sizeOffset() == offsetSize, "Size offset wasn't set in FileWatcher");
+}
+
+/*!
+ * \brief TailEngineTest::testSetActiveFiltersBeforeOpenFile
+ * Set the active filters for a file before the file is added should result in opening the file
+ * with the filter.
+ */
+void TailEngineTest::testSetActiveFiltersBeforeOpenFile()
+{
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetActiveFiltersBeforeOpenFile.log"));
+   QFileInfo fileInfo(filePath);
+   TailEngine engine;
+
+   MocFileView *fileView = new MocFileView(this);
+   fileView->setViewFeatures(FileViewInterface::HasTextView);
+   FileView sharedFileView(fileView);
+
+   FilterRule activeRule("first text line");
+   activeRule.setActive(true);
+   FilterRule deactivatedRule("second text");
+   deactivatedRule.setActive(false);
+
+   engine.setActiveFiltersForFile(fileInfo, {activeRule, deactivatedRule});
+   engine.addFile(fileInfo, {sharedFileView});
+
+   QVERIFY2(fileView->activeFilterRules() == QList<FilterRule>({activeRule, deactivatedRule}),
+            "FilterGroups weren't set to view.");
 }
 
 QTEST_MAIN(TailEngineTest)

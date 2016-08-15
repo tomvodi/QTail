@@ -36,6 +36,8 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    fileWatcher->setFilePath(file.absoluteFilePath());
    fileWatcher->setUpdateInterval(m_textViewSettings.updateInterval());
 
+   FileContext context = fileContextOfFile(file);
+
    FileReadLogic *fileReadLogic = new FileReadLogic(this);
    if (view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
       connect(fileReadLogic, &FileReadLogic::fileCleared,
@@ -44,6 +46,7 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
               [view] (const QStringList &lines) { view->appendLines(lines); });
       qint64 offsetSize = file.size();
 
+      view->setActiveFilters(context.activeFilters());
       view->readCompleteFileUntil(offsetSize);
       fileWatcher->setSizeOffset(offsetSize);
 
@@ -61,7 +64,6 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
       handleRemovedFile(file);
    });
 
-   FileContext context = fileContextOfFile(file);
    context.setFileInfo(file);
    context.addFileView(view);
    context.setFileWatcher(fileWatcher);
@@ -137,6 +139,8 @@ void TailEngine::setTextViewFont(const QFont &font)
 void TailEngine::setActiveFiltersForFile(const QFileInfo &file, const QList<FilterRule> &filters)
 {
    FileContext context = fileContextOfFile(file);
+   context.setActiveFilters(filters);
+
    foreach (FileView fileView, context.fileViews()) {
       if (fileView->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
          QFileInfo fileInfo = context.fileInfo();
@@ -241,4 +245,14 @@ FileReadLogic *TailEngine::FileContext::fileReadLogic() const
 void TailEngine::FileContext::setFileReadLogic(FileReadLogic *fileReadLogic)
 {
    m_fileReadLogic = fileReadLogic;
+}
+
+QList<FilterRule> TailEngine::FileContext::activeFilters() const
+{
+   return m_activeFilters;
+}
+
+void TailEngine::FileContext::setActiveFilters(const QList<FilterRule> &activeFilters)
+{
+   m_activeFilters = activeFilters;
 }

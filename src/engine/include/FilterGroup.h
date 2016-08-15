@@ -42,6 +42,8 @@ public:
    QJsonObject toJson() const;
    void fromJson(const QJsonObject &json);
 
+   static QList<FilterRule> activeRulesForIds(const QList<FilterGroup> &groups, const QList<QUuid> &activeFilterIds);
+
 private:
    QSharedDataPointer<FilterGroupData> data;
 };

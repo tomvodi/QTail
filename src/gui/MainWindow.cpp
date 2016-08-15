@@ -249,6 +249,10 @@ void MainWindow::openFile(const QString &filePath, bool justOpenFile)
 
    FileListItemView *listItemView = new FileListItemView(this);
    PlainTextView *plainTextView = new PlainTextView(this);
+   OpenFileSettings fileSettings = m_settings->openFileSettingsForFile(fileInfo.absoluteFilePath());
+   QList<FilterRule> activeFilterRules = FilterGroup::activeRulesForIds(m_settings->filterGroups(),
+                                                                        fileSettings.activeFilterIds());
+   m_tailEngine->setActiveFiltersForFile(fileInfo, activeFilterRules);
    m_tailEngine->addFiles(fileInfo, {FileView(listItemView), FileView(plainTextView)});
 
    plainTextView->setHighlightingRules(m_settings->lineHighlightingRules(), m_settings->wordHighlightingRules());

@@ -131,14 +131,14 @@ void PlainTextViewTest::testSetTextViewSettings()
 
 void PlainTextViewTest::testSetActiveFilterRules()
 {
-   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testReadCompleteUntil.log"));
+   QString filePath = TestCommon::generateExistingFileInPath(QStringLiteral("testSetActiveFilterRules.log"));
 
-   QString firstVisibleLine("Test line visible");
-   QString secondVisibleLine("Test line visible 2");
-   QString firstLineFilteredOut(">> Filter out line");
-   QString thirdVisibleLine("Test line visible 3");
+   QString firstVisibleLine("Test line invisible (no match)");
+   QString secondVisibleLine("Test line invisible 2 (no match)");
+   QString firstLineFilterMatch(">> Filter match line");
+   QString thirdVisibleLine("Test line invisible 3 (no match)");
 
-   QStringList fileLines({firstVisibleLine, secondVisibleLine, firstLineFilteredOut, thirdVisibleLine});
+   QStringList fileLines({firstVisibleLine, secondVisibleLine, firstLineFilterMatch, thirdVisibleLine});
    QFile outFile(filePath);
    outFile.open(QIODevice::WriteOnly);
    outFile.write(fileLines.join('\n').toUtf8());
@@ -151,13 +151,15 @@ void PlainTextViewTest::testSetActiveFilterRules()
    textView.setFileInfo(fileInfo);
 
    FilterRule filter;
-   filter.setFilter(firstLineFilteredOut);
+   filter.setFilter(firstLineFilterMatch);
    textView.setActiveFilters({filter});
 
    textView.readCompleteFileUntil(fileInfo.size());
    Q_ASSERT(textView.m_textDocument->blockCount());
 
-   QVERIFY2(textView.m_textDocument->blockCount() == 3, "Line wasn't filtered out.");
+   qDebug() << "Block count: " << textView.m_textDocument->blockCount();
+   QVERIFY2(textView.m_textDocument->blockCount() < 4, "No line was filtered out.");
+   QVERIFY2(textView.m_textDocument->blockCount() == 1, "Line with filter match was filtered out.");
 }
 
 QTEST_MAIN(PlainTextViewTest)

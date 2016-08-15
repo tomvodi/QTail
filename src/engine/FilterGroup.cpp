@@ -144,6 +144,21 @@ void FilterGroup::fromJson(const QJsonObject &json)
    }
 }
 
+QList<FilterRule> FilterGroup::activeRulesForIds(const QList<FilterGroup> &groups, const QList<QUuid> &activeFilterIds)
+{
+   QList<FilterRule> activeFilterRules;
+
+   foreach (const FilterGroup &filterGroup, groups) {
+      foreach (const FilterRule &filterRule, filterGroup.filterRules()) {
+         if (activeFilterIds.contains(filterRule.id())) {
+            activeFilterRules.append(filterRule);
+         }
+      }
+   }
+
+   return activeFilterRules;
+}
+
 void FilterGroupData::init()
 {
    id = QUuid::createUuid();

@@ -68,11 +68,15 @@ private:
       FileReadLogic *fileReadLogic() const;
       void setFileReadLogic(FileReadLogic *fileReadLogic);
 
+      QList<FilterRule> activeFilters() const;
+      void setActiveFilters(const QList<FilterRule> &activeFilters);
+
    private:
       QFileInfo m_fileInfo;
       FileViews m_fileViews;
       FileWatcherInterface *m_fileWatcher;
       FileReadLogic *m_fileReadLogic;
+      QList<FilterRule> m_activeFilters;
    };
 
    FileContext fileContextOfFile(const QFileInfo &file);
