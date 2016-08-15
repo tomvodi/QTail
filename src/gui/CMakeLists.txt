@@ -61,7 +61,7 @@ qt5_wrap_ui(Project_Sources
   ${Project_UIs}
 )
 
-qt5_add_resources(Project_Sources
+set(Project_RESOURCES
     resources.qrc
 )
 
@@ -80,6 +80,20 @@ else()
         qt5_add_translation(QM_FILES ${Project_TRANSLATIONS})
     endif()
 endif()
+
+# Pack all .qm files into a .qrc resource file
+set(TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translation.qrc")
+file(WRITE ${TRANSLATIONS_QRC} "<RCC>\n\t<qresource prefix=\"/translations\">")
+foreach(QM_FILE ${QM_FILES})
+    get_filename_component(QM_FILE_NAME ${QM_FILE} NAME)
+    file(APPEND ${TRANSLATIONS_QRC} "\n\t\t<file alias=\"${QM_FILE_NAME}\">${QM_FILE_NAME}</file>")
+endforeach()
+file(APPEND ${TRANSLATIONS_QRC} "\n\t</qresource>\n</RCC>")
+list(APPEND Project_RESOURCES ${TRANSLATIONS_QRC})
+
+qt5_add_resources(Project_Sources
+    ${Project_RESOURCES}
+)
 
 add_executable(${PROJECT_NAME} WIN32 ${Project_Sources} ${QM_FILES})
 
