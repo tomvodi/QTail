@@ -77,6 +77,23 @@ void PreferencesDialog::setSettings(const ApplicationSettings &settings)
    blockSignals(false);
 }
 
+void PreferencesDialog::setAvailableTranslations(const QStringList &languages)
+{
+   foreach (const QString &language, languages) {
+      QLocale locale(language);
+      QString languageName = QLocale::languageToString(locale.language());
+      ui->languageComboBox->addItem(languageName, language);
+   }
+}
+
+void PreferencesDialog::setSelectedTranslation(const QString &language)
+{
+   int languageIndex = ui->languageComboBox->findData(language);
+   if (languageIndex != -1) {
+      ui->languageComboBox->setCurrentIndex(languageIndex);
+   }
+}
+
 void PreferencesDialog::dialogAccepted()
 {
    if (textViewSettingsHaveBeenModified()) {
@@ -90,11 +107,26 @@ void PreferencesDialog::dialogRejected()
    setSettings(m_settings);
 }
 
+void PreferencesDialog::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QDialog::changeEvent(event);
+}
+
 void PreferencesDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
    if (ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole) {
       dialogAccepted();
    }
+}
+
+void PreferencesDialog::on_languageComboBox_currentIndexChanged(int index)
+{
+   QString newLanguage = ui->languageComboBox->itemData(index).toString();
+   emit selectedLanguageChanged(newLanguage);
 }
 
 void PreferencesDialog::initUpdateIntervalComboBox()

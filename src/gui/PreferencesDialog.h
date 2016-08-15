@@ -32,13 +32,21 @@ public:
    ApplicationSettings settings() const;
    void setSettings(const ApplicationSettings &settings);
 
+   void setAvailableTranslations(const QStringList &languages);
+   void setSelectedTranslation(const QString &language);
+
 signals:
    void settingsHaveChanged(Settings::SettingCategory valueType);
+   void selectedLanguageChanged(const QString &language);
 
 private slots:
    void on_buttonBox_clicked(QAbstractButton *button);
+   void on_languageComboBox_currentIndexChanged(int index);
    void dialogAccepted();
    void dialogRejected();
+
+protected:
+   void changeEvent(QEvent* event);
 
 private:
    void initUpdateIntervalComboBox();

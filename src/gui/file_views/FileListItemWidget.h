@@ -39,6 +39,9 @@ public:
 signals:
    void closeFileRequested();
 
+protected:
+   void changeEvent(QEvent *e);
+
 private:
    Ui::FileListItemWidget *ui;
    FileState m_fileState;

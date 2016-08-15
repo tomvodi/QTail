@@ -16,6 +16,7 @@
 #include <QVersionNumber>
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QTranslator>
 
 #include <QTail_version.h>
 #include <TailEngine.h>
@@ -59,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
    textViewSettings.setUpdateInterval(m_settings->textViewUpdateIntervalMs());
    m_tailEngine->setTextViewSettings(textViewSettings);
 
+   setGuiLanguage(m_settings->guiLanguage());
    createConnections();
    openLastOpenedFiles();
    initRecentlyOpenedFilesMenu();
@@ -173,6 +175,11 @@ void MainWindow::on_fileListWidget_currentItemChanged(QListWidgetItem *currentIt
    }
 }
 
+void MainWindow::setSelectedLanguage(const QString &language)
+{
+   m_settings->setGuiLanguage(language);
+}
+
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
    if (event->mimeData()->hasUrls()) {
@@ -212,6 +219,15 @@ void MainWindow::closeEvent(QCloseEvent *event)
    QMainWindow::closeEvent(event);
 }
 
+void MainWindow::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QMainWindow::changeEvent(event);
+}
+
 void MainWindow::createConnections()
 {
    connect(m_highlightingDialog, &HighlightingDialog::highlightingRulesChanged,
@@ -229,6 +245,8 @@ void MainWindow::createConnections()
 
    connect(m_fileFilterWidget, &FileFilterWidget::activeFilterRulesChanged,
            this, &MainWindow::changeActiveFileFiltersOfCurrentFile);
+   connect(m_preferencesDialog, &PreferencesDialog::selectedLanguageChanged,
+           this, &MainWindow::setSelectedLanguage);
 }
 
 /*!
@@ -420,6 +438,36 @@ void MainWindow::initRecentlyOpenedFilesMenu()
       QFileInfo fileInfo(recentFile);
       addRecentlyOpenedFile(fileInfo);
    }
+}
+
+void MainWindow::setGuiLanguage(const QString &language)
+{
+   QStringList availableTranslations;
+   QString selectedTranslation("en");
+
+   QDir translationsDir(":/translations");
+   foreach (const QFileInfo &translationFile, translationsDir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot)) {
+      QString fileName = translationFile.baseName();
+      QStringList fileParts = fileName.split('_');
+      if (!fileParts.count() == 2) {
+         continue;
+      }
+      QString fileLanguage = fileParts.at(1);
+      availableTranslations << fileLanguage;
+
+      if (fileLanguage == language) {
+         selectedTranslation = language;
+         QTranslator *translator = new QTranslator(this);
+         translator->load(translationFile.absoluteFilePath());
+         qApp->installTranslator(translator);
+      }
+   }
+
+   m_preferencesDialog->setAvailableTranslations(availableTranslations);
+   m_preferencesDialog->setSelectedTranslation(selectedTranslation);
+
+   QLocale defaultLocale(language);
+   QLocale::setDefault(defaultLocale);
 }
 
 QPointer<FileListItemWidget> MainWindow::FileViewItems::fileListItemWidget() const

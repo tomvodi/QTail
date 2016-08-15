@@ -15,6 +15,8 @@
 #include <include/FilterGroup.h>
 #include <include/HighlightingRule.h>
 
+static const QString GuiLanguageValueName("gui language");
+static const QString GuiLanguageValueDefault("en");
 static const QString LastOpenDirValueName("last open dir");
 static const QString LastOpenedFilesValueName("last open files");
 static const QString RecentlyOpenedFilesValueName("recent files");
@@ -34,6 +36,16 @@ static const QString OpenFileSettingsGroupKey("open_file_settings");
 Settings::Settings()
 {
    qRegisterMetaType<Settings::SettingCategory>("Settings::SettingCategory");
+}
+
+void Settings::setGuiLanguage(const QString &language)
+{
+   m_settings.setValue(GuiLanguageValueName, language);
+}
+
+QString Settings::guiLanguage() const
+{
+   return m_settings.value(GuiLanguageValueName, GuiLanguageValueDefault).toString();
 }
 
 void Settings::setLastOpenDir(const QDir &dir)

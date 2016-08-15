@@ -54,6 +54,15 @@ void ColorPicker::setCurrentColor(const QColor &color)
    }
 }
 
+void ColorPicker::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QFrame::changeEvent(event);
+}
+
 void ColorPicker::initWithPredefinedColors()
 {
    QStringList predefinedColors = QColor::colorNames();

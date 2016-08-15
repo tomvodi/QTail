@@ -179,6 +179,15 @@ void FilterDialog::on_buttonBox_clicked(QAbstractButton *button)
    }
 }
 
+void FilterDialog::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QDialog::changeEvent(event);
+}
+
 void FilterDialog::addDefaultGroup()
 {
    addGroup(FilterGroup(tr("Default group")));

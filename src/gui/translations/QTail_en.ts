@@ -191,7 +191,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../highlighting/HighlightingDialog.ui" line="269"/>
+        <location filename="../highlighting/HighlightingDialog.ui" line="272"/>
         <source>String / Regular Expression:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -342,37 +342,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="23"/>
+        <location filename="../PreferencesDialog.ui" line="48"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../PreferencesDialog.ui" line="55"/>
         <source>The default font used in the text view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="26"/>
+        <location filename="../PreferencesDialog.ui" line="58"/>
         <source>Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="64"/>
+        <location filename="../PreferencesDialog.ui" line="86"/>
         <source>Text View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="81"/>
+        <location filename="../PreferencesDialog.ui" line="106"/>
         <source>Wrap lines at right edge of text view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="84"/>
+        <location filename="../PreferencesDialog.ui" line="109"/>
         <source>Wrap lines:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="94"/>
+        <location filename="../PreferencesDialog.ui" line="119"/>
+        <source>Language:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../PreferencesDialog.ui" line="68"/>
         <source>Update interval of the text view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PreferencesDialog.ui" line="97"/>
+        <location filename="../PreferencesDialog.ui" line="71"/>
         <source>Update interval:</source>
         <translation type="unfinished"></translation>
     </message>

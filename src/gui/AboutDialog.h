@@ -25,6 +25,9 @@ public:
 
    void setVersion(const QVersionNumber &version);
 
+protected:
+   void changeEvent(QEvent* event);
+
 private:
    Ui::AboutDialog *ui;
 };

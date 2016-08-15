@@ -94,6 +94,15 @@ void FileFilterWidget::on_applyFiltersButton_clicked()
    emit activeFilterRulesChanged(activeRules);
 }
 
+void FileFilterWidget::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QFrame::changeEvent(event);
+}
+
 void FileFilterWidget::setCheckedStateOfAllChildItems(const QTreeWidgetItem *parentItem,
                                                       Qt::CheckState state)
 {

@@ -17,7 +17,39 @@
    <item row="0" column="0">
     <widget class="QWidget" name="generalWidget" native="true">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="lineWrapCheckBox">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QComboBox" name="updateIntervalComboBox"/>
+      </item>
+      <item row="3" column="1" rowspan="2">
+       <widget class="FontPicker" name="textViewFontPicker">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="_general">
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+   font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>General</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <widget class="QLabel" name="_textViewFont">
         <property name="toolTip">
          <string>The default font used in the text view</string>
@@ -30,17 +62,32 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" rowspan="2">
-       <widget class="FontPicker" name="textViewFontPicker">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+      <item row="6" column="0">
+       <widget class="QLabel" name="_updateInterval">
+        <property name="toolTip">
+         <string>Update interval of the text view</string>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+        <property name="text">
+         <string>Update interval:</string>
+        </property>
+        <property name="indent">
+         <number>20</number>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="2" column="0" rowspan="2">
+       <widget class="QLabel" name="_textView">
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+   font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>Text View</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -53,30 +100,8 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QLabel" name="_textView">
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-   font-weight: bold;
-}</string>
-        </property>
-        <property name="text">
-         <string>Text View</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QCheckBox" name="lineWrapCheckBox">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QComboBox" name="updateIntervalComboBox"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label">
+      <item row="5" column="0">
+       <widget class="QLabel" name="_wrapLines">
         <property name="toolTip">
          <string>Wrap lines at right edge of text view</string>
         </property>
@@ -88,18 +113,18 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="toolTip">
-         <string>Update interval of the text view</string>
-        </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="_language">
         <property name="text">
-         <string>Update interval:</string>
+         <string>Language:</string>
         </property>
         <property name="indent">
          <number>20</number>
         </property>
        </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="languageComboBox"/>
       </item>
      </layout>
     </widget>

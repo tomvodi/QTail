@@ -45,6 +45,9 @@ private slots:
    void on_treeWidget_itemChanged(QTreeWidgetItem *item, int column);
    void on_applyFiltersButton_clicked();
 
+protected:
+   void changeEvent(QEvent* event);
+
 private:
    enum TreeItemType {
       FilterGroupType,

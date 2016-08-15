@@ -47,13 +47,14 @@ private slots:
    void settingsValueHasChanged(Settings::SettingCategory valueType);
    void changeActiveFileFiltersOfCurrentFile(const QList<FilterRule> &filterRules);
    void on_fileListWidget_currentItemChanged(QListWidgetItem *currentItem, QListWidgetItem *previousItem);
-
+   void setSelectedLanguage(const QString &language);
 
 protected:
    void dragEnterEvent(QDragEnterEvent *event);
    void dragMoveEvent(QDragMoveEvent *event);
    void dropEvent(QDropEvent *event);
    void closeEvent(QCloseEvent *event);
+   void changeEvent(QEvent* event);
 
 private:
    class FileViewItems {
@@ -88,6 +89,7 @@ private:
    QString filePathOfFileListIndex(int index);
    void addRecentlyOpenedFile(const QFileInfo &fileInfo);
    void initRecentlyOpenedFilesMenu();
+   void setGuiLanguage(const QString &language);
    Ui::MainWindow *ui;
    ApplicationSettings m_settings;
    TailEngine *m_tailEngine = nullptr;

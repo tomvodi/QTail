@@ -46,6 +46,9 @@ private slots:
    void on_topButton_clicked();
    void updateCurrentSelectedRuleValues();
 
+protected:
+   void changeEvent(QEvent* event);
+
 private:
    static int HighlightRuleDataRole;
    Ui::HighlightingDialog *ui;

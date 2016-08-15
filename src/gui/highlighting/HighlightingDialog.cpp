@@ -240,6 +240,15 @@ void HighlightingDialog::updateCurrentSelectedRuleValues()
    currentItem->setData(HighlightRuleDataRole, QVariant::fromValue<HighlightingRule>(highlightingRule));
 }
 
+void HighlightingDialog::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QDialog::changeEvent(event);
+}
+
 HighlightingRule HighlightingDialog::highlightingRuleFromGui() const
 {
    HighlightingRule rule;

@@ -75,3 +75,12 @@ void FontPicker::setFontFilters(QFontComboBox::FontFilters fontFilters)
 {
    ui->fontComboBox->setFontFilters(fontFilters);
 }
+
+void FontPicker::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QFrame::changeEvent(event);
+}

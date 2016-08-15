@@ -34,6 +34,9 @@ public:
 signals:
    void currentFontChanged(const QFont &font);
 
+protected:
+   void changeEvent(QEvent* event);
+
 private:
    void createConnections();
    Ui::FontPicker *ui;

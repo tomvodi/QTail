@@ -81,6 +81,18 @@ FileState FileListItemWidget::fileState() const
    return m_fileState;
 }
 
+void FileListItemWidget::changeEvent(QEvent *e)
+{
+   QFrame::changeEvent(e);
+   switch (e->type()) {
+   case QEvent::LanguageChange:
+      ui->retranslateUi(this);
+      break;
+   default:
+      break;
+   }
+}
+
 qint64 FileListItemWidget::lineCount() const
 {
    return m_lineCount;

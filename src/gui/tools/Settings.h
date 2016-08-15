@@ -29,6 +29,9 @@ public:
 
    Settings();
 
+   void setGuiLanguage(const QString &language);
+   QString guiLanguage() const;
+
    void setLastOpenDir(const QDir &dir);
    QDir lastOpenDir() const;
 

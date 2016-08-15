@@ -31,6 +31,9 @@ public:
 signals:
    void currentColorChanged(const QColor &color);
 
+protected:
+   void changeEvent(QEvent* event);
+
 private:
    void initWithPredefinedColors();
    QIcon iconForColor(const QColor &color);

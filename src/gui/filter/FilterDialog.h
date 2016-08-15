@@ -51,6 +51,9 @@ private slots:
    void on_deleteFilterButton_clicked();
    void on_buttonBox_clicked(QAbstractButton *button);
 
+protected:
+   void changeEvent(QEvent* event);
+
 private:
    static const int CaseSensitiveDataRole = Qt::UserRole + 1;
    static const int FilterRuleDataRole = Qt::UserRole + 2;

@@ -27,3 +27,12 @@ void AboutDialog::setVersion(const QVersionNumber &version)
 {
    ui->versionLabel->setText(version.toString().prepend(QStringLiteral("v")));
 }
+
+void AboutDialog::changeEvent(QEvent *event)
+{
+   if (event->type() == QEvent::LanguageChange) {
+      ui->retranslateUi(this);
+   }
+
+   QDialog::changeEvent(event);
+}
