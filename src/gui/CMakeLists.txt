@@ -41,27 +41,47 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/../version.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/QTail_version.h)
 
 
+set( Project_UIs
+    MainWindow.ui
+    AboutDialog.ui
+    PreferencesDialog.ui
+
+    file_views/FileListItemWidget.ui
+    file_views/PlainTextViewWidget.ui
+
+    highlighting/HighlightingDialog.ui
+    highlighting/ColorPicker.ui
+    highlighting/FontPicker.ui
+
+    filter/FilterDialog.ui
+    filter/FileFilterWidget.ui
+)
+
 qt5_wrap_ui(Project_Sources
-  MainWindow.ui
-  AboutDialog.ui
-  PreferencesDialog.ui
-
-  file_views/FileListItemWidget.ui
-  file_views/PlainTextViewWidget.ui
-
-  highlighting/HighlightingDialog.ui
-  highlighting/ColorPicker.ui
-  highlighting/FontPicker.ui
-
-  filter/FilterDialog.ui
-  filter/FileFilterWidget.ui
+  ${Project_UIs}
 )
 
 qt5_add_resources(Project_Sources
     resources.qrc
 )
 
-add_executable(${PROJECT_NAME} WIN32 ${Project_Sources})
+# Translations
+set( Project_TRANSLATIONS
+    ${CMAKE_CURRENT_LIST_DIR}/translations/QTail_en.ts
+    ${CMAKE_CURRENT_LIST_DIR}/translations/QTail_de.ts
+)
+option(WITH_CREATE_TRANSLATIONS "Create translations. Runs lupdate on existing .ts files" OFF)
+if (WITH_CREATE_TRANSLATIONS)
+    find_package(Qt5LinguistTools REQUIRED)
+    qt5_create_translation(QM_FILES ${Project_SOURCES} ${Project_UIs} ${Project_TRANSLATIONS})
+else()
+    find_package(Qt5LinguistTools)
+    if (Qt5LinguistTools_DIR)
+        qt5_add_translation(QM_FILES ${Project_TRANSLATIONS})
+    endif()
+endif()
+
+add_executable(${PROJECT_NAME} WIN32 ${Project_Sources} ${QM_FILES})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets TailEngine )
 
@@ -74,7 +94,6 @@ if (WIN32)
 endif()
 
 # Packaging
-
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A tail programm written in C++/Qt.")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
