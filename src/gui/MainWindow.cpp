@@ -449,7 +449,7 @@ void MainWindow::setGuiLanguage(const QString &language)
    foreach (const QFileInfo &translationFile, translationsDir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot)) {
       QString fileName = translationFile.baseName();
       QStringList fileParts = fileName.split('_');
-      if (!fileParts.count() == 2) {
+      if (fileParts.count() != 2) {
          continue;
       }
       QString fileLanguage = fileParts.at(1);
