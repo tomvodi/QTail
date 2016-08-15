@@ -208,7 +208,7 @@
       <string>Rule Definition</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="3" column="0">
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
          <widget class="QLabel" name="_foregroundColor">
@@ -264,6 +264,9 @@
        </layout>
       </item>
       <item row="1" column="0">
+       <widget class="QLineEdit" name="regexLineEdit"/>
+      </item>
+      <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>String / Regular Expression:</string>
@@ -271,9 +274,6 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLineEdit" name="regexLineEdit"/>
-      </item>
-      <item row="3" column="0">
        <widget class="QCheckBox" name="caseSensitiveCheckBox">
         <property name="text">
          <string>Case Sensitive</string>
