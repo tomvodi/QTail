@@ -9,6 +9,8 @@
 #include <QScrollBar>
 #include <QTextDocument>
 
+#include <include/TextViewSettings.h>
+
 #include "PlainTextViewWidget.h"
 #include "ui_PlainTextViewWidget.h"
 
@@ -55,6 +57,13 @@ void PlainTextViewWidget::setLineWrapOn(bool lineWrapOn)
    } else {
       ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
    }
+}
+
+void PlainTextViewWidget::setTextViewSettings(const TextViewSettings &settings)
+{
+   ui->plainTextEdit->document()->setDefaultFont(settings.font());
+   ui->plainTextEdit->setLineNumberAreaFont(settings.font());
+   setLineWrapOn(settings.lineWrapOn());
 }
 
 void PlainTextViewWidget::appendPlainText(const QString &text)

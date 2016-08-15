@@ -20,8 +20,6 @@ class LineNumberArea : public QWidget
 public:
    LineNumberArea(PlainTextEdit *textEdit);
 
-   QSize sizeHint() const override;
-
 protected:
     void paintEvent(QPaintEvent *event) override;
 

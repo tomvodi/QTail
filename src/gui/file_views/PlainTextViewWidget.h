@@ -15,6 +15,7 @@ namespace Ui {
 class PlainTextViewWidget;
 }
 class QTextDocument;
+class TextViewSettings;
 
 class PlainTextViewWidget : public QFrame
 {
@@ -29,15 +30,17 @@ public:
    QString toPlainText() const;
    void clear();
 
+   bool lineWrapOn() const;
+
    void setTextDocument(QTextDocument *document);
 
-   bool lineWrapOn() const;
-   void setLineWrapOn(bool lineWrapOn);
+   void setTextViewSettings(const TextViewSettings &settings);
 
 protected:
    void changeEvent(QEvent *e);
 
 private:
+   void setLineWrapOn(bool lineWrapOn);
    Ui::PlainTextViewWidget *ui;
 };
 

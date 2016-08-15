@@ -47,9 +47,9 @@ quint16 PlainTextEdit::lineNumberAreaWidth() const
    int charWidth(metrics.width(MetricsBaseChar));
    int leftPadding = lineNumberAreaLeftPadding(metrics);
    int rightPadding = lineNumberAreaRightPadding(metrics);
-   int space = leftPadding + rightPadding + charWidth * digits;
+   int width = leftPadding + rightPadding + charWidth * digits;
 
-   return space;
+   return width;
 }
 
 int PlainTextEdit::lineNumberAreaLeftPadding(const QFontMetrics &metrics) const
