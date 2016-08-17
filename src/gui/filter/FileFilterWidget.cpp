@@ -85,10 +85,6 @@ void FileFilterWidget::on_applyFiltersButton_clicked()
 {
    QList<QUuid> filterIds = activeFilterIds();
 
-   if (m_activeFilterIds == filterIds) {
-      return;
-   }
-
    m_activeFilterIds = filterIds;
    QList<FilterRule> activeRules = activeFilterRules();
    emit activeFilterRulesChanged(activeRules);
