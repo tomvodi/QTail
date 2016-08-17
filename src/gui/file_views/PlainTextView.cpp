@@ -34,9 +34,12 @@ FileViewInterface::Features PlainTextView::viewFeatures() const
 
 void PlainTextView::appendLine(const QString &line)
 {
-   if (m_textEdit) {
-      m_textEdit->appendPlainText(line);
+   if (m_activeFilters.count() &&
+       !lineMatchesAtLeastOneFilter(line)) {
+      return;
    }
+
+   m_textEdit->appendPlainText(line);
 }
 
 void PlainTextView::appendLines(const QStringList &lines)

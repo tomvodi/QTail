@@ -34,6 +34,7 @@ private Q_SLOTS:
    void testReadCompleteUntil();
    void testSetTextViewSettings();
    void testSetActiveFilterRules();
+   void testActiveFilterRulesOnAppend();
 };
 
 PlainTextViewTest::PlainTextViewTest()
@@ -160,6 +161,24 @@ void PlainTextViewTest::testSetActiveFilterRules()
    qDebug() << "Block count: " << textView.m_textDocument->blockCount();
    QVERIFY2(textView.m_textDocument->blockCount() < 4, "No line was filtered out.");
    QVERIFY2(textView.m_textDocument->blockCount() == 1, "Line with filter match was filtered out.");
+}
+
+void PlainTextViewTest::testActiveFilterRulesOnAppend()
+{
+   QString filterMatchLine(">> Filter match line");
+   QString filterOutLine("Filter out line");
+
+   PlainTextView textView;
+
+   FilterRule filter;
+   filter.setFilter(filterMatchLine);
+   textView.setActiveFilters({filter});
+
+   textView.appendLine(filterMatchLine);
+   textView.appendLine(filterOutLine);
+
+   QVERIFY2(textView.m_textDocument->blockCount() > 0, "All lines were filtered out");
+   QVERIFY2(textView.m_textDocument->blockCount() < 2, "No line was filtered out");
 }
 
 QTEST_MAIN(PlainTextViewTest)
