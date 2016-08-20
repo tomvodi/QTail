@@ -85,6 +85,7 @@
      <addaction name="actionFileFilters"/>
     </widget>
     <addaction name="menuWindows"/>
+    <addaction name="actionViewToolbar"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -264,6 +265,17 @@
     <string>Highlighting</string>
    </property>
   </action>
+  <action name="actionViewToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Toolbar</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -331,6 +343,38 @@
     <hint type="destinationlabel">
      <x>127</x>
      <y>708</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewToolbar</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>mainToolBar</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>558</x>
+     <y>55</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mainToolBar</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionViewToolbar</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>558</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>
