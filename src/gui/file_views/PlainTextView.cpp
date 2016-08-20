@@ -121,3 +121,8 @@ void PlainTextView::setActiveFilters(const QList<FilterRule> &filters)
 {
    m_activeFilters = filters;
 }
+
+QTextDocument *PlainTextView::textDocument() const
+{
+   return m_textDocument->clone();
+}

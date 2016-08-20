@@ -47,5 +47,6 @@
         <file>resources/logo/QTail_logo.png</file>
         <file>resources/logo/QTail_icon.png</file>
         <file>resources/icons/actions/document-edit.png</file>
+        <file>resources/icons/actions/document-save-as.png</file>
     </qresource>
 </RCC>

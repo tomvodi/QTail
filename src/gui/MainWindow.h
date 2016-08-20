@@ -45,8 +45,9 @@ private slots:
    void on_actionPreferences_triggered();
    void on_actionFilter_triggered();
    void settingsValueHasChanged(Settings::SettingCategory valueType);
-   void changeActiveFileFiltersOfCurrentFile(const QList<FilterRule> &filterRules);
    void on_fileListWidget_currentItemChanged(QListWidgetItem *currentItem, QListWidgetItem *previousItem);
+   void on_actionExportCurrentView_triggered();
+   void changeActiveFileFiltersOfCurrentFile(const QList<FilterRule> &filterRules);
    void setSelectedLanguage(const QString &language);
 
 protected:

@@ -24,6 +24,7 @@ enum class FileState {
    FileHasChanged  //! File has new unread lines
 };
 
+class QTextDocument;
 class FilterRule;
 class TextViewSettings;
 class FileViewInterfacePrivate;
@@ -65,6 +66,7 @@ public slots:
    virtual void setTextViewFont(const QFont &font);
    virtual void setTextViewSettings(const TextViewSettings &settings);
    virtual void setActiveFilters(const QList<FilterRule> &filters);
+   virtual QTextDocument *textDocument() const;
 
    // Highlighing
    virtual void setHighlightingRules(const QList<HighlightingRule> &lineRules,

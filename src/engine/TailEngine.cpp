@@ -71,6 +71,12 @@ void TailEngine::addFile(const QFileInfo &file, const FileView &view)
    setFileContextOfFile(file, context);
 }
 
+FileViews TailEngine::fileViews(const QFileInfo &file)
+{
+   FileContext context = fileContextOfFile(file);
+   return context.fileViews();
+}
+
 void TailEngine::removeFile(const QFileInfo &file)
 {
    if (!m_fileContexts.contains(file)) {

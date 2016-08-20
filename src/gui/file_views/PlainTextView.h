@@ -34,6 +34,7 @@ public:
    QPointer<QWidget> widget() const override;
    void setTextViewSettings(const TextViewSettings &settings) override;
    void setActiveFilters(const QList<FilterRule> &filters);
+   QTextDocument *textDocument() const override;
 
 public slots:
    void setHighlightingRules(const QList<HighlightingRule> &lineRules,

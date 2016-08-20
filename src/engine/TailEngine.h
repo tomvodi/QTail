@@ -42,6 +42,7 @@ public:
 
    void addFiles(const QFileInfo &file, const FileViews &views);
    void addFile(const QFileInfo &file, const FileView &view);
+   FileViews fileViews(const QFileInfo &file);
    void removeFile(const QFileInfo &file);
    void setFileActive(const QFileInfo &file, bool active);
    void setTextViewSettings(const TextViewSettings &settings);

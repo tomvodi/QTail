@@ -35,6 +35,7 @@ private Q_SLOTS:
    void testSetTextViewSettings();
    void testSetActiveFilterRules();
    void testActiveFilterRulesOnAppend();
+   void testReturnedDocument();
 };
 
 PlainTextViewTest::PlainTextViewTest()
@@ -179,6 +180,12 @@ void PlainTextViewTest::testActiveFilterRulesOnAppend()
 
    QVERIFY2(textView.m_textDocument->blockCount() > 0, "All lines were filtered out");
    QVERIFY2(textView.m_textDocument->blockCount() < 2, "No line was filtered out");
+}
+
+void PlainTextViewTest::testReturnedDocument()
+{
+   PlainTextView textView;
+   QVERIFY2(textView.textDocument(), "No text document returned");
 }
 
 QTEST_MAIN(PlainTextViewTest)

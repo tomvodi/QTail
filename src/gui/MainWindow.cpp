@@ -17,6 +17,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QTranslator>
+#include <QTextDocument>
 
 #include <QTail_version.h>
 #include <TailEngine.h>
@@ -173,6 +174,51 @@ void MainWindow::on_fileListWidget_currentItemChanged(QListWidgetItem *currentIt
       QString filePath = previousItem->data(FilePathDataRole).toString();
       m_tailEngine->setFileActive(filePath, false);
    }
+}
+
+void MainWindow::on_actionExportCurrentView_triggered()
+{
+   QListWidgetItem *currentItem = ui->fileListWidget->currentItem();
+   if (!currentItem) {
+      return;
+   }
+
+   QString filePath = currentItem->data(FilePathDataRole).toString();
+
+   FileViews fileViews = m_tailEngine->fileViews(filePath);
+   QTextDocument *document = nullptr;
+
+   // Take first document of text view that returns one.
+   foreach (const FileView &view, fileViews) {
+      if (!view->viewFeatures().testFlag(FileViewInterface::HasTextView)) {
+         continue;
+      }
+      document = view->textDocument();
+      if (document) {
+         break;
+      }
+   }
+
+   if (!document) {
+      qInfo() << "No QTextDocument returned for file " << filePath
+              << ". Can't export text view.";
+      return;
+   }
+
+   QString exportFilePath = QFileDialog::getSaveFileName(this, tr("Export current view"),
+                                                         m_settings->lastOpenDir().absolutePath());
+   if (exportFilePath.isEmpty()) {
+      return;
+   }
+
+   QFile exportFile(exportFilePath);
+   if (!exportFile.open(QIODevice::WriteOnly)) {
+      return;
+   }
+
+   exportFile.write(document->toPlainText().toUtf8());
+
+   delete document;
 }
 
 void MainWindow::setSelectedLanguage(const QString &language)

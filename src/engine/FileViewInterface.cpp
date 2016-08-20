@@ -86,6 +86,18 @@ void FileViewInterface::setActiveFilters(const QList<FilterRule> &filters)
 }
 
 /*!
+ * \brief FileViewInterface::textDocument
+ * A text view should return a clone of its QTextDocument, if it has one.
+ * This is used by the application for export for example.
+ * The caller is responsible to delete the returned text document afterwards.
+ * \return
+ */
+QTextDocument *FileViewInterface::textDocument() const
+{
+   return nullptr;
+}
+
+/*!
  * \brief FileViewInterface::setHighlightingRules
  * Set the highlightin rules for this view. As line rules have to be applied first before
  * word rules are applied, these rules are dependent. This is the reason why this method
