@@ -26,6 +26,7 @@ void FileFilterWidget::setFilterGroups(const QList<FilterGroup> &groups)
    m_filterGroups = groups;
 
    setUiForFilterGroups(groups);
+   on_applyFiltersButton_clicked();
 }
 
 void FileFilterWidget::setActiveFilterIds(const QList<QUuid> &filterRuleIds)
