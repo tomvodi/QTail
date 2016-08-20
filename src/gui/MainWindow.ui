@@ -90,8 +90,9 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionPreferences"/>
+    <addaction name="actionHighlighting"/>
     <addaction name="actionFilter"/>
+    <addaction name="actionPreferences"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -252,6 +253,15 @@
    </property>
    <property name="text">
     <string>File Filters</string>
+   </property>
+  </action>
+  <action name="actionHighlighting_2">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resources/icons/categories/applications-graphics.png</normaloff>:/resources/icons/categories/applications-graphics.png</iconset>
+   </property>
+   <property name="text">
+    <string>Highlighting</string>
    </property>
   </action>
  </widget>
