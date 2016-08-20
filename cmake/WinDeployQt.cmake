@@ -72,6 +72,12 @@ function(windeployqt)
               # and keep its relative position in the QtDir
               string(REPLACE "${QtDir}/" "" file_path ${file_path})
 
+              # Platform plugins dir should be installed directly in bin dir
+              string(FIND ${file_path} "plugins/platforms" find_pos)
+              if (find_pos EQUAL 0)
+                  string(REPLACE "plugins/" "" file_path ${file_path})
+              endif()
+
               # If the file for deployment doesn't start with bin, prepend its path with bin
               string(FIND ${file_path} "bin/" find_pos)
               if (find_pos EQUAL -1)
@@ -87,7 +93,7 @@ function(windeployqt)
                   set(file_rel_path ".")
               endif()
 
-#              message(STATUS "Install file " ${install_file_path} " to directory " ${file_rel_path})
+              message(STATUS "Install file " ${install_file_path} " to directory " ${file_rel_path})
               install(FILES ${install_file_path} DESTINATION ${file_rel_path})
           else()
               # If the file has not the path prefix, create install for the file in the
