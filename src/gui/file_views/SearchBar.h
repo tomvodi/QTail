@@ -23,6 +23,14 @@ public:
    explicit SearchBar(QWidget *parent = 0);
    ~SearchBar();
 
+   int resultNumber() const;
+   void setResultNumber(int number);
+
+   int resultCount() const;
+   void setResultCount(int count);
+
+   void setResultNumberAndCount(int number, int count);
+
 private:
    Ui::SearchBar *ui;
 };

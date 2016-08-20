@@ -120,6 +120,13 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <widget class="QToolButton" name="navigateTopButton">
         <property name="toolTip">
@@ -140,10 +147,16 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="0" column="6">
+       <widget class="SearchBar" name="searchBar">
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
         </property>
        </widget>
       </item>
@@ -170,6 +183,12 @@
    <class>PlainTextEdit</class>
    <extends>QPlainTextEdit</extends>
    <header location="global">PlainTextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SearchBar</class>
+   <extends>QFrame</extends>
+   <header>SearchBar.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

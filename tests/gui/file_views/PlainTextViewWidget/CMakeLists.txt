@@ -10,10 +10,12 @@ set( Test_SOURCES
         ${source_dir}/gui/file_views/PlainTextViewWidget.cpp
         ${source_dir}/gui/file_views/PlainTextEdit.cpp
         ${source_dir}/gui/file_views/LineNumberArea.cpp
+        ${source_dir}/gui/file_views/SearchBar.cpp
         )
 
 set( Test_UIs
     ${source_dir}/gui/file_views/PlainTextViewWidget.ui
+    ${source_dir}/gui/file_views/SearchBar.ui
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 
