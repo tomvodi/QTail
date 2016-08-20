@@ -20,6 +20,7 @@ set(Project_Sources
   file_views/PlainTextEdit.cpp
   file_views/SyntaxHighlighter.cpp
   file_views/LineNumberArea.cpp
+  file_views/SearchBar.cpp
 
   tools/Settings.cpp
   tools/OpenFileSettings.cpp
@@ -48,6 +49,7 @@ set( Project_UIs
 
     file_views/FileListItemWidget.ui
     file_views/PlainTextViewWidget.ui
+    file_views/SearchBar.ui
 
     highlighting/HighlightingDialog.ui
     highlighting/ColorPicker.ui
