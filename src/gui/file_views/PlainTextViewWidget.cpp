@@ -100,7 +100,7 @@ void PlainTextViewWidget::searchDocument(const QString &text, Qt::CaseSensitivit
 
    QTextCharFormat searchResultFormat;
    searchResultFormat.setFont(textDocument->defaultFont());
-   searchResultFormat.setBackground(Qt::green);
+   searchResultFormat.setBackground(Qt::darkGreen);
    searchResultFormat.setForeground(Qt::yellow);
 
    QList<QTextEdit::ExtraSelection> searchSelections;
@@ -114,6 +114,8 @@ void PlainTextViewWidget::searchDocument(const QString &text, Qt::CaseSensitivit
       searchSelections.append(selection);
    }
 
+   ui->plainTextEdit->setTextCursor(firstResult);
+   ui->plainTextEdit->ensureCursorVisible();
    ui->plainTextEdit->setExtraSelections(searchSelections);
 }
 
