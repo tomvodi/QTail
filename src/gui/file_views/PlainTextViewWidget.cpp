@@ -51,7 +51,6 @@ void PlainTextViewWidget::creteConnections()
 void PlainTextViewWidget::initActions()
 {
    QKeySequence startSearchShortcut(QKeySequence::Find);
-   qDebug() << "Shortcut: " << startSearchShortcut.toString();
    QAction *startSearchAction = new QAction(this);
    startSearchAction->setShortcut(startSearchShortcut);
    connect(startSearchAction, &QAction::triggered,
@@ -97,6 +96,7 @@ void PlainTextViewWidget::searchDocument(const QString &text, Qt::CaseSensitivit
    QPlainTextEdit *textEdit = ui->plainTextEdit;
    QTextDocument *textDocument = textEdit->document();
    QTextCursor currentCursor = textEdit->textCursor();
+   currentCursor.clearSelection(); // To get QTextDocument::find to work properly
 
    // Find all results forwards beginning from current cursor
    QTextCursor findCursor = textDocument->find(text, currentCursor, findFlags);
