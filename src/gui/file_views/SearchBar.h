@@ -33,6 +33,14 @@ public:
 
 signals:
    void searchTriggered(const QString &text, Qt::CaseSensitivity caseSensitive);
+   void searchCleared();
+   void gotoNextResult();
+   void gotoPreviousResult();
+   void gotoFirstResult();
+   void gotoLastResult();
+
+private slots:
+   void textEdited(const QString &text);
 
 private:
    void createConnections();

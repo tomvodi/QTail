@@ -49,6 +49,13 @@ void SearchBar::setResultNumberAndCount(int number, int count)
    setResultCount(count);
 }
 
+void SearchBar::textEdited(const QString &text)
+{
+   if (text.isEmpty()) {
+      emit searchCleared();
+   }
+}
+
 void SearchBar::createConnections()
 {
    connect(ui->searchButton, &QToolButton::clicked,
@@ -56,4 +63,15 @@ void SearchBar::createConnections()
       emit searchTriggered(ui->searchLineEdit->text(),
                            (ui->caseCheckBox->isChecked() ? Qt::CaseSensitive : Qt::CaseInsensitive));
    });
+
+   connect(ui->nextResultButton, &QToolButton::clicked,
+           this, &SearchBar::gotoNextResult);
+   connect(ui->previousResultButton, &QToolButton::clicked,
+           this, &SearchBar::gotoPreviousResult);
+   connect(ui->firstResultButton, &QToolButton::clicked,
+           this, &SearchBar::gotoFirstResult);
+   connect(ui->lastResultButton, &QToolButton::clicked,
+           this, &SearchBar::gotoLastResult);
+   connect(ui->searchLineEdit, &QLineEdit::textEdited,
+           this, &SearchBar::textEdited);
 }

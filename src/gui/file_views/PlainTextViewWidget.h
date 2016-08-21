@@ -10,6 +10,7 @@
 #define PLAINTEXTVIEWWIDGET_H
 
 #include <QFrame>
+#include <QTextCursor>
 
 namespace Ui {
 class PlainTextViewWidget;
@@ -41,11 +42,19 @@ protected:
 
 private slots:
    void searchDocument(const QString &text, Qt::CaseSensitivity caseSensitive);
+   void gotoNextResult();
+   void gotoPreviousResult();
+   void gotoFirstResult();
+   void gotoLastResult();
+   void clearSearch();
 
 private:
    void setLineWrapOn(bool lineWrapOn);
-   Ui::PlainTextViewWidget *ui;
    void creteConnections();
+   Ui::PlainTextViewWidget *ui;
+   QList<QTextCursor> m_searchResults;
+   QTextCursor m_currentSearchResult;
+   void jumpToHighlightResult(const QTextCursor &cursor);
 };
 
 #endif // PLAINTEXTVIEWWIDGET_H
