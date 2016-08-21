@@ -93,9 +93,6 @@
    </item>
    <item>
     <widget class="QToolButton" name="nextResultButton">
-     <property name="toolTip">
-      <string>Go to next result</string>
-     </property>
      <property name="text">
       <string/>
      </property>
@@ -107,9 +104,6 @@
    </item>
    <item>
     <widget class="QToolButton" name="previousResultButton">
-     <property name="toolTip">
-      <string>Go to previous result</string>
-     </property>
      <property name="text">
       <string/>
      </property>

@@ -31,6 +31,9 @@ public:
 
    void setResultNumberAndCount(int number, int count);
 
+public slots:
+   void startSearch(const QString &text);
+
 signals:
    void searchTriggered(const QString &text, Qt::CaseSensitivity caseSensitive);
    void searchCleared();
@@ -41,9 +44,13 @@ signals:
 
 private slots:
    void textEdited(const QString &text);
+   void on_searchButton_clicked();
+   void on_nextResultButton_clicked();
+   void on_previousResultButton_clicked();
 
 private:
    void createConnections();
+   void initActions();
    Ui::SearchBar *ui;
 };
 

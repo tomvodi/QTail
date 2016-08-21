@@ -51,6 +51,7 @@ private slots:
 private:
    void setLineWrapOn(bool lineWrapOn);
    void creteConnections();
+   void initActions();
    Ui::PlainTextViewWidget *ui;
    QList<QTextCursor> m_searchResults;
    QTextCursor m_currentSearchResult;

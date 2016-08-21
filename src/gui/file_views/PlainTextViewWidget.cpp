@@ -6,6 +6,7 @@
  *
  */
 
+#include <QDebug>
 #include <QScrollBar>
 #include <QTextDocument>
 
@@ -20,6 +21,7 @@ PlainTextViewWidget::PlainTextViewWidget(QWidget *parent) :
 {
    ui->setupUi(this);
 
+   initActions();
    creteConnections();
 }
 
@@ -44,6 +46,25 @@ void PlainTextViewWidget::creteConnections()
            this, &PlainTextViewWidget::gotoLastResult);
    connect(ui->searchBar, &SearchBar::searchCleared,
            this, &PlainTextViewWidget::clearSearch);
+}
+
+void PlainTextViewWidget::initActions()
+{
+   QKeySequence startSearchShortcut(QKeySequence::Find);
+   qDebug() << "Shortcut: " << startSearchShortcut.toString();
+   QAction *startSearchAction = new QAction(this);
+   startSearchAction->setShortcut(startSearchShortcut);
+   connect(startSearchAction, &QAction::triggered,
+           [this] {
+      QString selectedText = ui->plainTextEdit->textCursor().selectedText();
+      if (selectedText.isEmpty()) {
+         return;
+      }
+
+      ui->searchBar->startSearch(selectedText);
+   });
+
+   addAction(startSearchAction);
 }
 
 PlainTextViewWidget::~PlainTextViewWidget()
