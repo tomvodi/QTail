@@ -39,9 +39,13 @@ public:
 protected:
    void changeEvent(QEvent *e);
 
+private slots:
+   void searchDocument(const QString &text, Qt::CaseSensitivity caseSensitive);
+
 private:
    void setLineWrapOn(bool lineWrapOn);
    Ui::PlainTextViewWidget *ui;
+   void creteConnections();
 };
 
 #endif // PLAINTEXTVIEWWIDGET_H

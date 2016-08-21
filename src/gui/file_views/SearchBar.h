@@ -31,7 +31,11 @@ public:
 
    void setResultNumberAndCount(int number, int count);
 
+signals:
+   void searchTriggered(const QString &text, Qt::CaseSensitivity caseSensitive);
+
 private:
+   void createConnections();
    Ui::SearchBar *ui;
 };
 

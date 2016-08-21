@@ -20,12 +20,19 @@ PlainTextViewWidget::PlainTextViewWidget(QWidget *parent) :
 {
    ui->setupUi(this);
 
+   creteConnections();
+}
+
+void PlainTextViewWidget::creteConnections()
+{
    connect(ui->navigateBottomButton, &QToolButton::clicked,
            ui->plainTextEdit, &PlainTextEdit::scrollToBottom);
    connect(ui->navigateTopButton, &QToolButton::clicked,
            ui->plainTextEdit, &PlainTextEdit::scrollToTop);
    connect(ui->navigateCursorButton, &QToolButton::clicked,
            ui->plainTextEdit, &PlainTextEdit::scrollToCursor);
+   connect(ui->searchBar, &SearchBar::searchTriggered,
+           this, &PlainTextViewWidget::searchDocument);
 }
 
 PlainTextViewWidget::~PlainTextViewWidget()
@@ -43,6 +50,71 @@ void PlainTextViewWidget::changeEvent(QEvent *e)
    default:
       break;
    }
+}
+
+void PlainTextViewWidget::searchDocument(const QString &text, Qt::CaseSensitivity caseSensitive)
+{
+   QList<QTextCursor> allResults;
+   QTextCursor firstResult;
+
+   QTextDocument::FindFlags findFlags;
+   if (caseSensitive == Qt::CaseSensitive) {
+      findFlags |= QTextDocument::FindCaseSensitively;
+   }
+
+   QPlainTextEdit *textEdit = ui->plainTextEdit;
+   QTextDocument *textDocument = textEdit->document();
+   QTextCursor currentCursor = textEdit->textCursor();
+
+   // Find all results forwards beginning from current cursor
+   QTextCursor findCursor = textDocument->find(text, currentCursor, findFlags);
+   if (!findCursor.isNull()) {
+      // Set to first result after current cursor pos
+      firstResult = findCursor;
+   }
+
+   while (!findCursor.isNull()) {
+      allResults.append(findCursor);
+      findCursor = textDocument->find(text, findCursor, findFlags);
+   }
+
+   // Find all results backwards beginning from current cursor
+   findFlags |= QTextDocument::FindBackward;
+   findCursor = textDocument->find(text, currentCursor, findFlags);
+   while (!findCursor.isNull()) {
+      allResults.prepend(findCursor);
+      findCursor = textDocument->find(text, findCursor, findFlags);
+   }
+
+   if (allResults.isEmpty()) {
+      ui->searchBar->setResultNumberAndCount(0, 0);
+      return;
+   }
+
+   if (firstResult.isNull()) {
+      // Set to first result because after current cursor pos wasn't a search match
+      firstResult = allResults.at(0);
+   }
+
+   ui->searchBar->setResultNumberAndCount(allResults.indexOf(firstResult), allResults.count());
+
+   QTextCharFormat searchResultFormat;
+   searchResultFormat.setFont(textDocument->defaultFont());
+   searchResultFormat.setBackground(Qt::green);
+   searchResultFormat.setForeground(Qt::yellow);
+
+   QList<QTextEdit::ExtraSelection> searchSelections;
+   foreach (const QTextCursor &cursor, allResults) {
+      if (cursor.isNull()) {
+         continue;
+      }
+      QTextEdit::ExtraSelection selection;
+      selection.format = searchResultFormat;
+      selection.cursor = cursor;
+      searchSelections.append(selection);
+   }
+
+   ui->plainTextEdit->setExtraSelections(searchSelections);
 }
 
 bool PlainTextViewWidget::lineWrapOn() const

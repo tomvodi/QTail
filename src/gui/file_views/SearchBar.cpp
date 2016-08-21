@@ -15,6 +15,7 @@ SearchBar::SearchBar(QWidget *parent) :
 {
    ui->setupUi(this);
    setResultNumberAndCount(0, 0);
+   createConnections();
 }
 
 SearchBar::~SearchBar()
@@ -46,4 +47,13 @@ void SearchBar::setResultNumberAndCount(int number, int count)
 {
    setResultNumber(number);
    setResultCount(count);
+}
+
+void SearchBar::createConnections()
+{
+   connect(ui->searchButton, &QToolButton::clicked,
+           [this] {
+      emit searchTriggered(ui->searchLineEdit->text(),
+                           (ui->caseCheckBox->isChecked() ? Qt::CaseSensitive : Qt::CaseInsensitive));
+   });
 }
