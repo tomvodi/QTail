@@ -40,6 +40,8 @@ private Q_SLOTS:
    void testMoveBottomWordHighlightItem();
    void testMoveTopWordHighlightItem();
    void testAddRuleIfListWidgetsAreEmpty();
+   void testAddWordHighlightingRule();
+   void testAddLineHighlightingRule();
 };
 
 HighlightingDialogTest::HighlightingDialogTest()
@@ -578,6 +580,30 @@ void HighlightingDialogTest::testAddRuleIfListWidgetsAreEmpty()
    dialog.on_addRuleButton_clicked();
 
    QVERIFY2(dialog.ui->wordRulesListWidget->count() == 1, "No word rule was added when both lists are empty.");
+}
+
+void HighlightingDialogTest::testAddWordHighlightingRule()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule rule;
+   rule.setText("rule 1 text");
+
+   dialog.addWordHighlightingRule(rule);
+
+   QVERIFY2(dialog.ui->wordRulesListWidget->count() == 1, "No word highlighting rule added.");
+}
+
+void HighlightingDialogTest::testAddLineHighlightingRule()
+{
+   HighlightingDialog dialog;
+
+   HighlightingRule rule;
+   rule.setText("rule 1 text");
+
+   dialog.addLineHighlightingRule(rule);
+
+   QVERIFY2(dialog.ui->lineRulesListWidget->count() == 1, "No line highlighting rule added.");
 }
 
 QTEST_MAIN(HighlightingDialogTest)

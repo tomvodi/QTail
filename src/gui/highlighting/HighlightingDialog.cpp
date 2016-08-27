@@ -89,6 +89,16 @@ void HighlightingDialog::setHighlightingRules(const QList<HighlightingRule> &lin
    }
 }
 
+void HighlightingDialog::addWordHighlightingRule(const HighlightingRule &rule)
+{
+   addNewRuleToListWidget(ui->wordRulesListWidget, rule);
+}
+
+void HighlightingDialog::addLineHighlightingRule(const HighlightingRule &rule)
+{
+   addNewRuleToListWidget(ui->lineRulesListWidget, rule);
+}
+
 QList<HighlightingRule> HighlightingDialog::wordHighlightingRules() const
 {
    return rulesFromListWidget(ui->wordRulesListWidget);

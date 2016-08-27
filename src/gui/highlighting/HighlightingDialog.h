@@ -32,6 +32,9 @@ public:
    void setHighlightingRules(const QList<HighlightingRule> &lineRules,
                              const QList<HighlightingRule> &wordRules);
 
+   void addWordHighlightingRule(const HighlightingRule &rule);
+   void addLineHighlightingRule(const HighlightingRule &rule);
+
 signals:
    void highlightingRulesChanged(const QList<HighlightingRule> &lineRules,
                                  const QList<HighlightingRule> &wordRules);
