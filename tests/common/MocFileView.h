@@ -19,6 +19,7 @@ public:
    MocFileView(QObject *parent=0);
 
    // FileViewInterface interface
+   void setApplicationInterface(const Application &app) override;
    FileViewInterface::Features viewFeatures() const override;
    void setFileState(FileState state) override;
    void appendLine(const QString &line) override;
@@ -42,6 +43,8 @@ public:
 
    QList<FilterRule> activeFilterRules() const;
 
+   Application application() const;
+
 private:
    void setTextViewLines(const QStringList &textViewLines);
    QStringList m_textViewLines;
@@ -54,6 +57,7 @@ private:
    QFont m_textViewFont;
    TextViewSettings m_textViewSettings;
    QList<FilterRule> m_activeFilterRules;
+   Application m_application;
 };
 
 #endif // MOCFILEVIEW_H

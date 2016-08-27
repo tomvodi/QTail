@@ -30,6 +30,11 @@ FileViewInterface::~FileViewInterface()
    delete d;
 }
 
+void FileViewInterface::setApplicationInterface(const Application &app)
+{
+   Q_UNUSED(app)
+}
+
 void FileViewInterface::setFileInfo(const QFileInfo &fileInfo)
 {
    d->fileInfo = fileInfo;

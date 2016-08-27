@@ -18,6 +18,7 @@
 
 #include <include/FilterGroup.h>
 #include <include/TextViewSettings.h>
+#include <include/ApplicationInterface.h>
 
 class FileReadLogic;
 class FileViewInterface;
@@ -40,6 +41,7 @@ class TailEngine : public QObject
 public:
    explicit TailEngine(QObject *parent = 0);
 
+   void setApplicationInterface(const Application &app);
    void addFiles(const QFileInfo &file, const FileViews &views);
    void addFile(const QFileInfo &file, const FileView &view);
    FileViews fileViews(const QFileInfo &file);
@@ -84,6 +86,7 @@ private:
    QHash<QFileInfo, FileContext> m_fileContexts;
    QFont m_textViewFont;
    TextViewSettings m_textViewSettings;
+   Application m_application;
    void setFileContextOfFile(const QFileInfo &file, FileContext context);
    void handleChangedFileSize(const QFileInfo &file, qint64 oldSize, qint64 newSize);
    void handleRemovedFile(const QFileInfo &file);

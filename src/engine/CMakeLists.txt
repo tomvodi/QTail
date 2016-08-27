@@ -18,12 +18,14 @@ set(Project_Sources
 
   FileViewInterface.cpp
   FileWatcherInterface.cpp
+  ApplicationInterface.cpp
 
   include/FileViewInterface.h
   include/FileWatcherInterface.h
   include/HighlightingRule.h
   include/FilterRule.h
   include/FilterGroup.h
+  include/ApplicationInterface.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})

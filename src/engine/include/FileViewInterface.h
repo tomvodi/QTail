@@ -17,6 +17,7 @@
 #include <QFileInfo>
 
 #include "HighlightingRule.h"
+#include "ApplicationInterface.h"
 
 enum class FileState {
    FileError,   //! File doesn't exist
@@ -47,6 +48,7 @@ public:
    FileViewInterface(QObject *parent=0);
    virtual ~FileViewInterface();
 
+   virtual void setApplicationInterface(const Application &app);
    virtual void setFileInfo(const QFileInfo &fileInfo);
    QFileInfo fileInfo() const;
    virtual FileViewInterface::Features viewFeatures() const;

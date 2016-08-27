@@ -21,6 +21,23 @@ TailEngine::TailEngine(QObject *parent)
 
 }
 
+/*!
+ * \brief TailEngine::setApplicationInterface
+ * Sets the interface to the application. This object will be populated to all existing views
+ * and views that will be added.
+ * \param app
+ */
+void TailEngine::setApplicationInterface(const Application &app)
+{
+   m_application = app;
+
+   foreach (FileContext context, m_fileContexts) {
+      foreach (FileView fileView, context.fileViews()) {
+         fileView->setApplicationInterface(m_application);
+      }
+   }
+}
+
 void TailEngine::addFiles(const QFileInfo &file, const FileViews &views)
 {
    foreach (const FileView &view, views) {
@@ -31,6 +48,7 @@ void TailEngine::addFiles(const QFileInfo &file, const FileViews &views)
 void TailEngine::addFile(const QFileInfo &file, const FileView &view)
 {
    view->setFileInfo(file);
+   view->setApplicationInterface(m_application);
 
    FileWatcher *fileWatcher = new FileWatcher(this);
    fileWatcher->setFilePath(file.absoluteFilePath());

@@ -13,6 +13,7 @@
 
 #include <engine/TailEngine.h>
 
+#include <MocApplicationInterface.h>
 #include <MocFileView.h>
 #include <MocFileWatcher.h>
 #include <TestCommon.h>
@@ -43,6 +44,7 @@ private Q_SLOTS:
    void testSetTextViewSettings();
    void testSetActiveFilters();
    void testSetActiveFiltersBeforeOpenFile();
+   void testSetApplicationInterface();
 };
 
 TailEngineTest::TailEngineTest()
@@ -450,6 +452,34 @@ void TailEngineTest::testSetActiveFiltersBeforeOpenFile()
 
    QVERIFY2(fileView->activeFilterRules() == QList<FilterRule>({activeRule, deactivatedRule}),
             "FilterGroups weren't set to view.");
+}
+
+/*!
+ * \brief TailEngineTest::testSetApplicationInterface
+ * The application object should be set to existing and new set file views.
+ */
+void TailEngineTest::testSetApplicationInterface()
+{
+   TailEngine engine;
+
+   MocApplicationInterface *mocApp = new MocApplicationInterface;
+   Application app(mocApp);
+
+   MocFileView *fileViewExisting = new MocFileView(this);
+   FileView sharedExistingFileView(fileViewExisting);
+   QString existingFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("existingFile.log"));
+
+   engine.addFile(existingFilePath, sharedExistingFileView);
+
+   engine.setApplicationInterface(app);
+   QVERIFY2(fileViewExisting->application() == app, "Application object wasn't set on existing file view");
+
+   MocFileView *fileViewNew = new MocFileView(this);
+   FileView sharedNewFileView(fileViewNew);
+   QString newFilePath = TestCommon::generateExistingFileInPath(QStringLiteral("newFile.log"));
+
+   engine.addFile(newFilePath, {sharedNewFileView});
+   QVERIFY2(fileViewNew->application() == app, "Application object wasn't set on new file view");
 }
 
 QTEST_MAIN(TailEngineTest)
