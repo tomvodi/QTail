@@ -224,81 +224,92 @@
         <translation>Kürzlich geöffnet</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="72"/>
+        <location filename="../MainWindow.ui" line="73"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="78"/>
+        <location filename="../MainWindow.ui" line="79"/>
         <source>&amp;View</source>
         <translation>&amp;Ansicht</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="82"/>
+        <location filename="../MainWindow.ui" line="83"/>
         <source>Windows</source>
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="91"/>
+        <location filename="../MainWindow.ui" line="93"/>
         <source>&amp;Edit</source>
         <translation>B&amp;earbeiten</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="121"/>
-        <location filename="../MainWindow.ui" line="225"/>
+        <location filename="../MainWindow.ui" line="124"/>
+        <location filename="../MainWindow.ui" line="228"/>
         <source>Open Files</source>
         <translation>Dateien öffnen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="151"/>
-        <location filename="../MainWindow.ui" line="254"/>
+        <location filename="../MainWindow.ui" line="154"/>
+        <location filename="../MainWindow.ui" line="257"/>
         <source>File Filters</source>
         <translation>Dateifilter</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="182"/>
+        <location filename="../MainWindow.ui" line="185"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="191"/>
+        <location filename="../MainWindow.ui" line="194"/>
         <source>&amp;Open</source>
         <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="194"/>
+        <location filename="../MainWindow.ui" line="197"/>
         <source>Ctrl+O</source>
         <translation>Strg+O</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="199"/>
+        <location filename="../MainWindow.ui" line="202"/>
         <source>About QTail</source>
         <translation>Über QTail</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="208"/>
+        <location filename="../MainWindow.ui" line="211"/>
+        <location filename="../MainWindow.ui" line="266"/>
         <source>Highlighting</source>
         <translation>Hervorhebungen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="211"/>
+        <location filename="../MainWindow.ui" line="214"/>
         <source>Highlight </source>
         <translation>Hervorhebung</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="214"/>
+        <location filename="../MainWindow.ui" line="217"/>
         <source>Alt+G</source>
         <translation>Alt+G</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="234"/>
+        <location filename="../MainWindow.ui" line="237"/>
         <source>&amp;Preferences</source>
         <translation>Ein&amp;stellungen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="243"/>
+        <location filename="../MainWindow.ui" line="246"/>
         <source>Filter</source>
         <translation>Filter</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="277"/>
+        <source>Toolbar</source>
+        <translation>Werkzeugleiste</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="286"/>
+        <source>Export current view</source>
+        <translation>Aktuelle Ansicht exportieren</translation>
     </message>
 </context>
 <context>
@@ -324,12 +335,12 @@
         <translation>Zum Cursor navigieren</translation>
     </message>
     <message>
-        <location filename="../file_views/PlainTextViewWidget.ui" line="126"/>
+        <location filename="../file_views/PlainTextViewWidget.ui" line="133"/>
         <source>Navigate to top of file</source>
         <translation>Zum Anfang der Datei navigieren</translation>
     </message>
     <message>
-        <location filename="../file_views/PlainTextViewWidget.ui" line="129"/>
+        <location filename="../file_views/PlainTextViewWidget.ui" line="136"/>
         <source>Navigate to top</source>
         <translation>Zum Anfang der Datei navigieren</translation>
     </message>
@@ -385,6 +396,29 @@
         <location filename="../PreferencesDialog.ui" line="71"/>
         <source>Update interval:</source>
         <translation>Zeitintervall für Aktualisierung:</translation>
+    </message>
+</context>
+<context>
+    <name>SearchBar</name>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="48"/>
+        <source>Start search</source>
+        <translation>Suche starten</translation>
+    </message>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="62"/>
+        <source>Match case</source>
+        <translation>Groß/Kleinschreibung</translation>
+    </message>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="119"/>
+        <source>Go to first result</source>
+        <translation>Zum ersten Ergebnis</translation>
+    </message>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="133"/>
+        <source>Go to last result</source>
+        <translation>Zum letzten Ergebnis</translation>
     </message>
 </context>
 </TS>

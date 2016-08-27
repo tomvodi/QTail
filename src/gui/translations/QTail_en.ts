@@ -224,80 +224,91 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="72"/>
+        <location filename="../MainWindow.ui" line="73"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="78"/>
+        <location filename="../MainWindow.ui" line="79"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="82"/>
+        <location filename="../MainWindow.ui" line="83"/>
         <source>Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="91"/>
+        <location filename="../MainWindow.ui" line="93"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="121"/>
-        <location filename="../MainWindow.ui" line="225"/>
+        <location filename="../MainWindow.ui" line="124"/>
+        <location filename="../MainWindow.ui" line="228"/>
         <source>Open Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="151"/>
-        <location filename="../MainWindow.ui" line="254"/>
+        <location filename="../MainWindow.ui" line="154"/>
+        <location filename="../MainWindow.ui" line="257"/>
         <source>File Filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="182"/>
+        <location filename="../MainWindow.ui" line="185"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="191"/>
+        <location filename="../MainWindow.ui" line="194"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="194"/>
+        <location filename="../MainWindow.ui" line="197"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="199"/>
+        <location filename="../MainWindow.ui" line="202"/>
         <source>About QTail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="208"/>
+        <location filename="../MainWindow.ui" line="211"/>
+        <location filename="../MainWindow.ui" line="266"/>
         <source>Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="211"/>
+        <location filename="../MainWindow.ui" line="214"/>
         <source>Highlight </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="214"/>
+        <location filename="../MainWindow.ui" line="217"/>
         <source>Alt+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="234"/>
+        <location filename="../MainWindow.ui" line="237"/>
         <source>&amp;Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="243"/>
+        <location filename="../MainWindow.ui" line="246"/>
         <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="277"/>
+        <source>Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="286"/>
+        <source>Export current view</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -324,12 +335,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../file_views/PlainTextViewWidget.ui" line="126"/>
+        <location filename="../file_views/PlainTextViewWidget.ui" line="133"/>
         <source>Navigate to top of file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../file_views/PlainTextViewWidget.ui" line="129"/>
+        <location filename="../file_views/PlainTextViewWidget.ui" line="136"/>
         <source>Navigate to top</source>
         <translation type="unfinished"></translation>
     </message>
@@ -384,6 +395,29 @@
     <message>
         <location filename="../PreferencesDialog.ui" line="71"/>
         <source>Update interval:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchBar</name>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="48"/>
+        <source>Start search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="62"/>
+        <source>Match case</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="119"/>
+        <source>Go to first result</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../file_views/SearchBar.ui" line="133"/>
+        <source>Go to last result</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
