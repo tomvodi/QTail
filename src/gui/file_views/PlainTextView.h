@@ -26,6 +26,7 @@ public:
    PlainTextView(QObject *parent=0);
 
    // FileViewInterface interface
+   void setApplicationInterface(const Application &app) override;
    FileViewInterface::Features viewFeatures() const override;
    void appendLine(const QString &line) override;
    void appendLines(const QStringList &lines) override;

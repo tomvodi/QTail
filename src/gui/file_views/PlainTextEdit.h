@@ -12,10 +12,13 @@
 #include <QPointer>
 #include <QPlainTextEdit>
 
+#include <include/HighlightingRule.h>
+
 class LineNumberArea;
 
 class PlainTextEdit : public QPlainTextEdit
 {
+   Q_OBJECT
 public:
    PlainTextEdit(QWidget *parent=0);
 
@@ -31,11 +34,16 @@ public slots:
 
 protected:
    void resizeEvent(QResizeEvent *event) override;
+   void contextMenuEvent(QContextMenuEvent *event) override;
 
 private slots:
    void updateLineNumberAreaWidth(int newBlockCount);
    void highlightCurrentLine();
    void updateLineNumberArea(const QRect &rect, int dy);
+
+signals:
+   void addLineHighlightRequested(const HighlightingRule &rule);
+   void addWordHighlightRequested(const HighlightingRule &rule);
 
 private:
    inline int lineNumberAreaLeftPadding(const QFontMetrics &metrics) const;

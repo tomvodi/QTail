@@ -126,3 +126,8 @@ QTextDocument *PlainTextView::textDocument() const
 {
    return m_textDocument->clone();
 }
+
+void PlainTextView::setApplicationInterface(const Application &app)
+{
+   m_textEdit->setApplicationInterface(app);
+}

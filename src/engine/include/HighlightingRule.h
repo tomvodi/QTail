@@ -23,6 +23,7 @@ class HighlightingRule
 {
 public:
    HighlightingRule();
+   HighlightingRule(const QString &text);
    HighlightingRule(const HighlightingRule &);
    HighlightingRule &operator=(const HighlightingRule &);
    bool operator==(const HighlightingRule &other) const;

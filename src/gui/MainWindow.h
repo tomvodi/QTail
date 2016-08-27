@@ -28,6 +28,8 @@ class HighlightingDialog;
 class PreferencesDialog;
 class FilterDialog;
 class FileFilterWidget;
+class ApplicationInterface;
+typedef QSharedPointer<ApplicationInterface> Application;
 
 class MainWindow : public QMainWindow
 {
@@ -99,6 +101,7 @@ private:
    PreferencesDialog *m_preferencesDialog;
    FilterDialog *m_filterDialog;
    FileFilterWidget *m_fileFilterWidget;
+   Application m_application;
 };
 
 #endif // MAINWINDOW_H

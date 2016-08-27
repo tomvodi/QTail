@@ -12,6 +12,8 @@
 #include <QFrame>
 #include <QTextCursor>
 
+#include <include/ApplicationInterface.h>
+
 namespace Ui {
 class PlainTextViewWidget;
 }
@@ -27,14 +29,12 @@ public:
    explicit PlainTextViewWidget(QWidget *parent = 0);
    ~PlainTextViewWidget();
 
+   void setApplicationInterface(const Application &app);
    void appendPlainText(const QString &text);
    QString toPlainText() const;
    void clear();
-
    bool lineWrapOn() const;
-
    void setTextDocument(QTextDocument *document);
-
    void setTextViewSettings(const TextViewSettings &settings);
 
 protected:

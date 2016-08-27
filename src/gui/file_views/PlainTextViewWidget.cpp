@@ -71,6 +71,18 @@ PlainTextViewWidget::~PlainTextViewWidget()
    delete ui;
 }
 
+void PlainTextViewWidget::setApplicationInterface(const Application &app)
+{
+   connect(ui->plainTextEdit, &PlainTextEdit::addLineHighlightRequested,
+           [app] (const HighlightingRule &rule) {
+      app->addLineHighlightingRule(rule);
+   });
+   connect(ui->plainTextEdit, &PlainTextEdit::addWordHighlightRequested,
+           [app] (const HighlightingRule &rule) {
+      app->addWordHighlightingRule(rule);
+   });
+}
+
 void PlainTextViewWidget::changeEvent(QEvent *e)
 {
    QFrame::changeEvent(e);

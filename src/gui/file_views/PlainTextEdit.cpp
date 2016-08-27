@@ -9,6 +9,9 @@
 #include <QPainter>
 #include <QTextBlock>
 #include <QScrollBar>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QTextDocumentFragment>
 
 #include "PlainTextEdit.h"
 #include "LineNumberArea.h"
@@ -136,6 +139,36 @@ void PlainTextEdit::resizeEvent(QResizeEvent *event)
                                        lineNumberAreaWidth(), cr.height()));
 }
 
+void PlainTextEdit::contextMenuEvent(QContextMenuEvent *event)
+{
+   QMenu *menu = createStandardContextMenu(event->pos());
+
+   // From here on, add actions that depending on a current text selection.
+   QAction *textSelectedAction = nullptr;
+   QString selectedText;
+   QTextCursor cursor = textCursor();
+   if (!cursor.hasSelection()) {
+      goto exec_menu;
+   }
+   selectedText = cursor.selection().toPlainText();
+
+   textSelectedAction = menu->addAction(tr("Create line highlight rule"));
+   connect(textSelectedAction, &QAction::triggered, [this, selectedText] {
+      HighlightingRule rule(selectedText);
+      emit addLineHighlightRequested(rule);
+   });
+
+   textSelectedAction = menu->addAction(tr("Create word highlight rule"));
+   connect(textSelectedAction, &QAction::triggered, [this, selectedText] {
+      HighlightingRule rule(selectedText);
+      emit addWordHighlightRequested(rule);
+   });
+
+exec_menu:
+   menu->exec(event->globalPos());
+   delete menu;
+}
+
 void PlainTextEdit::updateLineNumberAreaWidth(int newBlockCount)
 {
    adjustViewportMarginsForLineNumberArea();
@@ -173,4 +206,3 @@ void PlainTextEdit::updateLineNumberArea(const QRect &rect, int dy)
       updateLineNumberAreaWidth(0);
    }
 }
-

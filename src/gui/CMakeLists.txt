@@ -12,6 +12,7 @@ set(Project_Sources
   MainWindow.cpp
   AboutDialog.cpp
   PreferencesDialog.cpp
+  ViewApplication.cpp
 
   file_views/FileListItemView.cpp
   file_views/FileListItemWidget.cpp

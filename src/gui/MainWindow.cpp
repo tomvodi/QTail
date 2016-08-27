@@ -22,6 +22,7 @@
 #include <QTail_version.h>
 #include <TailEngine.h>
 #include <include/FilterGroup.h>
+#include <include/ApplicationInterface.h>
 
 #include "file_views/PlainTextView.h"
 #include "file_views/FileListItemView.h"
@@ -33,6 +34,7 @@
 #include "filter/FilterDialog.h"
 #include "filter/FileFilterWidget.h"
 #include "AboutDialog.h"
+#include "ViewApplication.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -54,7 +56,12 @@ MainWindow::MainWindow(QWidget *parent) :
    m_fileFilterWidget->setFilterGroups(m_settings->filterGroups());
    ui->filterDockWidgetContentLayout->addWidget(m_fileFilterWidget);
 
+   ViewApplication *viewApplication = new ViewApplication;
+   viewApplication->setHighlightingDialog(m_highlightingDialog);
+   m_application = Application(viewApplication);
+
    m_tailEngine = new TailEngine(this);
+   m_tailEngine->setApplicationInterface(m_application);
    TextViewSettings textViewSettings;
    textViewSettings.setFont(m_settings->textViewFont());
    textViewSettings.setLineWrapOn(m_settings->textViewLineWrap());
@@ -545,3 +552,4 @@ void MainWindow::FileViewItems::setListWidget(const QPointer<QWidget> &listWidge
 {
    m_listWidget = listWidget;
 }
+

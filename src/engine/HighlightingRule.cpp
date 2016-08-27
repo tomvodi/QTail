@@ -31,6 +31,12 @@ HighlightingRule::HighlightingRule()
    qRegisterMetaTypeStreamOperators<HighlightingRule>("HighlightingRule");
 }
 
+HighlightingRule::HighlightingRule(const QString &text)
+   : data(new HighlightingRuleData)
+{
+   setText(text);
+}
+
 HighlightingRule::HighlightingRule(const HighlightingRule &rhs)
    : data(rhs.data)
 {
