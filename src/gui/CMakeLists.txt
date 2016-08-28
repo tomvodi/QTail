@@ -33,6 +33,8 @@ set(Project_Sources
 
   filter/FilterDialog.cpp
   filter/FileFilterWidget.cpp
+
+  columnize/ColumnizeDialog.cpp
 )
 
 if (WIN32)
@@ -58,6 +60,8 @@ set( Project_UIs
 
     filter/FilterDialog.ui
     filter/FileFilterWidget.ui
+
+    columnize/ColumnizeDialog.ui
 )
 
 qt5_wrap_ui(Project_Sources

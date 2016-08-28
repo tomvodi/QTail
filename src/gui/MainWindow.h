@@ -30,6 +30,7 @@ class FilterDialog;
 class FileFilterWidget;
 class ApplicationInterface;
 typedef QSharedPointer<ApplicationInterface> Application;
+class ColumnizeDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -46,6 +47,7 @@ private slots:
    void on_actionHighlighting_triggered();
    void on_actionPreferences_triggered();
    void on_actionFilter_triggered();
+   void on_actionColumnize_triggered();
    void settingsValueHasChanged(Settings::SettingCategory valueType);
    void on_fileListWidget_currentItemChanged(QListWidgetItem *currentItem, QListWidgetItem *previousItem);
    void on_actionExportCurrentView_triggered();
@@ -102,6 +104,7 @@ private:
    FilterDialog *m_filterDialog;
    FileFilterWidget *m_fileFilterWidget;
    Application m_application;
+   ColumnizeDialog *m_columnizeDialog;
 };
 
 #endif // MAINWINDOW_H

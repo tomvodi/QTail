@@ -33,6 +33,7 @@
 #include "PreferencesDialog.h"
 #include "filter/FilterDialog.h"
 #include "filter/FileFilterWidget.h"
+#include "columnize/ColumnizeDialog.h"
 #include "AboutDialog.h"
 #include "ViewApplication.h"
 #include "MainWindow.h"
@@ -45,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
    m_highlightingDialog(new HighlightingDialog(this)),
    m_preferencesDialog(new PreferencesDialog(this)),
    m_filterDialog(new FilterDialog(this)),
-   m_fileFilterWidget(new FileFilterWidget(this))
+   m_fileFilterWidget(new FileFilterWidget(this)),
+   m_columnizeDialog(new ColumnizeDialog(this))
 {
    ui->setupUi(this);
 
@@ -118,6 +120,11 @@ void MainWindow::on_actionPreferences_triggered()
 void MainWindow::on_actionFilter_triggered()
 {
    m_filterDialog->show();
+}
+
+void MainWindow::on_actionColumnize_triggered()
+{
+   m_columnizeDialog->show();
 }
 
 void MainWindow::settingsValueHasChanged(Settings::SettingCategory valueType)

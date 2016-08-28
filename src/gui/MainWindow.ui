@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1118</width>
-    <height>784</height>
+    <width>1103</width>
+    <height>774</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -50,7 +50,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1118</width>
+     <width>1103</width>
      <height>27</height>
     </rect>
    </property>
@@ -94,6 +94,7 @@
     </property>
     <addaction name="actionHighlighting"/>
     <addaction name="actionFilter"/>
+    <addaction name="actionColumnize"/>
     <addaction name="actionPreferences"/>
    </widget>
    <addaction name="menuFile"/>
@@ -115,6 +116,7 @@
    <addaction name="separator"/>
    <addaction name="actionHighlighting"/>
    <addaction name="actionFilter"/>
+   <addaction name="actionColumnize"/>
    <addaction name="separator"/>
    <addaction name="actionPreferences"/>
   </widget>
@@ -284,6 +286,18 @@
    </property>
    <property name="text">
     <string>Export current view</string>
+   </property>
+  </action>
+  <action name="actionColumnize">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/resources/icons/mimetypes/x-office-spreadsheet.png</normaloff>:/resources/icons/mimetypes/x-office-spreadsheet.png</iconset>
+   </property>
+   <property name="text">
+    <string>Columnize</string>
+   </property>
+   <property name="toolTip">
+    <string>Define columns for logfile lines</string>
    </property>
   </action>
  </widget>

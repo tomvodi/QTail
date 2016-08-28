@@ -49,5 +49,6 @@
         <file>resources/icons/actions/document-edit.png</file>
         <file>resources/icons/actions/document-save-as.png</file>
         <file>resources/icons/actions/edit-find.png</file>
+        <file>resources/icons/mimetypes/x-office-spreadsheet.png</file>
     </qresource>
 </RCC>
