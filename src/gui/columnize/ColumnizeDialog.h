@@ -23,6 +23,10 @@ public:
    explicit ColumnizeDialog(QWidget *parent = 0);
    ~ColumnizeDialog();
 
+private slots:
+   void on_testTextEdit_textChanged();
+   void on_testColumnizeButton_clicked();
+
 private:
    Ui::ColumnizeDialog *ui;
 };
