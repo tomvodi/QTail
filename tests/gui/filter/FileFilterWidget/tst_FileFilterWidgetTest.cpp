@@ -150,6 +150,7 @@ void FileFilterWidgetTest::testEmitActiveFilterIdsChanged()
    Q_ASSERT(ruleItems.count());
    ruleItems.at(0)->setCheckState(0, Qt::Checked);
 
+   spy.clear();
    widget.ui->applyFiltersButton->clicked();
    QVERIFY2(spy.count() == 1, "active filter ids changed signal wasn't emitted.");
    QVariantList parameters = spy.at(0);
