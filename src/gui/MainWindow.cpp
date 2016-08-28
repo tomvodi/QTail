@@ -34,6 +34,7 @@
 #include "filter/FilterDialog.h"
 #include "filter/FileFilterWidget.h"
 #include "columnize/ColumnizeDialog.h"
+#include "columnize/app/AppColumnDefinitionFactory.h"
 #include "AboutDialog.h"
 #include "ViewApplication.h"
 #include "MainWindow.h"
@@ -57,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
    m_filterDialog->setFilterGroups(m_settings->filterGroups());
    m_fileFilterWidget->setFilterGroups(m_settings->filterGroups());
    ui->filterDockWidgetContentLayout->addWidget(m_fileFilterWidget);
+
+   AppColumnDefinitionFactory *colFactory = new AppColumnDefinitionFactory;
+   m_columnizeDialog->setColumnFactory(ColumnFactory(colFactory));
 
    ViewApplication *viewApplication = new ViewApplication;
    viewApplication->setHighlightingDialog(m_highlightingDialog);

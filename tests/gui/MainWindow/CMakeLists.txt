@@ -12,12 +12,14 @@ file(GLOB source_files_views ${source_dir}/gui/file_views/*.cpp)
 file(GLOB source_files_highlighting ${source_dir}/gui/highlighting/*.cpp)
 file(GLOB source_files_filter ${source_dir}/gui/filter/*.cpp)
 file(GLOB source_files_columnize ${source_dir}/gui/columnize/*.cpp)
+file(GLOB source_files_columnize_app ${source_dir}/gui/columnize/app/*.cpp)
 
 file(GLOB ui_files_topmost ${source_dir}/gui/*.ui)
 file(GLOB ui_files_views ${source_dir}/gui/file_views/*.ui)
 file(GLOB ui_files_highlighting ${source_dir}/gui/highlighting/*.ui)
 file(GLOB ui_files_filter ${source_dir}/gui/filter/*.ui)
 file(GLOB ui_files_columnize ${source_dir}/gui/columnize/*.ui)
+file(GLOB ui_files_columnize_app ${source_dir}/gui/columnize/app/*.ui)
 
 set( Test_SOURCES
   tst_${testname}.cpp
@@ -27,6 +29,7 @@ set( Test_SOURCES
   ${source_files_highlighting}
   ${source_files_filter}
   ${source_files_columnize}
+  ${source_files_columnize_app}
 )
 
 set( Test_UIs
@@ -35,6 +38,7 @@ set( Test_UIs
   ${ui_files_highlighting}
   ${ui_files_filter}
   ${ui_files_columnize}
+  ${ui_files_columnize_app}
 )
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 

@@ -34,7 +34,13 @@ set(Project_Sources
   filter/FilterDialog.cpp
   filter/FileFilterWidget.cpp
 
+  columnize/ColumnGlobals.h
   columnize/ColumnizeDialog.cpp
+  columnize/ColumnDefinitionDialog.cpp
+  columnize/ColumnDefinitionInterface.cpp
+  columnize/ColumnDefinitionFactory.cpp
+
+  columnize/app/AppColumnDefinitionFactory.cpp
 )
 
 if (WIN32)
@@ -62,6 +68,7 @@ set( Project_UIs
     filter/FileFilterWidget.ui
 
     columnize/ColumnizeDialog.ui
+    columnize/ColumnDefinitionDialog.ui
 )
 
 qt5_wrap_ui(Project_Sources

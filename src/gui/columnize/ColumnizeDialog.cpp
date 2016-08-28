@@ -6,12 +6,14 @@
  *
  */
 
+#include "ColumnDefinitionDialog.h"
 #include "ColumnizeDialog.h"
 #include "ui_ColumnizeDialog.h"
 
 ColumnizeDialog::ColumnizeDialog(QWidget *parent) :
    QDialog(parent),
-   ui(new Ui::ColumnizeDialog)
+   ui(new Ui::ColumnizeDialog),
+   m_defintionDialog(new ColumnDefinitionDialog)
 {
    ui->setupUi(this);
    on_testTextEdit_textChanged();
@@ -53,4 +55,19 @@ void ColumnizeDialog::on_testColumnizeButton_clicked()
       item->setText(columnText);
       ui->testOutputTableWidget->setItem(0, i, item);
    }
+}
+
+void ColumnizeDialog::on_addDefinitionButton_clicked()
+{
+   m_defintionDialog->exec();
+}
+
+ColumnFactory ColumnizeDialog::columnFactory() const
+{
+   return m_defintionDialog->columnFactory();
+}
+
+void ColumnizeDialog::setColumnFactory(const ColumnFactory &columnFactory)
+{
+   m_defintionDialog->setColumnFactory(columnFactory);
 }
