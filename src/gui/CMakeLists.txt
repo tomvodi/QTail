@@ -39,6 +39,7 @@ set(Project_Sources
   columnize/ColumnDefinitionDialog.cpp
   columnize/ColumnDefinitionInterface.cpp
   columnize/ColumnDefinitionFactory.cpp
+  columnize/ColumnDefinitionDelegate.cpp
 
   columnize/app/AppColumnDefinitionFactory.cpp
   columnize/app/TextDefinition.cpp

@@ -6,6 +6,7 @@
  *
  */
 
+#include "ColumnDefinitionDelegate.h"
 #include "ColumnDefinitionDialog.h"
 #include "ui_ColumnDefinitionDialog.h"
 
@@ -14,6 +15,7 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
    ui(new Ui::ColumnDefinitionDialog)
 {
    ui->setupUi(this);
+   ui->definitionsListWidget->setItemDelegate(new ColumnDefinitionDelegate);
 }
 
 ColumnDefinitionDialog::~ColumnDefinitionDialog()
@@ -49,6 +51,5 @@ void ColumnDefinitionDialog::updateDefinitionList()
 void ColumnDefinitionDialog::addDefinitionToList(const ColumnDefinition &definition)
 {
    QListWidgetItem *item = new QListWidgetItem(ui->definitionsListWidget);
-   item->setText(definition->name());
-   item->setToolTip(definition->description());
+   item->setData(ColumnDefinitionDataRole, QVariant::fromValue<ColumnDefinition>(definition));
 }
