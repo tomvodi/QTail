@@ -11,6 +11,8 @@
 
 #include <QSharedPointer>
 
+#include "ColumnGlobals.h"
+
 class ColumnDefinitionInterface
 {
 public:
@@ -19,6 +21,12 @@ public:
 
    virtual QString name() const = 0;
    virtual QString description() const = 0;
+
+   ColumnType type() const;
+   void setType(const ColumnType &type);
+
+private:
+   ColumnType m_type;
 };
 
 typedef QSharedPointer<ColumnDefinitionInterface> ColumnDefinition;

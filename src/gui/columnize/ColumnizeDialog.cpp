@@ -6,6 +6,7 @@
  *
  */
 
+#include "ColumnDefinitionDelegate.h"
 #include "ColumnDefinitionDialog.h"
 #include "ColumnizeDialog.h"
 #include "ui_ColumnizeDialog.h"
@@ -16,6 +17,7 @@ ColumnizeDialog::ColumnizeDialog(QWidget *parent) :
    m_defintionDialog(new ColumnDefinitionDialog)
 {
    ui->setupUi(this);
+   ui->columnDefinitionsListWidget->setItemDelegate(new ColumnDefinitionDelegate(this));
    on_testTextEdit_textChanged();
 }
 
@@ -60,6 +62,17 @@ void ColumnizeDialog::on_testColumnizeButton_clicked()
 void ColumnizeDialog::on_addDefinitionButton_clicked()
 {
    m_defintionDialog->exec();
+   if (m_defintionDialog->result() == QDialog::Accepted) {
+      ColumnDefinition definition = m_defintionDialog->selectedDefinition();
+      addDefinitionToList(definition);
+   }
+}
+
+void ColumnizeDialog::addDefinitionToList(const ColumnDefinition &definition)
+{
+   QListWidgetItem *item = new QListWidgetItem(ui->columnDefinitionsListWidget);
+   item->setData(ColumnDefinitionDataRole, QVariant::fromValue<ColumnDefinition>(definition));
+   item->setData(ColumnTypeDataRole, QVariant::fromValue<ColumnType>(definition->type()));
 }
 
 ColumnFactory ColumnizeDialog::columnFactory() const

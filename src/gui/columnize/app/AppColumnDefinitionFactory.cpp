@@ -22,17 +22,22 @@ QList<ColumnType> AppColumnDefinitionFactory::supportedTypes() const
 
 ColumnDefinition AppColumnDefinitionFactory::getDefinition(ColumnType type)
 {
+   ColumnDefinition definition;
    switch (type) {
    case Text:
-      return ColumnDefinition(new TextDefinition);
+      definition = ColumnDefinition(new TextDefinition);
       break;
    case DateTime:
-      return ColumnDefinition(new DateTimeDefinition);
+      definition = ColumnDefinition(new DateTimeDefinition);
       break;
    case Selection:
-      return ColumnDefinition(new SelectionDefinition);
+      definition = ColumnDefinition(new SelectionDefinition);
       break;
    }
 
-   return ColumnDefinition(nullptr);
+   if (definition) {
+      definition->setType(type);
+   }
+
+   return definition;
 }

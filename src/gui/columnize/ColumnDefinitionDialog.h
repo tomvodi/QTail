@@ -32,6 +32,8 @@ public:
    ColumnFactory columnFactory() const;
    void setColumnFactory(const ColumnFactory &columnFactory);
 
+   ColumnDefinition selectedDefinition() const;
+
 private:
    void updateDefinitionList();
    void addDefinitionToList(const ColumnDefinition &definition);

@@ -34,6 +34,24 @@ void ColumnDefinitionDialog::setColumnFactory(const ColumnFactory &columnFactory
    updateDefinitionList();
 }
 
+ColumnDefinition ColumnDefinitionDialog::selectedDefinition() const
+{
+   ColumnDefinition definition;
+
+   QListWidgetItem *currentItem = ui->definitionsListWidget->currentItem();
+   if (!currentItem) {
+      return definition;
+   }
+
+   ColumnType type = currentItem->data(ColumnTypeDataRole).value<ColumnType>();
+
+   if (!m_columnFactory) {
+      return definition;
+   }
+
+   return m_columnFactory->getDefinition(type);
+}
+
 void ColumnDefinitionDialog::updateDefinitionList()
 {
    if (!m_columnFactory) {
@@ -52,4 +70,5 @@ void ColumnDefinitionDialog::addDefinitionToList(const ColumnDefinition &definit
 {
    QListWidgetItem *item = new QListWidgetItem(ui->definitionsListWidget);
    item->setData(ColumnDefinitionDataRole, QVariant::fromValue<ColumnDefinition>(definition));
+   item->setData(ColumnTypeDataRole, QVariant::fromValue<ColumnType>(definition->type()));
 }

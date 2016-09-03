@@ -42,6 +42,7 @@ private slots:
 private:
    Ui::ColumnizeDialog *ui;
    ColumnDefinitionDialog *m_defintionDialog;
+   void addDefinitionToList(const ColumnDefinition &definition);
 };
 
 #endif // COLUMNIZEDIALOG_H

@@ -49,7 +49,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QListWidget" name="columnDefinitionsWidget">
+       <widget class="QListWidget" name="columnDefinitionsListWidget">
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
