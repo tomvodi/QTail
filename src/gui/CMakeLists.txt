@@ -41,6 +41,9 @@ set(Project_Sources
   columnize/ColumnDefinitionFactory.cpp
 
   columnize/app/AppColumnDefinitionFactory.cpp
+  columnize/app/TextDefinition.cpp
+  columnize/app/DateTimeDefinition.cpp
+  columnize/app/SelectionDefinition.cpp
 )
 
 if (WIN32)

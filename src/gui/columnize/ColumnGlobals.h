@@ -10,9 +10,9 @@
 #define COLUMNGLOBALS_H
 
 enum ColumnType {
-   Text,
-   Timestamp,
-   Selection
+   Text,   // Arbitrary text
+   DateTime,  // A datetime timestamp
+   Selection   // A selection of values
 };
 
 #endif // COLUMNGLOBALS_H

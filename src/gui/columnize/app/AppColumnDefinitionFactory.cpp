@@ -6,6 +6,9 @@
  *
  */
 
+#include "DateTimeDefinition.h"
+#include "SelectionDefinition.h"
+#include "TextDefinition.h"
 #include "AppColumnDefinitionFactory.h"
 
 AppColumnDefinitionFactory::AppColumnDefinitionFactory()
@@ -14,10 +17,22 @@ AppColumnDefinitionFactory::AppColumnDefinitionFactory()
 
 QList<ColumnType> AppColumnDefinitionFactory::supportedTypes() const
 {
-    return QList<ColumnType>();
+    return QList<ColumnType>() << ColumnType::Text << ColumnType::DateTime << ColumnType::Selection;
 }
 
 ColumnDefinition AppColumnDefinitionFactory::getDefinition(ColumnType type)
 {
-    return ColumnDefinition();
+   switch (type) {
+   case Text:
+      return ColumnDefinition(new TextDefinition);
+      break;
+   case DateTime:
+      return ColumnDefinition(new DateTimeDefinition);
+      break;
+   case Selection:
+      return ColumnDefinition(new SelectionDefinition);
+      break;
+   }
+
+   return ColumnDefinition(nullptr);
 }

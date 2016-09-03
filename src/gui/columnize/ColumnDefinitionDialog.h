@@ -33,6 +33,8 @@ public:
    void setColumnFactory(const ColumnFactory &columnFactory);
 
 private:
+   void updateDefinitionList();
+   void addDefinitionToList(const ColumnDefinition &definition);
    Ui::ColumnDefinitionDialog *ui;
    ColumnFactory m_columnFactory;
 };

@@ -16,8 +16,13 @@ class ColumnDefinitionInterface
 public:
    ColumnDefinitionInterface();
    virtual ~ColumnDefinitionInterface();
+
+   virtual QString name() const = 0;
+   virtual QString description() const = 0;
 };
 
 typedef QSharedPointer<ColumnDefinitionInterface> ColumnDefinition;
+
+Q_DECLARE_METATYPE(ColumnDefinition)
 
 #endif // COLUMNDEFINITIONINTERFACE_H

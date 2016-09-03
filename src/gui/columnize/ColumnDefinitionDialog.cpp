@@ -29,4 +29,26 @@ ColumnFactory ColumnDefinitionDialog::columnFactory() const
 void ColumnDefinitionDialog::setColumnFactory(const ColumnFactory &columnFactory)
 {
    m_columnFactory = columnFactory;
+   updateDefinitionList();
+}
+
+void ColumnDefinitionDialog::updateDefinitionList()
+{
+   if (!m_columnFactory) {
+      return;
+   }
+
+   ui->definitionsListWidget->clear();
+
+   for (ColumnType type: m_columnFactory->supportedTypes()) {
+      ColumnDefinition definition = m_columnFactory->getDefinition(type);
+      addDefinitionToList(definition);
+   }
+}
+
+void ColumnDefinitionDialog::addDefinitionToList(const ColumnDefinition &definition)
+{
+   QListWidgetItem *item = new QListWidgetItem(ui->definitionsListWidget);
+   item->setText(definition->name());
+   item->setToolTip(definition->description());
 }
