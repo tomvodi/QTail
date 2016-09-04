@@ -6,10 +6,17 @@
  *
  */
 
+#include "DateTimeConfigWidget.h"
 #include "DateTimeDefinition.h"
 
 DateTimeDefinition::DateTimeDefinition()
+   : m_configWidget(new DateTimeConfigWidget)
 {
+}
+
+DateTimeDefinition::~DateTimeDefinition()
+{
+   delete m_configWidget;
 }
 
 QString DateTimeDefinition::name() const
@@ -20,4 +27,9 @@ QString DateTimeDefinition::name() const
 QString DateTimeDefinition::description() const
 {
    return QObject::tr("A column with a timestamp in a configurable format.");
+}
+
+QWidget *DateTimeDefinition::configWidget() const
+{
+   return m_configWidget.data();
 }

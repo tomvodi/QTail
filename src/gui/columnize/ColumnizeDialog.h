@@ -17,6 +17,7 @@ namespace Ui {
 class ColumnizeDialog;
 }
 class ColumnDefinitionDialog;
+class QListWidgetItem;
 
 /*!
  * \brief The ColumnizeDialog class
@@ -38,11 +39,14 @@ private slots:
    void on_testTextEdit_textChanged();
    void on_testColumnizeButton_clicked();
    void on_addDefinitionButton_clicked();
+   void on_columnDefinitionsListWidget_currentItemChanged(QListWidgetItem *current,
+                                                          QListWidgetItem *previous);
 
 private:
    Ui::ColumnizeDialog *ui;
    ColumnDefinitionDialog *m_defintionDialog;
    void addDefinitionToList(const ColumnDefinition &definition);
+   void setColumnDefinitionConfigVisible(bool visible);
 };
 
 #endif // COLUMNIZEDIALOG_H

@@ -19,6 +19,7 @@ ColumnizeDialog::ColumnizeDialog(QWidget *parent) :
    ui->setupUi(this);
    ui->columnDefinitionsListWidget->setItemDelegate(new ColumnDefinitionDelegate(this));
    on_testTextEdit_textChanged();
+   setColumnDefinitionConfigVisible(false);
 }
 
 ColumnizeDialog::~ColumnizeDialog()
@@ -68,11 +69,43 @@ void ColumnizeDialog::on_addDefinitionButton_clicked()
    }
 }
 
+void ColumnizeDialog::on_columnDefinitionsListWidget_currentItemChanged(QListWidgetItem *current,
+                                                                        QListWidgetItem *previous)
+{
+   setColumnDefinitionConfigVisible(false);
+
+   if (!current) {
+      return;
+   }
+
+   ColumnDefinition definition = current->data(ColumnDefinitionDataRole).value<ColumnDefinition>();
+   if (!definition) {
+      return;
+   }
+
+   QWidget *configWidget = definition->configWidget();
+   if (!configWidget) {
+      return;
+   }
+
+   if (ui->configureDefinitionLayout->count()) {
+      ui->configureDefinitionLayout->takeAt(0);
+   }
+
+   ui->configureDefinitionLayout->addWidget(configWidget);
+   setColumnDefinitionConfigVisible(true);
+}
+
 void ColumnizeDialog::addDefinitionToList(const ColumnDefinition &definition)
 {
    QListWidgetItem *item = new QListWidgetItem(ui->columnDefinitionsListWidget);
    item->setData(ColumnDefinitionDataRole, QVariant::fromValue<ColumnDefinition>(definition));
    item->setData(ColumnTypeDataRole, QVariant::fromValue<ColumnType>(definition->type()));
+}
+
+void ColumnizeDialog::setColumnDefinitionConfigVisible(bool visible)
+{
+   ui->configureDefinitionWidget->setVisible(visible);
 }
 
 ColumnFactory ColumnizeDialog::columnFactory() const

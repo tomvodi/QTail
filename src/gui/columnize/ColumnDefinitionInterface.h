@@ -13,6 +13,8 @@
 
 #include "ColumnGlobals.h"
 
+class QWidget;
+
 class ColumnDefinitionInterface
 {
 public:
@@ -21,6 +23,8 @@ public:
 
    virtual QString name() const = 0;
    virtual QString description() const = 0;
+
+   virtual QWidget *configWidget() const;
 
    ColumnType type() const;
    void setType(const ColumnType &type);

@@ -50,5 +50,6 @@
         <file>resources/icons/actions/document-save-as.png</file>
         <file>resources/icons/actions/edit-find.png</file>
         <file>resources/icons/mimetypes/x-office-spreadsheet.png</file>
+        <file>resources/icons/status/dialog-question.png</file>
     </qresource>
 </RCC>

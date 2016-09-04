@@ -44,6 +44,7 @@ set(Project_Sources
   columnize/app/AppColumnDefinitionFactory.cpp
   columnize/app/TextDefinition.cpp
   columnize/app/DateTimeDefinition.cpp
+  columnize/app/DateTimeConfigWidget.cpp
   columnize/app/SelectionDefinition.cpp
 )
 
@@ -73,6 +74,8 @@ set( Project_UIs
 
     columnize/ColumnizeDialog.ui
     columnize/ColumnDefinitionDialog.ui
+
+    columnize/app/DateTimeConfigWidget.ui
 )
 
 qt5_wrap_ui(Project_Sources
