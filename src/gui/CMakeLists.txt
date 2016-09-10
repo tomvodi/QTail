@@ -46,6 +46,7 @@ set(Project_Sources
   columnize/app/DateTimeDefinition.cpp
   columnize/app/DateTimeConfigWidget.cpp
   columnize/app/SelectionDefinition.cpp
+  columnize/app/DateTimeHelpWidget.cpp
 )
 
 if (WIN32)
@@ -76,6 +77,7 @@ set( Project_UIs
     columnize/ColumnDefinitionDialog.ui
 
     columnize/app/DateTimeConfigWidget.ui
+    columnize/app/DateTimeHelpWidget.ui
 )
 
 qt5_wrap_ui(Project_Sources

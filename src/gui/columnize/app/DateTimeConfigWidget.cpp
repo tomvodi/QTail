@@ -6,18 +6,17 @@
  *
  */
 
+#include "DateTimeHelpWidget.h"
 #include "DateTimeConfigWidget.h"
 #include "ui_DateTimeConfigWidget.h"
 
 DateTimeConfigWidget::DateTimeConfigWidget(QWidget *parent) :
    QFrame(parent),
    ui(new Ui::DateTimeConfigWidget),
-   m_formatHelpLabel(new QLabel)
+   m_formatHelpWidget(new DateTimeHelpWidget)
 {
    ui->setupUi(this);
    initLocaleComboBox();
-
-   m_formatHelpLabel->setTextFormat(Qt::RichText);
 }
 
 DateTimeConfigWidget::~DateTimeConfigWidget()
@@ -27,7 +26,7 @@ DateTimeConfigWidget::~DateTimeConfigWidget()
 
 void DateTimeConfigWidget::on_formatHelpButton_clicked()
 {
-   m_formatHelpLabel->show();
+   m_formatHelpWidget->show();
 }
 
 void DateTimeConfigWidget::initLocaleComboBox()

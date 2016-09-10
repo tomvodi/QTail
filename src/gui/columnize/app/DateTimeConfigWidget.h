@@ -14,7 +14,7 @@
 namespace Ui {
 class DateTimeConfigWidget;
 }
-class QLabel;
+class DateTimeHelpWidget;
 
 class DateTimeConfigWidget : public QFrame
 {
@@ -29,7 +29,7 @@ private slots:
 
 private:
    Ui::DateTimeConfigWidget *ui;
-   QLabel *m_formatHelpLabel;
+   DateTimeHelpWidget *m_formatHelpWidget;
    void initLocaleComboBox();
 };
 
