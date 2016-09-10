@@ -26,11 +26,15 @@ public:
 
 private slots:
    void on_formatHelpButton_clicked();
+   void on_testStringLineEdit_textChanged();
+   void on_formatLineEdit_textChanged();
+   void on_testButton_clicked();
 
 private:
    Ui::DateTimeConfigWidget *ui;
    DateTimeHelpWidget *m_formatHelpWidget;
    void initLocaleComboBox();
+   void checkforEnabledTestButton();
 };
 
 #endif // DATETIMECONFIGWIDGET_H
