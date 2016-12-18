@@ -20,8 +20,8 @@ HighlightingDialog::HighlightingDialog(QWidget *parent) :
 
    ui->fontPicker->setFontFilters(QFontComboBox::MonospacedFonts);
 
-   ui->wordRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
-   ui->lineRulesListWidget->setItemDelegate(new HighlightListItemDelegate);
+   ui->wordRulesListWidget->setItemDelegate(new HighlightListItemDelegate(this));
+   ui->lineRulesListWidget->setItemDelegate(new HighlightListItemDelegate(this));
 
    createConnections();
 }
