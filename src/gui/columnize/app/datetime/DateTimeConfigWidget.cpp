@@ -28,6 +28,21 @@ DateTimeConfigWidget::~DateTimeConfigWidget()
    delete ui;
 }
 
+QLocale DateTimeConfigWidget::currentSelectedLocale() const
+{
+   return ui->localeCmboBox->currentData().toLocale();
+}
+
+void DateTimeConfigWidget::selectLocale(const QLocale &locale)
+{
+   int index = ui->localeCmboBox->findData(QVariant(locale));
+   if (index == -1) {
+      return;
+   }
+
+   ui->localeCmboBox->setCurrentIndex(index);
+}
+
 void DateTimeConfigWidget::on_formatHelpButton_clicked()
 {
    m_formatHelpWidget->show();

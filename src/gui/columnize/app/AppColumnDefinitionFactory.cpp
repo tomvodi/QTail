@@ -6,9 +6,9 @@
  *
  */
 
-#include "DateTimeDefinition.h"
-#include "SelectionDefinition.h"
-#include "TextDefinition.h"
+#include "datetime/DateTimeDefinition.h"
+#include "selection/SelectionDefinition.h"
+#include "text/TextDefinition.h"
 #include "AppColumnDefinitionFactory.h"
 
 AppColumnDefinitionFactory::AppColumnDefinitionFactory()

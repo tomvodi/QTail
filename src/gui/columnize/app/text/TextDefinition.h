@@ -9,7 +9,7 @@
 #ifndef TEXTDEFINITION_H
 #define TEXTDEFINITION_H
 
-#include "../ColumnDefinitionInterface.h"
+#include <ColumnDefinitionInterface.h>
 
 class TextDefinition : public ColumnDefinitionInterface
 {

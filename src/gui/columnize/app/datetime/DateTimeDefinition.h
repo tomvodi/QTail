@@ -10,7 +10,7 @@
 #define DATETIMEDEFINITION_H
 
 #include <QPointer>
-#include "../ColumnDefinitionInterface.h"
+#include <ColumnDefinitionInterface.h>
 
 class DateTimeConfigWidget;
 

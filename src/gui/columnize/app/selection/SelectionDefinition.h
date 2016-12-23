@@ -9,7 +9,7 @@
 #ifndef SELECTIONDEFINITION_H
 #define SELECTIONDEFINITION_H
 
-#include "../ColumnDefinitionInterface.h"
+#include <ColumnDefinitionInterface.h>
 
 class SelectionDefinition : public ColumnDefinitionInterface
 {

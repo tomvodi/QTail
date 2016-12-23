@@ -18,11 +18,15 @@ class DateTimeHelpWidget;
 
 class DateTimeConfigWidget : public QFrame
 {
+   friend class DateTimeConfigWidgetTest;
    Q_OBJECT
 
 public:
    explicit DateTimeConfigWidget(QWidget *parent = 0);
    ~DateTimeConfigWidget();
+
+   QLocale currentSelectedLocale() const;
+   void selectLocale(const QLocale &locale);
 
 private slots:
    void on_formatHelpButton_clicked();

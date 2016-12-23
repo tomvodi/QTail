@@ -33,20 +33,6 @@ set(Project_Sources
 
   filter/FilterDialog.cpp
   filter/FileFilterWidget.cpp
-
-  columnize/ColumnGlobals.h
-  columnize/ColumnizeDialog.cpp
-  columnize/ColumnDefinitionDialog.cpp
-  columnize/ColumnDefinitionInterface.cpp
-  columnize/ColumnDefinitionFactory.cpp
-  columnize/ColumnDefinitionDelegate.cpp
-
-  columnize/app/AppColumnDefinitionFactory.cpp
-  columnize/app/TextDefinition.cpp
-  columnize/app/DateTimeDefinition.cpp
-  columnize/app/DateTimeConfigWidget.cpp
-  columnize/app/SelectionDefinition.cpp
-  columnize/app/DateTimeHelpWidget.cpp
 )
 
 if (WIN32)
@@ -72,12 +58,6 @@ set( Project_UIs
 
     filter/FilterDialog.ui
     filter/FileFilterWidget.ui
-
-    columnize/ColumnizeDialog.ui
-    columnize/ColumnDefinitionDialog.ui
-
-    columnize/app/DateTimeConfigWidget.ui
-    columnize/app/DateTimeHelpWidget.ui
 )
 
 qt5_wrap_ui(Project_Sources
@@ -120,7 +100,7 @@ qt5_add_resources(Project_Sources
 
 add_executable(${PROJECT_NAME} WIN32 ${Project_Sources} ${QM_FILES})
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets TailEngine )
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets TailEngine ColumnizeLib)
 
 install(TARGETS ${PROJECT_NAME}
    RUNTIME DESTINATION bin)
@@ -140,3 +120,5 @@ set(CPACK_IFW_PACKAGE_NAME ${PROJECT_NAME})
 
 include(CPack)
 include(CPackIFW)
+
+add_subdirectory( columnize )
