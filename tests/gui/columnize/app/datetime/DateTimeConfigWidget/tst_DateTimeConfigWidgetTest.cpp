@@ -43,11 +43,20 @@ void DateTimeConfigWidgetTest::cleanupTestCase()
 void DateTimeConfigWidgetTest::testDefault()
 {
    DateTimeConfigWidget widget;
+   QVERIFY2(widget.currentSelectedLanguage() == QLocale().language(), "Wrong selected language");
 }
 
 void DateTimeConfigWidgetTest::testSetGetLocale()
 {
+   DateTimeConfigWidget widget;
+   QLocale::Language testLanugage = QLocale::German;
+   if (widget.currentSelectedLanguage() == testLanugage) {
+      testLanugage = QLocale::English;
+   }
 
+   widget.setSelectedLanguage(testLanugage);
+   QCOMPARE(widget.currentSelectedLanguage(), testLanugage);
+//   QVERIFY2(widget.currentSelectedLanguage() == testLanugage, "Wrong selected language");
 }
 
 QTEST_MAIN(DateTimeConfigWidgetTest)

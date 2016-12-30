@@ -10,6 +10,7 @@
 #define DATETIMECONFIGWIDGET_H
 
 #include <QFrame>
+#include <QLocale>
 
 namespace Ui {
 class DateTimeConfigWidget;
@@ -25,8 +26,8 @@ public:
    explicit DateTimeConfigWidget(QWidget *parent = 0);
    ~DateTimeConfigWidget();
 
-   QLocale currentSelectedLocale() const;
-   void selectLocale(const QLocale &locale);
+   QLocale::Language currentSelectedLanguage() const;
+   void setSelectedLanguage(const QLocale::Language language);
 
 private slots:
    void on_formatHelpButton_clicked();

@@ -28,14 +28,19 @@ DateTimeConfigWidget::~DateTimeConfigWidget()
    delete ui;
 }
 
-QLocale DateTimeConfigWidget::currentSelectedLocale() const
+QLocale::Language DateTimeConfigWidget::currentSelectedLanguage() const
 {
-   return ui->localeCmboBox->currentData().toLocale();
+   QVariant currentData = ui->localeCmboBox->currentData();
+   if (!currentData.isValid()) {
+      return QLocale().language();
+   }
+
+   return static_cast<QLocale::Language>(currentData.toInt());
 }
 
-void DateTimeConfigWidget::selectLocale(const QLocale &locale)
+void DateTimeConfigWidget::setSelectedLanguage(const QLocale::Language language)
 {
-   int index = ui->localeCmboBox->findData(QVariant(locale));
+   int index = ui->localeCmboBox->findData(QVariant(language));
    if (index == -1) {
       return;
    }
@@ -79,24 +84,24 @@ void DateTimeConfigWidget::on_testButton_clicked()
 
 void DateTimeConfigWidget::initLocaleComboBox()
 {
-   QString currentLocaleName = QLocale::languageToString(QLocale().language());
+   QString currentLanguageName = QLocale::languageToString(QLocale().language());
    QList<QLocale> allLocales = QLocale::matchingLocales(QLocale::AnyLanguage,
                                                         QLocale::AnyScript,
                                                         QLocale::AnyCountry);
 
-   QMap<QString, QLocale> localeMap;
+   QMap<QString, QLocale::Language> languageMap;
 
    for (const QLocale &locale : allLocales) {
-       localeMap.insert(QLocale::languageToString(locale.language()), locale);
+       languageMap.insert(QLocale::languageToString(locale.language()), locale.language());
    }
 
-   QMapIterator<QString, QLocale> it(localeMap);
+   QMapIterator<QString, QLocale::Language> it(languageMap);
    while (it.hasNext()) {
       it.next();
       ui->localeCmboBox->addItem(it.key(), QVariant(it.value()));
    }
 
-   ui->localeCmboBox->setCurrentText(currentLocaleName);
+   ui->localeCmboBox->setCurrentText(currentLanguageName);
 }
 
 void DateTimeConfigWidget::checkforEnabledTestButton()
