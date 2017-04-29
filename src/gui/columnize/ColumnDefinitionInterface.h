@@ -10,8 +10,9 @@
 #define COLUMNDEFINITIONINTERFACE_H
 
 #include <QSharedPointer>
+#include <QMetaType>
 
-#include "ColumnGlobals.h"
+#include <include/columnize/columnize_globals.h>
 
 class QWidget;
 

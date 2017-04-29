@@ -24,14 +24,16 @@ ColumnDefinition AppColumnDefinitionFactory::getDefinition(ColumnType type)
 {
    ColumnDefinition definition;
    switch (type) {
-   case Text:
+   case ColumnType::Text:
       definition = ColumnDefinition(new TextDefinition);
       break;
-   case DateTime:
+   case ColumnType::DateTime:
       definition = ColumnDefinition(new DateTimeDefinition);
       break;
-   case Selection:
+   case ColumnType::Selection:
       definition = ColumnDefinition(new SelectionDefinition);
+      break;
+   case ColumnType::None:
       break;
    }
 

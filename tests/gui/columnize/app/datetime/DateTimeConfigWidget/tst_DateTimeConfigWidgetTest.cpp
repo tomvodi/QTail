@@ -51,12 +51,12 @@ void DateTimeConfigWidgetTest::testSetGetLocale()
    DateTimeConfigWidget widget;
    QLocale::Language testLanugage = QLocale::German;
    if (widget.currentSelectedLanguage() == testLanugage) {
-      testLanugage = QLocale::English;
+      testLanugage = QLocale::Faroese;
    }
 
    widget.setSelectedLanguage(testLanugage);
    QCOMPARE(widget.currentSelectedLanguage(), testLanugage);
-//   QVERIFY2(widget.currentSelectedLanguage() == testLanugage, "Wrong selected language");
+   QVERIFY2(widget.currentSelectedLanguage() == testLanugage, "Wrong selected language");
 }
 
 QTEST_MAIN(DateTimeConfigWidgetTest)

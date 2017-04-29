@@ -20,12 +20,22 @@ set(Project_Sources
   FileWatcherInterface.cpp
   ApplicationInterface.cpp
 
+  ColumnConfiguration.cpp
+  DateTimeConfiguration.cpp
+  TextConfiguration.cpp
+  SelectionConfiguration.cpp
+
   include/FileViewInterface.h
   include/FileWatcherInterface.h
   include/HighlightingRule.h
   include/FilterRule.h
   include/FilterGroup.h
   include/ApplicationInterface.h
+
+  include/columnize/columnize_globals.h
+  include/columnize/ColumnConfiguration.h
+  include/columnize/DateTimeConfiguration.h
+  include/columnize/TextConfiguration.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})
