@@ -22,6 +22,9 @@ private Q_SLOTS:
    void initTestCase();
    void cleanupTestCase();
    void testType();
+   void testTypeConstructor();
+   void testSetTypeGetType();
+   void testSetGetConfiguration();
 };
 
 ColumnConfigurationTest::ColumnConfigurationTest()
@@ -40,6 +43,31 @@ void ColumnConfigurationTest::testType()
 {
    ColumnConfiguration config;
    QVERIFY(config.type() == ColumnType::None);
+}
+
+void ColumnConfigurationTest::testTypeConstructor()
+{
+   ColumnConfiguration config(ColumnType::DateTime);
+   QVERIFY(config.type() == ColumnType::DateTime);
+}
+
+void ColumnConfigurationTest::testSetTypeGetType()
+{
+   ColumnConfiguration config;
+   QVERIFY(config.type() != ColumnType::Text);
+
+   config.setType(ColumnType::Text);
+   QVERIFY(config.type() == ColumnType::Text);
+}
+
+void ColumnConfigurationTest::testSetGetConfiguration()
+{
+   ColumnConfiguration config;
+   QJsonObject testObject;
+   testObject.insert("blabla", "testtest");
+
+   config.setConfiguration(testObject);
+   QVERIFY(config.configuration() == testObject);
 }
 
 QTEST_APPLESS_MAIN(ColumnConfigurationTest)

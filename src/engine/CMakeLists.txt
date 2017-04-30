@@ -21,9 +21,10 @@ set(Project_Sources
   ApplicationInterface.cpp
 
   ColumnConfiguration.cpp
-  DateTimeConfiguration.cpp
-  TextConfiguration.cpp
-  SelectionConfiguration.cpp
+  DateTimeConfigurationHelper.cpp
+  TextConfigurationHelper.cpp
+  SelectionConfigurationHelper.cpp
+  ColumnConfigurationHelper.cpp
 
   include/FileViewInterface.h
   include/FileWatcherInterface.h
@@ -34,8 +35,10 @@ set(Project_Sources
 
   include/columnize/columnize_globals.h
   include/columnize/ColumnConfiguration.h
-  include/columnize/DateTimeConfiguration.h
-  include/columnize/TextConfiguration.h
+  include/columnize/DateTimeConfigurationHelper.h
+  include/columnize/TextConfigurationHelper.h
+  include/columnize/SelectionConfigurationHelper.h
+  include/columnize/ColumnConfigurationHelper.h
 )
 
 add_library(${PROJECT_NAME} STATIC ${Project_Sources})

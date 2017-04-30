@@ -1,4 +1,7 @@
 add_subdirectory( ColumnConfiguration )
-add_subdirectory( DateTimeConfiguration )
-add_subdirectory( TextConfiguration )
-add_subdirectory( SelectionConfiguration )
+
+add_subdirectory( ColumnConfigurationHelper )
+add_subdirectory( DateTimeConfigurationHelper )
+add_subdirectory( TextConfigurationHelper )
+add_subdirectory( SelectionConfigurationHelper )
+

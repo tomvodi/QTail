@@ -8,16 +8,24 @@
 
 #include "include/columnize/ColumnConfiguration.h"
 
+static const QString ColumnTypeKey("column type");
+
 class ColumnConfigurationData : public QSharedData
 {
 public:
-   ColumnType type = ColumnType::None;
+   QJsonObject configuration;
 };
 
 ColumnConfiguration::ColumnConfiguration()
    : data(new ColumnConfigurationData)
 {
 
+}
+
+ColumnConfiguration::ColumnConfiguration(ColumnType type)
+   : data(new ColumnConfigurationData)
+{
+   setType(type);
 }
 
 ColumnConfiguration::ColumnConfiguration(const ColumnConfiguration &rhs)
@@ -40,10 +48,21 @@ ColumnConfiguration::~ColumnConfiguration()
 
 ColumnType ColumnConfiguration::type() const
 {
-   return data->type;
+   int value = data->configuration.value(ColumnTypeKey).toInt(static_cast<int>(ColumnType::None));
+   return static_cast<ColumnType>(value);
 }
 
 void ColumnConfiguration::setType(const ColumnType &type)
 {
-   data->type = type;
+   data->configuration.insert(ColumnTypeKey, static_cast<int>(type));
+}
+
+QJsonObject ColumnConfiguration::configuration() const
+{
+   return data->configuration;
+}
+
+void ColumnConfiguration::setConfiguration(const QJsonObject &configuration)
+{
+   data->configuration = configuration;
 }
