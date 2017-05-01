@@ -66,3 +66,21 @@ void ColumnConfiguration::setConfiguration(const QJsonObject &configuration)
 {
    data->configuration = configuration;
 }
+
+/*!
+ * \brief ColumnConfiguration::insert
+ * A convenience function for inserting values to the json object.
+ */
+void ColumnConfiguration::insert(const QString &key, const QJsonValue &value)
+{
+   data->configuration.insert(key, value);
+}
+
+/*!
+ * \brief ColumnConfiguration::value
+ * A convenience function for getting a value from the json object.
+ */
+QJsonValue ColumnConfiguration::value(const QString &key) const
+{
+   return data->configuration.value(key);
+}

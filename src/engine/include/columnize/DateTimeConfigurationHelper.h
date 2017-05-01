@@ -15,6 +15,12 @@ class DateTimeConfigurationHelper : public ColumnConfigurationHelper
 {
 public:
    DateTimeConfigurationHelper(const ColConfig &config);
+
+   void setLocale(const QLocale &locale);
+   QLocale locale() const;
+
+   QString format() const;
+   void setFormat(const QString &format);
 };
 
 #endif // DATETIMECONFIGURATIONHELPER_H

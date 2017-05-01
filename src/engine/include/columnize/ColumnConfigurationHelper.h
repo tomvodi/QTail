@@ -16,6 +16,7 @@ class ColumnConfigurationHelperData;
 
 class ColumnConfigurationHelper
 {
+   friend class ColumnConfigurationHelperTest;
 public:
    ColumnConfigurationHelper(const ColConfig &config);
    ColumnConfigurationHelper(const ColumnConfigurationHelper &);
@@ -26,6 +27,10 @@ public:
 
    ColumnType type() const;
    void setType(ColumnType type);
+
+protected:
+   void insert(const QString &key, const QJsonValue &value);
+   QJsonValue value(const QString &key) const;
 
 private:
    QSharedDataPointer<ColumnConfigurationHelperData> data;

@@ -52,3 +52,13 @@ void ColumnConfigurationHelper::setType(ColumnType type)
 {
    data->colConfig->setType(type);
 }
+
+void ColumnConfigurationHelper::insert(const QString &key, const QJsonValue &value)
+{
+   data->colConfig->insert(key, value);
+}
+
+QJsonValue ColumnConfigurationHelper::value(const QString &key) const
+{
+   return data->colConfig->value(key);
+}
